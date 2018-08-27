@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import Form from './components/form';
+import { connect } from 'react-redux';
 
-export default class Committee extends PureComponent {
+class Committee extends PureComponent {
 	render() {
 		return (
 		<Container>
@@ -13,10 +14,16 @@ export default class Committee extends PureComponent {
 			</Col>
 			</Row>
 			<Row>
-				<Form onSubmit={() => {}}/>
+				<Form onSubmit={() => {}} {...this.props}/>
 			</Row>
 		</Container>
 		)
 	}
 }
 
+const mapStateToProps = (state, ownProps) => ({
+	urbancore: state.urbancore.data,
+	products: state.products.data
+})
+
+export default connect(mapStateToProps)(Committee)

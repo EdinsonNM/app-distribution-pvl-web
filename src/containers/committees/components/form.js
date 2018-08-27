@@ -8,6 +8,8 @@ import renderMultiSelectField from '../../../components/form/MultiSelect';
 import EyeIcon from 'mdi-react/EyeIcon';
 import EmailIcon from 'mdi-react/EmailIcon';
 import AccountSearchIcon from 'mdi-react/AccountSearchIcon';
+import renderCheckBoxField from '../../../components/form/CheckBox';
+import renderRadioButtonField from '../../../components/form/RadioButton';
 
 class Form extends PureComponent {
 	constructor(props) {
@@ -50,26 +52,68 @@ class Form extends PureComponent {
 						/>
 					</div>
 				</div>
-				<div className='form__form-group'>
+				<div className="form__form-group">
+					<label className='form__form-group-label'>Tipo de Alimento</label>
+					<div className='form__form-group-field'>
+					<div className="container">
+						<div className="row">
+							{
+								this.props.products.map(item => (
+									<div className="col-md-4">
+										<Field
+										name={'chk'+ item.code}
+										component={renderCheckBoxField}
+										label={item.name}
+										class="colored-click"
+
+										/>
+									</div>
+								))
+							}
+						</div>
+						
+					</div>
+						
+					</div>
+				</div>
+				
+				<div className="form__form-group">
 					<label className='form__form-group-label'>Centro poblado</label>
 					<div className='form__form-group-field'>
-					<Field
-						name='select'
-						component={renderSelectField}
-						options={[
-						{value: 'one', label: 'One'},
-						{value: 'two', label: 'Two'},
-						]}
-					/>
+					<div className="container">
+						<div className="row">
+							<div className="col-md-4">
+								<Field
+								name='type_populate_center'
+								component={renderRadioButtonField}
+								label='Urbano'
+								radioValue="1"
+								class="colored-click"
+
+								/>
+							</div>
+							<div className="col-md-4">
+								<Field
+								name='type_populate_center'
+								component={renderRadioButtonField}
+								label='Rural'
+								radioValue="2"
+								class="colored-click"
+								/>
+							</div>
+						</div>
+						
+					</div>
+						
 					</div>
 				</div>
 				<div className='form__form-group'>
 					<div className='form__form-group-field'>
 					<Field
-						name='email'
+						name='name_populated_center'
 						component='input'
-						type='email'
-						placeholder='example@mail.com'
+						type='text'
+						placeholder='Centro poblado...'
 					/>
 					</div>
 				</div>
@@ -77,12 +121,9 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Núcleo Urbano</label>
 					<div className='form__form-group-field'>
 					<Field
-						name='select'
+						name='urbancore'
 						component={renderSelectField}
-						options={[
-						{value: 'one', label: 'One'},
-						{value: 'two', label: 'Two'},
-						]}
+						options={this.props.urbancore.map(item => ({value:item.id, label: item.name}))}
 					/>
 					</div>
 				</div>

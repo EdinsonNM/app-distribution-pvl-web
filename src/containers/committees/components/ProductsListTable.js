@@ -1,12 +1,11 @@
 import React, {PureComponent} from 'react';
-import {ButtonToolbar, Card, CardBody, Col} from 'reactstrap';
+import { ButtonToolbar, Card, CardBody, Col, Table } from 'reactstrap';
 import EditTable from '../../../components/table/EditableTable';
 import Pagination from '../../../components/Pagination';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
-
 
 class StatusFormatter extends PureComponent {
   static propTypes = {
@@ -20,6 +19,7 @@ class StatusFormatter extends PureComponent {
     )
   }
 }
+
 
 export default class ProductsListTable extends PureComponent {
   
@@ -38,6 +38,32 @@ export default class ProductsListTable extends PureComponent {
         sortable: true
       },
       {
+        key: 'urbancoreType',
+        name: 'urbancoreType',
+        sortable: true,
+      },
+      {
+        key: 'urbancoreName',
+        name: 'urbancoreName',
+        sortable: true,
+      },
+      {
+        key: 'populatedCenterType',
+        name: 'populatedCenterType',
+        sortable: true,
+      },
+      {
+        key: 'populatedCenterName',
+        name: 'populatedCenterName',
+        sortable: true,
+      },
+      {
+        key: 'addresstype',
+        name: 'addresstype',
+        sortable: true,
+      }
+      
+      /*{
         key: 'category',
         name: 'Centro Poblado',
         sortable: true
@@ -58,7 +84,7 @@ export default class ProductsListTable extends PureComponent {
         sortable: true,
         formatter: StatusFormatter,
         width: 110
-      },
+      },*/
     ];
     
     this.state = {
@@ -111,8 +137,24 @@ export default class ProductsListTable extends PureComponent {
                 <Link className='btn btn-primary products-list__btn-add' to='/pages/comite/new'>Nuevo Comite</Link>
               </ButtonToolbar>
             </div>
-            <EditTable heads={this.heads} rows={this.state.rows} enableRowSelect/>
-            <Pagination items={this.state.rows} onChangePage={this.onChangePage}/>
+            <Table>
+              <thead>
+                <tr>{this.heads.map(head => <th>{head.name}</th>)}</tr>
+              </thead>
+              <tbody>
+              {this.props.rows.map((row, index) => 
+                <tr key={`row-${index}`}>
+                  {
+                    this.heads.map(head =>
+                      <td {...(head.width? {width: head.width}: {})}>
+                        {head.formatter ? head.formatter(row[head.key]) : row[head.key]}
+                      </td>)
+                  }
+                </tr>
+              )}
+              </tbody>
+            </Table>
+            {this.props.rows.length && <Pagination items={this.props.rows} onChangePage={this.onChangePage}/>}
           </CardBody>
         </Card>
       </Col>

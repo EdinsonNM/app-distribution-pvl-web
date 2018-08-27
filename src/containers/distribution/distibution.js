@@ -14,6 +14,11 @@ export default class Distribution extends PureComponent {
 					</h3>
 				</Col>
 			</Row>
+			<Row>
+				<Col md={12}>
+				<button class="btn btn-outline-success">Nueva programación</button>
+				</Col>
+			</Row>
 			<DistributionList />
 		</Container>
 		)

@@ -1,19 +1,17 @@
-import {
-  CHANGE_THEME_TO_DARK,
-  CHANGE_THEME_TO_LIGHT
-} from '../actions/themeActions';
-
+import { handleActions } from 'redux-actions';
 const initialState = {
   className: 'theme-light'
 };
-
-export default function (state = initialState, action) {
-  switch (action.type) {
-    case CHANGE_THEME_TO_DARK:
+const reducer = handleActions({
+  CHANGE_THEME_TO_DARK:
+    (state, action) => {
       return {className: 'theme-dark'};
-    case CHANGE_THEME_TO_LIGHT:
+    },
+  CHANGE_THEME_TO_LIGHT:
+    (state, action) => {
       return {className: 'theme-light'};
-    default:
-      return state;
-  }
-}
+    },
+}, initialState);
+
+
+export default reducer;
