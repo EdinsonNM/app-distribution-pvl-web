@@ -36,8 +36,9 @@ class SidebarContent extends PureComponent {
           <SidebarLink title='Comites' icon='home' route='/pages/comites' onClick={this.hideSidebar}/>  
           <SidebarLink title='Socios' icon='users' route='/pages/socios/dashboard' onClick={this.hideSidebar}/>  
           <SidebarLink title='Beneficiarios' icon='user' route='/pages/beneficiarios/dashboard' onClick={this.hideSidebar}/>
-          <SidebarLink title='Productos' icon='store' route='/log_in' onClick={this.hideSidebar}/>  
-          <SidebarLink title='Ración' icon='home' route='/pages/comites' onClick={this.hideSidebar}/> 
+          <SidebarLink title='Productos' icon='store' route='/pages/productos' onClick={this.hideSidebar}/>  
+          <SidebarLink title='Ración' icon='home' route='/pages/raciones/dashboard' onClick={this.hideSidebar}/> 
+          <SidebarLink title='Zonas de Distribución' icon='home' route='/pages/zonas' onClick={this.hideSidebar}/>
           <SidebarLink title='Distribución' icon='home' route='/pages/distribucion' onClick={this.hideSidebar}/> 
           <SidebarCategory title='Example Pages' icon='diamond'>
             <SidebarLink title='Page one' route='/pages/one' onClick={this.hideSidebar}/>

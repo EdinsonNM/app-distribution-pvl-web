@@ -137,24 +137,8 @@ export default class ProductsListTable extends PureComponent {
                 <Link className='btn btn-primary products-list__btn-add' to='/pages/comite/new'>Nuevo Comite</Link>
               </ButtonToolbar>
             </div>
-            <Table>
-              <thead>
-                <tr>{this.heads.map(head => <th>{head.name}</th>)}</tr>
-              </thead>
-              <tbody>
-              {this.props.rows.map((row, index) => 
-                <tr key={`row-${index}`}>
-                  {
-                    this.heads.map(head =>
-                      <td {...(head.width? {width: head.width}: {})}>
-                        {head.formatter ? head.formatter(row[head.key]) : row[head.key]}
-                      </td>)
-                  }
-                </tr>
-              )}
-              </tbody>
-            </Table>
-            {this.props.rows.length && <Pagination items={this.props.rows} onChangePage={this.onChangePage}/>}
+            {this.props.rows.length && <EditTable heads={this.heads} rows={this.props.rows} enableRowSelect/>}
+					  {this.props.rows.length && <Pagination items={this.props.rows} onChangePage={this.onChangePage}/>}
           </CardBody>
         </Card>
       </Col>

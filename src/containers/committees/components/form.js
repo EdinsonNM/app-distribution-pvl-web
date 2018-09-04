@@ -84,7 +84,7 @@ class Form extends PureComponent {
 						<div className="row">
 							<div className="col-md-4">
 								<Field
-								name='type_populate_center'
+								name='populatedCenter'
 								component={renderRadioButtonField}
 								label='Urbano'
 								radioValue="1"
@@ -94,7 +94,7 @@ class Form extends PureComponent {
 							</div>
 							<div className="col-md-4">
 								<Field
-								name='type_populate_center'
+								name='populatedCenter'
 								component={renderRadioButtonField}
 								label='Rural'
 								radioValue="2"
@@ -110,7 +110,7 @@ class Form extends PureComponent {
 				<div className='form__form-group'>
 					<div className='form__form-group-field'>
 					<Field
-						name='name_populated_center'
+						name='populatedCenterName'
 						component='input'
 						type='text'
 						placeholder='Centro poblado...'
@@ -130,10 +130,10 @@ class Form extends PureComponent {
 				<div className='form__form-group'>
 					<div className='form__form-group-field'>
 					<Field
-						name='email'
+						name='urbancoreName'
 						component='input'
-						type='email'
-						placeholder='example@mail.com'
+						type='text'
+						placeholder='Nucleo Urbano'
 					/>
 					</div>
 				</div>
@@ -142,35 +142,78 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Dirección</label>
 					<div className='form__form-group-field'>
 					<Field
-						name='select'
+						name='addresstypeId'
 						component={renderSelectField}
-						options={[
-						{value: 'one', label: 'One'},
-						{value: 'two', label: 'Two'},
-						]}
+						options={this.props.addresstype.map(item => ({value:item.id, label: item.name}))}
 					/>
 					</div>
 				</div>
 				<div className='form__form-group'>
 					<div className='form__form-group-field'>
 					<Field
-						name='email'
+						name='addresstypeName'
 						component='input'
-						type='email'
-						placeholder='example@mail.com'
+						type='text'
+						placeholder='Dirección'
 					/>
 					</div>
 				</div>
 				
-				<div className='form__form-group'>
-					<label className='form__form-group-label'>
-					Add file
-					</label>
-					<div className='form__form-group-field'>
-					<Field
-						name='file'
-						component={renderFileInputField}
-					/>
+				<div className="form__form-group">
+					<label className='form__form-group-label'></label>
+					<div className='form__form-group-field' style={{paddingLeft: 5}}>
+						<div className="container">
+							<div className="row">
+								<div className="col-md-2">
+									<Field
+										name='number'
+										component='input'
+										type='text'
+										placeholder='Nro'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='letter'
+										component='input'
+										type='text'
+										placeholder='Letra'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='block'
+										component='input'
+										type='text'
+										placeholder='Block'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='manzana'
+										component='input'
+										type='text'
+										placeholder='Manzana'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='lote'
+										component='input'
+										type='text'
+										placeholder='Lote'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='floor'
+										component='input'
+										type='text'
+										placeholder='Piso'
+									/>
+								</div>
+							</div>				
+						</div>
 					</div>
 				</div>
 				<div className='card__title'>
@@ -178,34 +221,57 @@ class Form extends PureComponent {
 				<h5 className='subhead'>Complete toda la información para realizar el registro de un comité</h5>
 				</div>
 				<div className='form__form-group'>
-				<label className='form__form-group-label'>Centro poblado</label>
+					<label className='form__form-group-label'>Nombres</label>
+					<div className='form__form-group-field'>
+						<Field
+							name='number'
+							component='input'
+							type='text'
+							placeholder='Nro'
+						/>
+					</div>
+				</div>
+				<div className='form__form-group'>
+					<label className='form__form-group-label'>Apellido Paterno</label>
+					<div className='form__form-group-field'>
+						<Field
+							name='firstsurname'
+							component='input'
+							type='text'
+							placeholder='Nro'
+						/>
+					</div>
+				</div>
+				<div className='form__form-group'>
+					<label className='form__form-group-label'>Apellido Materno</label>
+					<div className='form__form-group-field'>
+						<Field
+							name='lastsurname'
+							component='input'
+							type='text'
+							placeholder='Nro'
+						/>
+					</div>
+				</div>
+				<div className='form__form-group'>
+					<label className='form__form-group-label'>Tipo Documento</label>
 					<div className='form__form-group-field'>
 					<Field
-						name='email'
-						component='input'
-						type='email'
-						placeholder='example@mail.com'
+						name='documentType'
+						component={renderSelectField}
+						options={this.props.urbancore.map(item => ({value:item.id, label: item.name}))}
 					/>
 					</div>
 				</div>
 				<div className='form__form-group'>
+					<label className='form__form-group-label'>Documento</label>
 					<div className='form__form-group-field'>
-					<Field
-						name='email'
-						component='input'
-						type='email'
-						placeholder='example@mail.com'
-					/>
-					</div>
-				</div>
-				<div className='form__form-group'>
-					<div className='form__form-group-field'>
-					<Field
-						name='email'
-						component='input'
-						type='email'
-						placeholder='example@mail.com'
-					/>
+						<Field
+							name='documentId'
+							component='input'
+							type='text'
+							placeholder='Nro'
+						/>
 					</div>
 				</div>
 				<ButtonToolbar className='form__button-toolbar'>

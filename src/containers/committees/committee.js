@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import Form from './components/form';
 import { connect } from 'react-redux';
+import addresstype from '../../redux/epics/addresstype';
 
 class Committee extends PureComponent {
 	render() {
@@ -23,7 +24,8 @@ class Committee extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
 	urbancore: state.urbancore.data,
-	products: state.products.data
+	products: state.products.data,
+	addresstype: state.addresstype.data
 })
 
 export default connect(mapStateToProps)(Committee)

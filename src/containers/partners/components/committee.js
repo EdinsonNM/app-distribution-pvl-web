@@ -26,8 +26,8 @@ const Committee = ({committee, max}) => {
 					<p className='dashboard__health-chart-units'>socios</p>
 				</div>
 				</div>
-				<p className='dashboard__goal'>Referencia: {committee.partners}-{max}</p>
-				<Link to="lista">Ver socios</Link>
+				<p className='dashboard__goal'>{committee.populatedCenterName}</p>
+				<Link to={`lista/${committee.id}`}>Ver socios</Link>
 			</CardBody>
 			</Card>
 		</Col>

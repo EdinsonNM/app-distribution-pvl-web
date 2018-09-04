@@ -6,7 +6,7 @@ import UtilColor from '../../../lib/util-color';
 import { Link } from 'react-router-dom';
 const Committee = ({committee, max}) => {
 	const color = UtilColor.getRandomColor();
-	const data = [{value: committee.partners, fill: color }, {value: max-committee.partners, fill: '#eeeeee'}];
+	const data = [{value: committee.beneficiaries, fill: color }, {value: max-committee.beneficiaries, fill: '#eeeeee'}];
 	return (
 		<Col md={12} xl={3} lg={6} sm={12} xs={12}>
 			<Card>
@@ -22,11 +22,11 @@ const Committee = ({committee, max}) => {
 				</ResponsiveContainer>
 				<div className='dashboard__health-chart-info'>
 					<HeartOutlineIcon style={{fill: color}}/>
-					<p className='dashboard__health-chart-number'>{committee.partners}</p>
+					<p className='dashboard__health-chart-number'>{committee.beneficiaries}</p>
 					<p className='dashboard__health-chart-units'>beneficiarios</p>
 				</div>
 				</div>
-				<p className='dashboard__goal'>Referencia: {committee.partners}-{max}</p>
+				<p className='dashboard__goal'>Referencia: {committee.beneficiaries}-{max}</p>
 				<Link to="lista">Ver Beneficiarios</Link>
 			</CardBody>
 			</Card>

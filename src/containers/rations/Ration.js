@@ -1,0 +1,67 @@
+import React, {PureComponent} from 'react';
+import {Col, Container, Row} from 'reactstrap';
+import Form from './components/form';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {periodLoad} from '../../redux/actions/periods';
+import {rationSave} from '../../redux/actions/rations';
+import { Redirect } from 'react-router-dom';
+
+class Ration extends PureComponent {
+	constructor(props){
+		super(props);
+		this.periodId = props.match.params.id;
+		this.state = {
+			cancel: false
+		}
+	}
+	componentDidMount(){
+		this.props.periodLoad(this.periodId);
+	}
+	handleSubmit = (form) => {
+		const model = {
+			periodId: this.periodId,
+			unity: form.unitId.value,
+			productId: form.productId.value,
+			quantity: form.quantity
+		}
+		this.props.rationSave(model);
+		this.handleCancel();
+	}
+	handleCancel =() => {
+		this.setState({cancel: true})
+	}
+
+	render() {
+		const {period = {}} = this.props;
+		if(this.state.cancel){
+			return <Redirect to={`/pages/raciones/dashboard`} />
+		}
+		return (
+		<Container>
+			<Row>
+			<Col md={12}>
+				<h3 className='page-title'>PERIODO</h3>
+				<h3 className='page-subhead subhead'>{period.description}</h3>
+			</Col>
+			</Row>
+			<Row>
+				<Form onCancel={this.handleCancel} onSubmit={this.handleSubmit} period={this.props.period} products={this.props.products}/>
+			</Row>
+		</Container>
+		)
+	}
+}
+
+const mapStateToProps = (state, ownProps) => ({
+	form: state.form.ration_form,
+	period: state.periods.period,
+	products: state.products.data
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
+	periodLoad,
+	rationSave
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ration)
