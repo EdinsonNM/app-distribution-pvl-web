@@ -58,7 +58,7 @@ class FormNewDistribution extends PureComponent {
 						<Button type='button'>
 							Cancel
 						</Button>
-						<Button color='primary' type='submit'>Submit</Button>
+						<Button color='primary' type='submit'>Crear distribución</Button>
 					</ButtonToolbar>
 				</form>
 			</Panel>

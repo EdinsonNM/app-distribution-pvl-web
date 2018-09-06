@@ -136,7 +136,7 @@ class DistributionNew extends PureComponent {
 				<Panel md="4" lg="4" title="Busqueda" >
 					<FormSearch zones={this.props.zones} handleAddZone={this.handleAddZone} />
 				</Panel>
-				<Panel md="4" lg="4" title="Total de Ración programada" >
+				<Panel md="4" lg="4" title="Total de Ración programada" subhead={`Total de dias ${this.state.form.days}`} >
 					<ResponsiveContainer className='dashboard__chart-pie dashboard__chart-pie--commerce' height={360}>
 					<PieChart className='dashboard__chart-pie-container'>
 						<Tooltip/>

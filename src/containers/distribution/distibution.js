@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import DistributionList from './components/distribution-list';
+import { Link } from 'react-router-dom';
 
 export default class Distribution extends PureComponent {
 	render() {
@@ -16,7 +17,7 @@ export default class Distribution extends PureComponent {
 			</Row>
 			<Row>
 				<Col md={12}>
-				<button class="btn btn-outline-success">Nueva programación</button>
+				<Link class="btn btn-outline-success" to="distribucion/new">Nueva programación</Link>
 				</Col>
 			</Row>
 			<DistributionList />
