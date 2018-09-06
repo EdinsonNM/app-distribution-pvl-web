@@ -38,8 +38,8 @@ export default class ListZones extends PureComponent {
 					</tr>
 					</thead>
 					<tbody>
-						{this.props.rows.map(row => 
-							<tr onClick={select(row)}>
+						{this.props.rows.map((row, index) => 
+							<tr key={index} onClick={select(row)}>
 								<td>{row.name}</td>
 							</tr>
 						)}

@@ -1,0 +1,28 @@
+import {createActions} from 'redux-actions';
+
+export const DISTRIBUTION_COMMITTEES_LOAD = 'DISTRIBUTION_COMMITTEES_LOAD';
+export const DISTRIBUTION_COMMITTEES_LOAD_OK = 'DISTRIBUTION_COMMITTEES_LOAD_OK';
+export const DISTRIBUTION_LOAD_BENEFICIARIES_COUNT = 'DISTRIBUTION_LOAD_BENEFICIARIES_COUNT';
+export const DISTRIBUTION_LOAD_BENEFICIARIES_COUNT_OK = 'DISTRIBUTION_LOAD_BENEFICIARIES_COUNT_OK';
+
+export const DISTRIBUTION_LOAD_PARTNERS_COUNT = 'DISTRIBUTION_LOAD_PARTNERS_COUNT';
+export const DISTRIBUTION_LOAD_PARTNERS_COUNT_OK = 'DISTRIBUTION_LOAD_PARTNERS_COUNT_OK';
+
+const actionsCreator = createActions(
+	{
+		DISTRIBUTION_LOAD_BENEFICIARIES_COUNT_OK: (committee, count) => ({committee, count}),
+	},
+	DISTRIBUTION_COMMITTEES_LOAD,
+	DISTRIBUTION_COMMITTEES_LOAD_OK,
+	DISTRIBUTION_LOAD_BENEFICIARIES_COUNT,
+	DISTRIBUTION_LOAD_PARTNERS_COUNT,
+	DISTRIBUTION_LOAD_PARTNERS_COUNT_OK
+);
+export const {
+	distributionCommitteesLoad,
+	distributionCommitteesLoadOk,
+	distributionLoadBeneficiariesCount,
+	distributionLoadBeneficiariesCountOk,
+	distributionLoadPartnersCount,
+	distributionLoadPartnersCountOk
+} = actionsCreator;

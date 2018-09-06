@@ -8,7 +8,7 @@ import PeriodApi from '../../api/period';
 class PeriodsEpic{
 	static loadPeriods = (action$) =>  action$.pipe(
 		ofType(PERIODS_LOAD),
-		switchMap(() => PeriodApi.getAll().pipe(
+		switchMap(() => PeriodApi.getAll({}).pipe(
 			map(response => periodsLoadOk(response)),
 			catchError(error => of(periodsLoadOk(error)))
 		))

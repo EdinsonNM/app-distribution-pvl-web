@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import Panel from '../../../components/Panel';
 import { Field , reduxForm} from 'redux-form';
-import { MagnifyIcon, SearchIcon } from 'mdi-react';
-import { Nav, NavItem, NavLink, TabContent , TabPane} from 'reactstrap';
+import { MagnifyIcon, SearchIcon, AddIcon } from 'mdi-react';
+import { Nav, NavItem, NavLink, TabContent, TabPane, Table, Button } from 'reactstrap';
 import classnames from 'classnames';
 
 class PanelCommittees extends PureComponent {
@@ -13,7 +13,7 @@ class PanelCommittees extends PureComponent {
 		this.setState({activeTab})		
 	}
 	render(){
-		const { handleSubmit, zone } = this.props;
+		const { handleSubmit, zone, handleAddCommittee, zoneCommittees = [] } = this.props;
 		return(
 			<Panel lg={6} xl={6} md={12} xs={12} title={`Comites asignados a "${zone.name}"`}>
 				
@@ -39,7 +39,28 @@ class PanelCommittees extends PureComponent {
 					</Nav>
 					<TabContent activeTab={this.state.activeTab}>
 						<TabPane tabId='1'>
-							<p>Direction has strangers now believing.</p>
+							<Table responsive hover>
+								<thead>
+									<tr>
+										<th>Comite</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									{
+										zoneCommittees.map((c, index) => 
+											<tr key={index}>
+												<td>{c.name}</td>
+												<td>
+													<Button outline className='sm' color='danger' size='sm' style={{marginBottom: 0}} onClick={handleAddCommittee(c)}>
+														Remover
+													</Button>
+												</td>
+											</tr>
+										)
+									}
+								</tbody>
+							</Table>
 						</TabPane>
 						<TabPane tabId='2'>
 							<form className='form' onSubmit={handleSubmit}>
@@ -55,6 +76,28 @@ class PanelCommittees extends PureComponent {
 									</div>
 								</div>
 							</form>
+							<Table responsive hover>
+								<thead>
+									<tr>
+										<th>Comite</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									{
+										this.props.committees.map((c, index) => 
+											<tr key={index}>
+												<td>{c.name}</td>
+												<td>
+													<Button outline className='sm' color='primary' size='sm' style={{marginBottom: 0}} onClick={handleAddCommittee(c)}>
+														Agregar
+													</Button>
+												</td>
+											</tr>
+										)
+									}
+								</tbody>
+							</Table>
 						</TabPane>
 					</TabContent>
 				</div>

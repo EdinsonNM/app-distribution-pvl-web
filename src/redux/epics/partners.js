@@ -54,7 +54,6 @@ class PartnerEpic{
 						store.dispatch(committeesPartnersLoadOk(response));
 						return response;
 					}),
-					map(response => response.slice(0, 20)),
 					mergeMap(response => forkJoin(
 						...response.map(c => CommitteeApi.getPartnersCount({id: c.id}).pipe(map(response => response))
 					))),

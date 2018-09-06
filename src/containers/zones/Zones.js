@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import PanelCommittees from './components/panelCommittees';
 import PanelZones from './components/panelZones';
-import { zoneSave, zonesLoad } from '../../redux/actions/zones';
+import { zoneSave, zonesLoad, zoneUpdate, zoneCommitteesLoad } from '../../redux/actions/zones';
 import { committeesLoadSearch } from '../../redux/actions/committees';
 
 
@@ -22,10 +22,19 @@ class Zones extends PureComponent {
 	}
 	handleSelectZone = (zone) => () => {
 		this.setState({zone});
+		this.props.zoneCommitteesLoad(zone.committees || []);
 		console.log(zone);
 	}
 	handleSearch = (value)  => {
 		this.props.committeesLoadSearch(value.query);
+	}
+	handleAddCommittee = (committee) => () => {
+		const {zone} = this.state;
+		if(!zone.committees){
+			zone.committees = [];
+		}
+		zone.committees.push(committee.id);
+		this.props.zoneUpdate(zone);
 	}
 	render() {
 		const {zone = {}} = this.state;
@@ -41,7 +50,13 @@ class Zones extends PureComponent {
 				</Row>
 				<Row>
 					<PanelZones onSubmit={this.handleZoneSave} zones={this.props.zones} select={this.handleSelectZone}/>
-					<PanelCommittees zone={zone} onSubmit={this.handleSearch}/>
+					<PanelCommittees
+						zoneCommittees={this.props.zoneCommittees}
+						committees={this.props.committees}
+						zone={zone}
+						onSubmit={this.handleSearch}
+						handleAddCommittee={this.handleAddCommittee}
+					/>
 				</Row>
 			</Container>
 		)
@@ -50,12 +65,15 @@ class Zones extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
 	zones: state.zones.data,
-	committees: state.committees.data
+	zoneCommittees: state.zones.committees,
+	committees: state.committees.committees
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	committeesLoadSearch,
 	zonesLoad,
-	zoneSave
+	zoneSave,
+	zoneUpdate,
+	zoneCommitteesLoad
 }, dispatch);
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Zones));

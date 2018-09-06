@@ -17,6 +17,7 @@ import Rations from '../containers/rations/Rations';
 import RationsList from '../containers/rations/RationsList';
 import Ration from '../containers/rations/Ration';
 import Zones from '../containers/zones/Zones';
+import DistributionNew from '../containers/distribution/DistributionNew';
 
 const Router = () => (
   <MainWrapper>
@@ -53,7 +54,8 @@ const Pages = () => (
     <Route path='/pages/beneficiarios/lista' component={BeneficiariesList}/>
     <Route path='/pages/beneficiarios/new' component={Beneficiary}/>
     <Route path='/pages/zonas' component={Zones}/>
-    <Route path='/pages/distribucion' component={Distribution}/>
+    <Route exact path='/pages/distribucion' component={Distribution}/>
+    <Route exact path='/pages/distribucion/new' component={DistributionNew}/>
   </Switch>
 );
 

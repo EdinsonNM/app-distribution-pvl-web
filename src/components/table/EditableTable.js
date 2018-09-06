@@ -7,13 +7,15 @@ export default class EditableTable extends PureComponent {
   static propTypes = {
     heads: PropTypes.array.isRequired,
     rows: PropTypes.array.isRequired,
-    enableRowSelect: PropTypes.bool
+    enableRowSelect: PropTypes.bool,
+    limit: PropTypes.number
   };
   
   constructor(props, context) {
     super(props, context);
+    this.limit = props.limit;
     let originalRows = this.props.rows;
-    let rows = originalRows.slice(0, 10);
+    let rows = originalRows.slice(0, this.limit);
     this.state = {rows, originalRows};
     this.rowGetter = this.rowGetter.bind(this);
     this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
@@ -46,7 +48,7 @@ export default class EditableTable extends PureComponent {
     };
     
     let sortRows = this.state.originalRows.slice(0);
-    const rows = sortDirection === 'NONE' ? this.state.originalRows.slice(0, 10) : sortRows.sort(comparer).slice(0, 10);
+    const rows = sortDirection === 'NONE' ? this.state.originalRows.slice(0, this.limit) : sortRows.sort(comparer).slice(0, this.limit);
     
     this.setState({rows});
   };

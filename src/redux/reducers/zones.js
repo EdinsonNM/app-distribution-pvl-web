@@ -20,6 +20,17 @@ const reducer = handleActions({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
 	},
+	ZONE_COMMITTEES_LOAD: (state, action) => ({
+			...state, committees: []
+	}),
+	ZONE_COMMITTEES_LOAD_OK: {
+		next: (state, action) => ({
+			...state, committees: action.payload
+		}),
+		throw: (state, action) => ({
+			...state, error: {message: action.payload.message, status: action.payload.status}
+		}),
+	},
 }, initialState);
 
 

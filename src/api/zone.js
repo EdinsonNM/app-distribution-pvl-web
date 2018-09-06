@@ -15,5 +15,9 @@ class ZoneApi {
         let url = CustomUrl.getURL(ROUTE_ZONE, {});
         return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
+    static put = (payload) => {
+        let url = CustomUrl.getURL(`${ROUTE_ZONE}/:id`, {id: payload.id});
+        return ajax.put(url, payload, HeaderRequest.getPublicRequestHeader());
+    }
 }
 export default ZoneApi;

@@ -8,6 +8,7 @@ import BeneficiaryEpics from './beneficiaries';
 import PeriodsEpics from './periods';
 import RationsEpics from './rations';
 import ZonesEpics from './zones';
+import DistributionEpics from './distribution';
 export default combineEpics(
 	CommitteeEpics,
 	UrbanCoresEpics,
@@ -17,5 +18,6 @@ export default combineEpics(
 	BeneficiaryEpics,
 	PeriodsEpics,
 	RationsEpics,
-	ZonesEpics
+	ZonesEpics,
+	DistributionEpics
 )

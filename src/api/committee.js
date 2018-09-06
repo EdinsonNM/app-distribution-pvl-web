@@ -15,6 +15,10 @@ class CommitteeApi{
         let url = CustomUrl.getURL(ROUTE_COMMITTEE, payload) + `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
+    static get = (id) => {
+        let url = CustomUrl.getURL(`${ROUTE_COMMITTEE}/:id`, {id});
+        return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
+    }
     static getPartnersCount = (payload) => {
         let url = CustomUrl.getURL(ROUTE_COMMITTEE_PARTNERS_COUNT, payload);
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());

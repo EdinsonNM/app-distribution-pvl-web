@@ -18,7 +18,7 @@ class CommitteeEpic{
 		ofType(COMMITTEES_LOAD_SEARCH),
 		debounceTime(1000),
 		switchMap(({payload}) => {
-			return of(committeesLoad(payload.query))
+			return of(committeesLoad(payload))
 		})
 	);
 	static changePageNext = (action$) =>  action$.pipe(
