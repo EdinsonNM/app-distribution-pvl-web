@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import PanelCommittees from './components/panelCommittees';
 import PanelZones from './components/panelZones';
-import { zoneSave, zonesLoad, zoneUpdate, zoneCommitteesLoad } from '../../redux/actions/zones';
+import { zoneSave, zonesLoad, zoneUpdate, zoneDelete, zoneCommitteesLoad } from '../../redux/actions/zones';
 import { committeesLoadSearch } from '../../redux/actions/committees';
 
 
@@ -33,8 +33,20 @@ class Zones extends PureComponent {
 		if(!zone.committees){
 			zone.committees = [];
 		}
-		zone.committees.push(committee.id);
+		let committees = Array.from(new Set([...zone.committees, committee.id]));
+		zone.committees = committees;
 		this.props.zoneUpdate(zone);
+	}
+	handleDeleteCommittee = (committee) => () => {
+		const {zone} = this.state;
+		var index = zone.committees.indexOf(committee);
+		if (index > -1) {
+			zone.committees.splice(index, 1);
+		}
+		this.props.zoneUpdate(zone);
+	}
+	handleDeleteZone = (zone) => () => {
+		this.props.zoneDelete(zone);
 	}
 	render() {
 		const {zone = {}} = this.state;
@@ -49,13 +61,14 @@ class Zones extends PureComponent {
 					</Col>
 				</Row>
 				<Row>
-					<PanelZones onSubmit={this.handleZoneSave} zones={this.props.zones} select={this.handleSelectZone}/>
+					<PanelZones onSubmit={this.handleZoneSave} zones={this.props.zones} select={this.handleSelectZone} handleDeleteZone={this.handleDeleteZone}/>
 					<PanelCommittees
 						zoneCommittees={this.props.zoneCommittees}
 						committees={this.props.committees}
 						zone={zone}
 						onSubmit={this.handleSearch}
 						handleAddCommittee={this.handleAddCommittee}
+						handleDeleteCommittee={this.handleDeleteCommittee}
 					/>
 				</Row>
 			</Container>
@@ -74,6 +87,7 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	zonesLoad,
 	zoneSave,
 	zoneUpdate,
+	zoneDelete,
 	zoneCommitteesLoad
 }, dispatch);
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Zones));

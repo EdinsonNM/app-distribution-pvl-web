@@ -13,7 +13,7 @@ class PanelCommittees extends PureComponent {
 		this.setState({activeTab})		
 	}
 	render(){
-		const { handleSubmit, zone, handleAddCommittee, zoneCommittees = [] } = this.props;
+		const { handleSubmit, zone, handleAddCommittee, handleDeleteCommittee, zoneCommittees = [] } = this.props;
 		return(
 			<Panel lg={6} xl={6} md={12} xs={12} title={`Comites asignados a "${zone.name}"`}>
 				
@@ -52,7 +52,7 @@ class PanelCommittees extends PureComponent {
 											<tr key={index}>
 												<td>{c.name}</td>
 												<td>
-													<Button outline className='sm' color='danger' size='sm' style={{marginBottom: 0}} onClick={handleAddCommittee(c)}>
+													<Button outline className='sm' color='danger' size='sm' style={{marginBottom: 0}} onClick={handleDeleteCommittee(c.id)}>
 														Remover
 													</Button>
 												</td>

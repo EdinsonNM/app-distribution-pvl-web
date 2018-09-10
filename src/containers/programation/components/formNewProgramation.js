@@ -12,11 +12,11 @@ class FormNewDistribution extends PureComponent {
 		committees: []
 	}
 	render() {
-		const {periods = []} = this.props;
+		const {periods = [], handleSubmit} = this.props;
 		let minValueDay = minValue(this.state.maxDay);
 		return(
-			<Panel md="4" lg="4" title="Nueva Distribución">
-				<form className='form' >
+			<Panel md="4" lg="4" title="Nueva Programación">
+				<form className='form' onSubmit={handleSubmit} >
 					<div className='form__form-group'>
 						<label className='form__form-group-label'>Periodo</label>
 						<div className='form__form-group-field'>

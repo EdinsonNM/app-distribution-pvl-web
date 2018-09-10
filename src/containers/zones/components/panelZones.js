@@ -24,7 +24,7 @@ class PanelZones extends PureComponent {
 					</div>
 				</form>
 				<Row>
-					<ListZones rows={this.props.zones} select={select} />
+					<ListZones rows={this.props.zones} select={select} handleDeleteZone={this.props.handleDeleteZone} />
 				</Row>
 			</Panel>
 		)

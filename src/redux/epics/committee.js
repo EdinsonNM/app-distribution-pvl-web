@@ -44,8 +44,13 @@ class CommitteeEpic{
 	static load = (action$) =>  action$.pipe(
 		ofType(COMMITTEES_LOAD),
 		switchMap(({payload}) => {
-			let skip = payload.page * payload.limit;
-			let filter = { limit: payload.limit, skip, where: {name: {like: payload.query}}};
+			let filter;
+			if(payload.limit !== 0){
+				let skip = payload.page * payload.limit;
+				filter = { limit: payload.limit, skip, where: {name: {like: payload.query}}};
+			}else {
+				filter = { where: {name: {like: payload.query}}};
+			}
 			return CommitteeApi.getAll({filter}).pipe(
 				map(response => {
 					let urbancore = store.getState().urbancore.data;

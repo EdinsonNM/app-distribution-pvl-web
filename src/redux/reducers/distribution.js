@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import { months } from '../../contants/months';
 const initialState = {
 	committees: [],
 	error:{}
@@ -25,6 +26,27 @@ const reducer = handleActions({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
 	},
+	DISTRIBUTIONS_LOAD_OK: {
+		next: (state, action) => {
+			let distributionsGroup = {}
+			months.forEach((month, index) => {
+				distributionsGroup[index] = {
+					monthIndex: index,
+					month,
+					distributions : []
+				}
+			})
+			action.payload.forEach(item => {
+				distributionsGroup[item.month].distributions.push(item); 
+			})
+			return {
+				...state, distributionsGroup
+			}
+		},
+		throw: (state, action) => ({
+			...state, error: {message: action.payload.message, status: action.payload.status}
+		}),
+	}
 }, initialState);
 
 

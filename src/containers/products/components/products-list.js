@@ -2,24 +2,9 @@ import React, {PureComponent} from 'react';
 import { ButtonToolbar, Card, CardBody, Col, Row, Container } from 'reactstrap';
 import EditTable from '../../../components/table/EditableTable';
 import Pagination from '../../../components/Pagination';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
-
-class StatusFormatter extends PureComponent {
-	static propTypes = {
-		value: PropTypes.string.isRequired
-	};
-	
-	render() {
-		return (
-		this.props.value === 'Enabled' ? <span className='badge badge-success'>Enabled</span> :
-			<span className='badge badge-disabled'>Disabled</span>
-		)
-	}
-}
-
 export default class ProductsList extends PureComponent {
 
 	constructor(props) {
@@ -66,7 +51,7 @@ export default class ProductsList extends PureComponent {
 							<MagnifyIcon/>
 						</div>
 						</form>
-						<Link className='btn btn-primary products-list__btn-add' to='/e-commerce/product_edit'>Nuevo Producto</Link>
+						<Link className='btn btn-primary products-list__btn-add' to='productos/new'>Nuevo Producto</Link>
 					</ButtonToolbar>
 					</div>
 					{this.props.rows.length && <EditTable heads={this.heads} rows={this.props.rows} enableRowSelect/>}

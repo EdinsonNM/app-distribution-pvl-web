@@ -10,6 +10,7 @@ import PeriodsReducer from './periods';
 import RationsReducer from './rations';
 import ZonesReducer from './zones';
 import DistributionReducer from './distribution';
+import IncomesReducer from './incomes';
 
 
 import {reducer as reduxFormReducer} from 'redux-form';
@@ -28,5 +29,6 @@ export default combineReducers({
   periods: PeriodsReducer,
   rations: RationsReducer,
   zones: ZonesReducer,
-  distribution: DistributionReducer
+  distribution: DistributionReducer,
+  incomes: IncomesReducer
 });

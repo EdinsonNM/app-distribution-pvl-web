@@ -12,7 +12,7 @@ import qs from 'qs';
 
 class CommitteeApi{
     static getAll = ({...payload, filter = {}} = {}) => {
-        let url = CustomUrl.getURL(ROUTE_COMMITTEE, payload) + `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
+        let url = CustomUrl.getURL(ROUTE_COMMITTEE, payload) + `${qs.stringify({filter}, { encodeValuesOnly: true })}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
     static get = (id) => {

@@ -6,7 +6,7 @@ import { ajax } from 'rxjs/ajax';
 class AddressTypeApi{
     static getAll = (payload) => {
         let filter = {where:{active:true}};
-        let url = CustomUrl.getURL(ROUTE_ADDRESSTYPE, {filter: JSON.stringify(filter)});
+        let url = CustomUrl.getURL(ROUTE_ADDRESSTYPE, {}) + `filter=${JSON.stringify(filter)}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
 }

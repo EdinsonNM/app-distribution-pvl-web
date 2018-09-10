@@ -9,6 +9,8 @@ export const ZONE_SAVE = 'ZONE_SAVE';
 export const ZONE_SAVE_OK = 'ZONE_SAVE_OK';
 export const ZONE_UPDATE = 'ZONE_UPDATE';
 export const ZONE_UPDATE_OK = 'ZONE_UPDATE_OK';
+export const ZONE_DELETE = 'ZONE_DELETE';
+export const ZONE_DELETE_OK = 'ZONE_DELETE_OK';
 
 
 export const ZONE_COMMITTEES_LOAD = 'ZONE_COMMITTEES_LOAD';
@@ -25,6 +27,8 @@ const actionsCreator = createActions(
 	ZONE_SAVE_OK,
 	ZONE_UPDATE,
 	ZONE_UPDATE_OK,
+	ZONE_DELETE,
+	ZONE_DELETE_OK,
 	ZONE_COMMITTEES_LOAD,
 	ZONE_COMMITTEES_LOAD_OK
 );
@@ -38,5 +42,7 @@ export const {
 	zoneUpdate,
 	zoneUpdateOk,
 	zoneCommitteesLoad,
-	zoneCommitteesLoadOk
+	zoneCommitteesLoadOk,
+	zoneDelete,
+	zoneDeleteOk,
 } = actionsCreator;

@@ -1,15 +1,19 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
-import ProductsListTable from './components/ProductsListTable';
+import ListTable from './components/ListTable';
 import { withRouter } from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { committeesLoad } from '../../redux/actions/committees';
+import { committeesLoad, committeesLoadSearch } from '../../redux/actions/committees';
 
 
 class Committees extends PureComponent {
   componentDidMount(){
-    this.props.load();
+    this.props.committeesLoad('', 0, 0);
+  }
+  filterSearch = (e) => {
+    this.props.committeesLoadSearch(e.target.value);;
+    e.preventDefault();
   }
   render() {
     return (
@@ -23,7 +27,7 @@ class Committees extends PureComponent {
           </Col>
         </Row>
         <Row>
-          <ProductsListTable rows={this.props.committees}/>
+          <ListTable rows={this.props.committees} handleSearch={this.filterSearch}/>
       </Row>
       </Container>
     )
@@ -36,6 +40,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-  load: committeesLoad
+  committeesLoad,
+  committeesLoadSearch
 }, dispatch);
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Committees));

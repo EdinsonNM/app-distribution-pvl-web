@@ -11,13 +11,17 @@ import PartnersList from '../containers/partners/PartnersList';
 import Beneficiaries from '../containers/beneficiaries/Beneficiaries';
 import BeneficiariesList from '../containers/beneficiaries/Beneficiaries-list';
 import Beneficiary from '../containers/beneficiaries/Beneficiary';
-import Distribution from '../containers/distribution/distibution';
 import Products from '../containers/products/Products';
 import Rations from '../containers/rations/Rations';
 import RationsList from '../containers/rations/RationsList';
 import Ration from '../containers/rations/Ration';
 import Zones from '../containers/zones/Zones';
-import DistributionNew from '../containers/distribution/DistributionNew';
+import ProgramationNew from '../containers/programation/ProgramationNew';
+import Incomes from '../containers/incomes/Incomes';
+import Income from '../containers/incomes/Income';
+import ProductNew from '../containers/products/ProductNew';
+import programation from '../containers/programation/programation';
+import programationGroupDetail from '../containers/programation/programation-group-detail';
 
 const Router = () => (
   <MainWrapper>
@@ -43,7 +47,10 @@ const wrappedRoutes = () => (
 const Pages = () => (
   <Switch>
     <Route path='/pages/comites' component={Committees}/>
-    <Route path='/pages/productos' component={Products}/>
+    <Route exact path='/pages/productos' component={Products}/>
+    <Route exact path='/pages/productos/new' component={ProductNew}/>
+    <Route exact path='/pages/ingresos' component={Incomes}/>
+    <Route exact path='/pages/ingresos/new' component={Income}/>
     <Route path='/pages/raciones/dashboard' component={Rations}/>
     <Route exact path='/pages/raciones/periodo/:id' component={RationsList}/>
     <Route exact path='/pages/raciones/periodo/:id/new' component={Ration}/>
@@ -54,8 +61,9 @@ const Pages = () => (
     <Route path='/pages/beneficiarios/lista' component={BeneficiariesList}/>
     <Route path='/pages/beneficiarios/new' component={Beneficiary}/>
     <Route path='/pages/zonas' component={Zones}/>
-    <Route exact path='/pages/distribucion' component={Distribution}/>
-    <Route exact path='/pages/distribucion/new' component={DistributionNew}/>
+    <Route exact path='/pages/programacion' component={programation}/>
+    <Route exact path='/pages/programacion/detalle/:month' component={programationGroupDetail}/>
+    <Route exact path='/pages/programacion/new' component={ProgramationNew}/>
   </Switch>
 );
 

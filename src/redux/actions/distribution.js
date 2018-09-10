@@ -8,6 +8,16 @@ export const DISTRIBUTION_LOAD_BENEFICIARIES_COUNT_OK = 'DISTRIBUTION_LOAD_BENEF
 export const DISTRIBUTION_LOAD_PARTNERS_COUNT = 'DISTRIBUTION_LOAD_PARTNERS_COUNT';
 export const DISTRIBUTION_LOAD_PARTNERS_COUNT_OK = 'DISTRIBUTION_LOAD_PARTNERS_COUNT_OK';
 
+export const DISTRIBUTION_SAVE_OK = 'DISTRIBUTION_SAVE_OK';
+export const DISTRIBUTION_SAVE = 'DISTRIBUTION_SAVE';
+
+export const DISTRIBUTION_DELETE = 'DISTRIBUTION_DELETE';
+export const DISTRIBUTION_DELETE_OK = 'DISTRIBUTION_DELETE_OK';
+
+
+export const DISTRIBUTIONS_LOAD = 'DISTRIBUTIONS_LOAD';
+export const DISTRIBUTIONS_LOAD_OK = 'DISTRIBUTIONS_LOAD_OK';
+
 const actionsCreator = createActions(
 	{
 		DISTRIBUTION_LOAD_BENEFICIARIES_COUNT_OK: (committee, count) => ({committee, count}),
@@ -16,7 +26,13 @@ const actionsCreator = createActions(
 	DISTRIBUTION_COMMITTEES_LOAD_OK,
 	DISTRIBUTION_LOAD_BENEFICIARIES_COUNT,
 	DISTRIBUTION_LOAD_PARTNERS_COUNT,
-	DISTRIBUTION_LOAD_PARTNERS_COUNT_OK
+	DISTRIBUTION_LOAD_PARTNERS_COUNT_OK,
+	DISTRIBUTION_SAVE,
+	DISTRIBUTION_SAVE_OK,
+	DISTRIBUTION_DELETE,
+	DISTRIBUTION_DELETE_OK,
+	DISTRIBUTIONS_LOAD,
+	DISTRIBUTIONS_LOAD_OK,
 );
 export const {
 	distributionCommitteesLoad,
@@ -24,5 +40,9 @@ export const {
 	distributionLoadBeneficiariesCount,
 	distributionLoadBeneficiariesCountOk,
 	distributionLoadPartnersCount,
-	distributionLoadPartnersCountOk
+	distributionLoadPartnersCountOk,
+	distributionSave,
+	distributionSaveOk,
+	distributionsLoad,
+	distributionsLoadOk
 } = actionsCreator;

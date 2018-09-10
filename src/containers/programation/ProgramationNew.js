@@ -6,34 +6,24 @@ import {
     Progress
 } from 'reactstrap';
 import Panel from '../../components/Panel';
-import FormNewDistribution from './components/formNewDistribution';
+import FormNewDistribution from './components/formNewProgramation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {zonesLoad}	from '../../redux/actions/zones';
 import {committeesLoad}	from '../../redux/actions/committees';
-import {distributionCommitteesLoad}	from '../../redux/actions/distribution'
+import {distributionCommitteesLoad, distributionSave}	from '../../redux/actions/distribution'
 import {periodsLoad}	from '../../redux/actions/periods';
 import {rationsLoad}	from '../../redux/actions/rations';
 
 import FormSearch from './components/formSearch';
 import CustomDate from '../../lib/custom-date';
 import CustomArray from '../../lib/custom-array';
+import DistributionRation from './components/programationRation';
+import UtilColor from '../../lib/util-color';
 import { UNIT_MEASURENMENT_ABREV } from '../../contants/unit_of _measurement';
-import formatNumber from 'format-number';
-import {PieChart, Pie, Tooltip, Legend, ResponsiveContainer} from 'recharts';
-const renderLegend = (props) => {
-	const {payload} = props;
-	return (
-		<ul className='dashboard__chart-legend'>
-		{
-			payload.map((entry, index) => (
-			<li key={`item-${index}`}><span style={{backgroundColor: entry.color}}/>{entry.value} <strong>({entry.payload.value} {entry.payload.unity})</strong></li>
-			))
-		}
-		</ul>
-	);
-};
-class DistributionNew extends PureComponent {
+import beneficiaries from '../../redux/epics/beneficiaries';
+
+class ProgramationNew extends PureComponent {
 	state = {
 		activeTab: '1',
 		committees: [],
@@ -43,12 +33,14 @@ class DistributionNew extends PureComponent {
 		distributions: []
 	}
 	componentDidMount(){
+		this.props.committeesLoad('', 0, 0);
 		this.props.zonesLoad();
 		this.props.periodsLoad();
 	}
 	handleToggletab = (activeTab) => () => {
 		this.setState({ activeTab})
 	}
+
 	handleAddZone = (zone) => () => {
 		let {committees} = this.state;
 		const zoneCommittees = zone.committees || [];
@@ -68,6 +60,11 @@ class DistributionNew extends PureComponent {
 	componentDidUpdate(prevProps, prevState){
 		if(!CustomArray.equals(prevProps.rations, this.props.rations) ){
 			this.calculeRations();
+		}
+		if(!CustomArray.equals(prevProps.committees, this.props.committees) ){
+			let committees = this.props.committees.map(item => item.id)
+			this.setState({committees},() => this.calculeRations())
+			this.props.distributionCommitteesLoad(committees);
 		}
 	}
 	calculeMaxDaysFromMonth = () => {
@@ -100,21 +97,36 @@ class DistributionNew extends PureComponent {
 				rations
 			}
 		})
-		const colors = ['#4ce1b6', '#70bbfd', '#f6da6e', '#ff4861'];
+		// const colors = ['#4ce1b6', '#70bbfd', '#f6da6e', '#ff4861'];
 		let rationsTotales = this.props.rations.map((r, index) => {
 			let value = 0;
+			let beneficiaries = 0;
 			distributions.forEach(d => {
 				value += d.rations.find(dr => dr.rationId === r.id).totalRation;
+				beneficiaries += d.beneficiaries
 			});
 			return {
 				...r,
+				beneficiaries,
 				value,
 				name: r.product.name,
 				unity: r.unity,
-				fill: colors[index]
+				fill: UtilColor.getRandomColor()
 			}
 		})
 		this.setState({distributions, rationsTotales})
+	}
+	onSubmit  = (form) => {
+		console.log(form);
+		debugger;
+		const model = {
+			periodId: form.period.value,
+			month: form.month.value,
+			days: form.days,
+			committees: this.state.committees,
+			distributions: this.state.rationsTotales
+		}
+		this.props.distributionSave(model)
 	}
 	render(){
 		//let colors  = ['pink', 'blue', 'violet', 'yellow'];
@@ -132,30 +144,15 @@ class DistributionNew extends PureComponent {
 				</Col>
 			</Row>
 			<Row>
-				<FormNewDistribution  maxDay={this.state.maxDay} periods={this.props.periods} handleChangeForm={this.handleChangeForm} />
-				<Panel md="4" lg="4" title="Busqueda" >
-					<FormSearch zones={this.props.zones} handleAddZone={this.handleAddZone} />
-				</Panel>
-				<Panel md="4" lg="4" title="Total de Ración programada" subhead={`Total de dias ${this.state.form.days}`} >
-					<ResponsiveContainer className='dashboard__chart-pie dashboard__chart-pie--commerce' height={360}>
-					<PieChart className='dashboard__chart-pie-container'>
-						<Tooltip/>
-						<Pie data={this.state.rationsTotales} dataKey='value' cy={100} innerRadius={50} outerRadius={80} label labelLine />
-						<Legend layout='vertical' verticalAlign='bottom' content={renderLegend}/>
-					</PieChart>
-					</ResponsiveContainer>
+				<FormNewDistribution onSubmit={this.onSubmit}  maxDay={this.state.maxDay} periods={this.props.periods} handleChangeForm={this.handleChangeForm} />
+				
+				<Panel md="8" lg="8" title="Total de Ración programada" subhead={`Programación para ${this.state.committees.length} comites`} >
+					<DistributionRation data={this.state.rationsTotales}  />
 				</Panel>
 			</Row>
-			<Row>
-				<Col md={12}>
-					<h4 className='page-title'>Distribución Comites</h4>
-					<h4 className='page-subhead subhead'>
-					Consiste en la programación y asignación mensual de productos a los diferentes comites.
-					</h4>
-				</Col>
-			</Row>
+			
 				<Row>
-				{
+				{/*
 					distributions.map(c => {
 						let data = c.rations.map((r, index) => ({
 							value: r.totalRation,
@@ -165,17 +162,11 @@ class DistributionNew extends PureComponent {
 						}));
 						return (
 							<Panel xs="12" sm="12" md="4" lg="4" title={c.committeeName} subhead={""}>
-								<ResponsiveContainer className='dashboard__chart-pie dashboard__chart-pie--commerce' height={360}>
-								<PieChart className='dashboard__chart-pie-container'>
-									<Tooltip/>
-									<Pie data={data} dataKey='value' cy={100} innerRadius={50} outerRadius={80} label labelLine />
-									<Legend layout='vertical' verticalAlign='bottom' content={renderLegend}/>
-								</PieChart>
-								</ResponsiveContainer>
+								<DistributionRation data={data} />
 							</Panel>
 						)
 					})	
-				}
+				*/}
 				</Row>
 			</Container>
 		);
@@ -194,6 +185,7 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	committeesLoad,
 	zonesLoad,
 	periodsLoad,
-	rationsLoad
+	rationsLoad,
+	distributionSave
 }, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(DistributionNew);	
+export default connect(mapStateToProps, mapDispatchToProps)(ProgramationNew);	

@@ -52,31 +52,7 @@ class Form extends PureComponent {
 						/>
 					</div>
 				</div>
-				<div className="form__form-group">
-					<label className='form__form-group-label'>Tipo de Alimento</label>
-					<div className='form__form-group-field'>
-					<div className="container">
-						<div className="row">
-							{
-								this.props.products.map(item => (
-									<div className="col-md-4">
-										<Field
-										name={'chk'+ item.code}
-										component={renderCheckBoxField}
-										label={item.name}
-										class="colored-click"
 
-										/>
-									</div>
-								))
-							}
-						</div>
-						
-					</div>
-						
-					</div>
-				</div>
-				
 				<div className="form__form-group">
 					<label className='form__form-group-label'>Centro poblado</label>
 					<div className='form__form-group-field'>

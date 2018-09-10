@@ -10,11 +10,12 @@ import {
     zonesLoad,
     zonesLoadOk,
     zoneSaveOk,
-	zoneUpdateOk,
-	zoneLoadOk,
-	zoneCommitteesLoadOk,
-	zoneCommitteesLoad
-
+    zoneUpdateOk,
+    zoneLoadOk,
+    zoneCommitteesLoadOk,
+    zoneCommitteesLoad,
+    ZONE_DELETE,
+	zoneDeleteOk
 } from '../actions/zones';
 import ZoneApi from '../../api/zone';
 import CommitteeApi from '../../api/committee';
@@ -49,6 +50,17 @@ class ZonesEpic{
 		
 		))
 	);
+	static zonesDelete= (action$) =>  action$.pipe(
+		ofType(ZONE_DELETE),
+		switchMap(({payload}) => ZoneApi.delete(payload).pipe(
+			mergeMap(response => concat(
+				of(zoneDeleteOk(response.response)),
+				of(zonesLoad())
+			)),
+			catchError(error => of(zoneDeleteOk(error)))
+		
+		))
+	);
 	
 	static CommitteesLoad = (action$) =>  action$.pipe(
 		ofType(ZONE_COMMITTEES_LOAD),
@@ -65,6 +77,7 @@ export default function ZonesEpics(action$){
 			ZonesEpic.zonesLoad(action$),
 			ZonesEpic.zonesSave(action$),
 			ZonesEpic.zonesUpdate(action$),
+			ZonesEpic.zonesDelete(action$),
 			ZonesEpic.CommitteesLoad(action$),
 	);
 }

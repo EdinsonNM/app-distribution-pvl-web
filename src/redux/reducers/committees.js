@@ -1,9 +1,14 @@
 import { handleActions } from 'redux-actions';
 const initialState = {
 	committees: [],
-	error:{}
+	error:{},
+	page: 0,
+	limit: 0
 };
 const reducer = handleActions({
+	COMMITTEES_LOAD: (state, action) => ({
+		...state, committees: []
+	}),
 	COMMITTEES_LOAD_OK: {
 		next: (state, action) => ({
 			...state, committees: action.payload

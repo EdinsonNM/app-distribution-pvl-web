@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import ReactDataGrid from 'react-data-grid';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
+import CustomArray from '../../lib/custom-array';
 
 export default class EditableTable extends PureComponent {
   static propTypes = {
@@ -21,7 +22,13 @@ export default class EditableTable extends PureComponent {
     this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
     this.handleGridSort = this.handleGridSort.bind(this);
   }
-  
+  componentDidUpdate(prevProps){
+    let originalRows = this.props.rows;
+    if(!CustomArray.equals(this.props.rows, prevProps.rows)){
+      let rows = originalRows.slice(0, this.limit);
+      this.setState({rows, originalRows});
+    }
+  }
   componentDidMount(){
   
   }
