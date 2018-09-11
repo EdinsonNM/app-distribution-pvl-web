@@ -11,17 +11,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {zonesLoad}	from '../../redux/actions/zones';
 import {committeesLoad}	from '../../redux/actions/committees';
-import {distributionCommitteesLoad, distributionSave}	from '../../redux/actions/distribution'
+import {programationCommitteesLoad, programationSave}	from '../../redux/actions/programation'
 import {periodsLoad}	from '../../redux/actions/periods';
 import {rationsLoad}	from '../../redux/actions/rations';
 
-import FormSearch from './components/formSearch';
 import CustomDate from '../../lib/custom-date';
 import CustomArray from '../../lib/custom-array';
 import DistributionRation from './components/programationRation';
 import UtilColor from '../../lib/util-color';
-import { UNIT_MEASURENMENT_ABREV } from '../../contants/unit_of _measurement';
-import beneficiaries from '../../redux/epics/beneficiaries';
 
 class ProgramationNew extends PureComponent {
 	state = {
@@ -30,7 +27,7 @@ class ProgramationNew extends PureComponent {
 		form:{},
 		maxDay: 31,
 		percentege: 0,
-		distributions: []
+		programations: []
 	}
 	componentDidMount(){
 		this.props.committeesLoad('', 0, 0);
@@ -46,7 +43,7 @@ class ProgramationNew extends PureComponent {
 		const zoneCommittees = zone.committees || [];
 		// committees = [...committees, ...zoneCommittees];
 		committees = Array.from(new Set([...committees, ...zoneCommittees]));
-		this.props.distributionCommitteesLoad(committees);
+		this.props.programationCommitteesLoad(committees);
 		this.setState({committees}, () => this.calculeRations())
 	}
 	handleChangeForm = (name) => (e) => {
@@ -64,7 +61,7 @@ class ProgramationNew extends PureComponent {
 		if(!CustomArray.equals(prevProps.committees, this.props.committees) ){
 			let committees = this.props.committees.map(item => item.id)
 			this.setState({committees},() => this.calculeRations())
-			this.props.distributionCommitteesLoad(committees);
+			this.props.programationCommitteesLoad(committees);
 		}
 	}
 	calculeMaxDaysFromMonth = () => {
@@ -82,13 +79,13 @@ class ProgramationNew extends PureComponent {
 		}
 	}
 	calculeRations = () => {
-		let distributions = this.props.distributioncommittees.map(c => {
+		let programations = this.props.programationcommittees.map(c => {
 			let rations = this.props.rations.map(r => ({
 				rationId: r.id,
 				productId: r.product.id,
 				productName: r.product.name,
-				totalRation: r.quantity * c.beneficiaries * this.state.form.days,
-				unity: r.unity
+				totalRation: Math.floor((r.quantity / r.product.quantityConversion) * c.beneficiaries * this.state.form.days + 0.25),
+				unitOfMeasure: r.product.unitOfMeasure
 			}));
 			return {
 				committeeId: c.id,
@@ -101,7 +98,7 @@ class ProgramationNew extends PureComponent {
 		let rationsTotales = this.props.rations.map((r, index) => {
 			let value = 0;
 			let beneficiaries = 0;
-			distributions.forEach(d => {
+			programations.forEach(d => {
 				value += d.rations.find(dr => dr.rationId === r.id).totalRation;
 				beneficiaries += d.beneficiaries
 			});
@@ -110,29 +107,22 @@ class ProgramationNew extends PureComponent {
 				beneficiaries,
 				value,
 				name: r.product.name,
-				unity: r.unity,
+				unitOfMeasure: r.product.unitOfMeasure,
 				fill: UtilColor.getRandomColor()
 			}
 		})
-		this.setState({distributions, rationsTotales})
+		this.setState({programations, rationsTotales})
 	}
 	onSubmit  = (form) => {
-		console.log(form);
-		debugger;
 		const model = {
 			periodId: form.period.value,
 			month: form.month.value,
 			days: form.days,
-			committees: this.state.committees,
-			distributions: this.state.rationsTotales
+			distributions: this.state.rationsTotales,
 		}
-		this.props.distributionSave(model)
+		this.props.programationSave(model, this.state.programations);
 	}
 	render(){
-		//let colors  = ['pink', 'blue', 'violet', 'yellow'];
-		const colors = ['#4ce1b6', '#70bbfd', '#f6da6e', '#ff4861']
-
-		const {distributions} = this.state;
 		return(
 			<Container className='dashboard'>
 			<Row>
@@ -144,30 +134,18 @@ class ProgramationNew extends PureComponent {
 				</Col>
 			</Row>
 			<Row>
-				<FormNewDistribution onSubmit={this.onSubmit}  maxDay={this.state.maxDay} periods={this.props.periods} handleChangeForm={this.handleChangeForm} />
+				<FormNewDistribution
+				onSubmit={this.onSubmit}
+				maxDay={this.state.maxDay}
+				periods={this.props.periods}
+				handleChangeForm={this.handleChangeForm}
+				totalCommittees={this.props.committees.length}
+				beneficiariesLoaded={this.props.committeeBenefLoaded} />
 				
 				<Panel md="8" lg="8" title="Total de Ración programada" subhead={`Programación para ${this.state.committees.length} comites`} >
 					<DistributionRation data={this.state.rationsTotales}  />
 				</Panel>
 			</Row>
-			
-				<Row>
-				{/*
-					distributions.map(c => {
-						let data = c.rations.map((r, index) => ({
-							value: r.totalRation,
-							unity: UNIT_MEASURENMENT_ABREV[r.unity],
-							name: r.productName,
-							fill: colors[index]
-						}));
-						return (
-							<Panel xs="12" sm="12" md="4" lg="4" title={c.committeeName} subhead={""}>
-								<DistributionRation data={data} />
-							</Panel>
-						)
-					})	
-				*/}
-				</Row>
 			</Container>
 		);
 	}
@@ -177,15 +155,16 @@ const mapStateToProps = (state, ownProps) => ({
 	periods: state.periods.data,
 	zones: state.zones.data,
 	committees: state.committees.committees,
-	distributioncommittees: state.distribution.committees,
-	rations: state.rations.data
+	programationcommittees: state.programation.committees,
+	rations: state.rations.data,
+	committeeBenefLoaded: state.programation.committeeBenefLoaded
 });
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-	distributionCommitteesLoad,
+	programationCommitteesLoad,
 	committeesLoad,
 	zonesLoad,
 	periodsLoad,
 	rationsLoad,
-	distributionSave
+	programationSave
 }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(ProgramationNew);	

@@ -8,10 +8,11 @@ import BeneficiaryEpics from './beneficiaries';
 import PeriodsEpics from './periods';
 import RationsEpics from './rations';
 import ZonesEpics from './zones';
-import DistributionEpics from './distribution';
+import ProgramationEpics from './programation';
 import IncomesEpics from './incomes';
 import OutgoingsEpics from './outgoings';
 import UsersEpics from './users';
+import ProgramationDetailEpics from './programationdetail';
 export default combineEpics(
 	CommitteeEpics,
 	UrbanCoresEpics,
@@ -22,8 +23,9 @@ export default combineEpics(
 	PeriodsEpics,
 	RationsEpics,
 	ZonesEpics,
-	DistributionEpics,
 	IncomesEpics,
 	OutgoingsEpics,
-	UsersEpics
+	UsersEpics,
+	ProgramationEpics,
+	ProgramationDetailEpics
 )

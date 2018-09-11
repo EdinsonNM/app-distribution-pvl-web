@@ -9,7 +9,7 @@ import BeneficiariesReducer from './beneficiaries';
 import PeriodsReducer from './periods';
 import RationsReducer from './rations';
 import ZonesReducer from './zones';
-import DistributionReducer from './distribution';
+import ProgramationReducer from './programation';
 import IncomesReducer from './incomes';
 
 
@@ -29,6 +29,6 @@ export default combineReducers({
   periods: PeriodsReducer,
   rations: RationsReducer,
   zones: ZonesReducer,
-  distribution: DistributionReducer,
+  programation: ProgramationReducer,
   incomes: IncomesReducer
 });

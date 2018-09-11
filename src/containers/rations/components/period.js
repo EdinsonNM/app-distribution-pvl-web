@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import {PieChart, Pie, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Panel from '../../../components/Panel';
 import { Link } from 'react-router-dom';
+import { UNIT_MEASURENMENT_ABREV2 } from '../../../contants/unit_of _measurement';
 import { UNIT_MEASURENMENT_ABREV } from '../../../contants/unit_of _measurement';
 import { UNIT_MEASURENMENT } from '../../../contants/unit_of _measurement';
 
@@ -34,12 +35,12 @@ export default class Period extends PureComponent {
 	render() {
 		const {period} = this.props;
 		const data = (period.rations || []).map((r, index) => ({
-			name: `${r.product.name} (${UNIT_MEASURENMENT_ABREV[r.unity]})`,
+			name: `${r.product.name} (${UNIT_MEASURENMENT_ABREV2[r.product.unitOfMeasureConversion]})`,
 			value: parseFloat(r.quantity),
 			fill: colors[index]
 		}));
 		return (
-		<Panel lg={6} xl={6} md={12} xs={12} title={period.description}>
+		<Panel lg={4} xl={4} md={6} xs={12} title={period.description}>
 			<ResponsiveContainer className='dashboard__chart-pie dashboard__chart-pie--commerce' height={360}>
 			<PieChart className='dashboard__chart-pie-container'>
 				<Tooltip/>

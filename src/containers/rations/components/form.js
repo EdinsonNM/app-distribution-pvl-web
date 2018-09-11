@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import { Card, CardBody, Col, Button, ButtonToolbar, Row } from 'reactstrap';
 import {Field, reduxForm} from 'redux-form';
 import renderSelectField from '../../../components/form/Select';
+import { UNIT_MEASURENMENT_ABREV } from '../../../contants/unit_of _measurement';
 
 import {UNIT_MEASURENMENT} from '../../../contants/unit_of _measurement';
 class Form extends PureComponent {
@@ -9,21 +10,14 @@ class Form extends PureComponent {
 		super(props);
 		this.state = {
 			showPassword: false,
+			product: {}
 		};
 		
-		this.showPassword = this.showPassword.bind(this);
 	}
-	
-	showPassword(e) {
-		e.preventDefault();
-		this.setState({
-		showPassword: !this.state.showPassword
-		})
-	};
-	onSubmit = (values) => {
-		return values;
+	handleChange = (e) => {
+		let product = this.props.products.find(item => item.id === e.value);
+		this.setState({product});
 	}
-
 	render() {
 		const {handleSubmit, onCancel} = this.props;
 
@@ -41,6 +35,7 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Producto</label>
 					<div className='form__form-group-field'>
 					<Field
+						onChange={this.handleChange}
 						name='productId'
 						component={renderSelectField}
 						options={this.props.products.map(item => ({value:item.id, label: item.name}))}
@@ -48,17 +43,9 @@ class Form extends PureComponent {
 					</div>
 				</div>
 				<div className='form__form-group'>
-					<label className='form__form-group-label'>Unidad de Medida</label>
-					<div className='form__form-group-field'>
-					<Field
-						name='unitId'
-						component={renderSelectField}
-						options={Object.keys(UNIT_MEASURENMENT).map(key => ({value: key, label: UNIT_MEASURENMENT[key]}))}
-					/>
-					</div>
-				</div>
-				<div className='form__form-group'>
-					<label className='form__form-group-label'>Cantidad</label>
+					<label className='form__form-group-label'>
+					Cantidad (<span dangerouslySetInnerHTML={{__html: UNIT_MEASURENMENT_ABREV[this.state.product.unitOfMeasureConversion]}}></span>)
+					</label>
 					<div className='form__form-group-field'>
 					<Field
 						name='quantity'

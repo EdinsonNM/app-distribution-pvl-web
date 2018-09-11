@@ -1,0 +1,48 @@
+import {createActions} from 'redux-actions';
+
+export const PROGRAMATION_COMMITTEES_LOAD = 'PROGRAMATION_COMMITTEES_LOAD';
+export const PROGRAMATION_COMMITTEES_LOAD_OK = 'PROGRAMATION_COMMITTEES_LOAD_OK';
+export const PROGRAMATION_LOAD_BENEFICIARIES_COUNT = 'PROGRAMATION_LOAD_BENEFICIARIES_COUNT';
+export const PROGRAMATION_LOAD_BENEFICIARIES_COUNT_OK = 'PROGRAMATION_LOAD_BENEFICIARIES_COUNT_OK';
+
+export const PROGRAMATION_LOAD_PARTNERS_COUNT = 'PROGRAMATION_LOAD_PARTNERS_COUNT';
+export const PROGRAMATION_LOAD_PARTNERS_COUNT_OK = 'PROGRAMATION_LOAD_PARTNERS_COUNT_OK';
+
+export const PROGRAMATION_SAVE_OK = 'PROGRAMATION_SAVE_OK';
+export const PROGRAMATION_SAVE = 'PROGRAMATION_SAVE';
+
+export const PROGRAMATION_DELETE = 'PROGRAMATION_DELETE';
+export const PROGRAMATION_DELETE_OK = 'PROGRAMATION_DELETE_OK';
+
+
+export const PROGRAMATIONS_LOAD = 'PROGRAMATIONS_LOAD';
+export const PROGRAMATIONS_LOAD_OK = 'PROGRAMATIONS_LOAD_OK';
+
+const actionsCreator = createActions(
+	{
+		PROGRAMATION_LOAD_BENEFICIARIES_COUNT_OK: (committee, count) => ({committee, count}),
+		PROGRAMATION_SAVE: (programation, details = []) => ({programation, details}),
+	},
+	PROGRAMATION_COMMITTEES_LOAD,
+	PROGRAMATION_COMMITTEES_LOAD_OK,
+	PROGRAMATION_LOAD_BENEFICIARIES_COUNT,
+	PROGRAMATION_LOAD_PARTNERS_COUNT,
+	PROGRAMATION_LOAD_PARTNERS_COUNT_OK,
+	PROGRAMATION_SAVE_OK,
+	PROGRAMATION_DELETE,
+	PROGRAMATION_DELETE_OK,
+	PROGRAMATIONS_LOAD,
+	PROGRAMATIONS_LOAD_OK,
+);
+export const {
+	programationCommitteesLoad,
+	programationCommitteesLoadOk,
+	programationLoadBeneficiariesCount,
+	programationLoadBeneficiariesCountOk,
+	programationLoadPartnersCount,
+	programationLoadPartnersCountOk,
+	programationSave,
+	programationSaveOk,
+	programationsLoad,
+	programationsLoadOk
+} = actionsCreator;

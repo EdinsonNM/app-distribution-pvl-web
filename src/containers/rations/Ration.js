@@ -21,7 +21,6 @@ class Ration extends PureComponent {
 	handleSubmit = (form) => {
 		const model = {
 			periodId: this.periodId,
-			unity: form.unitId.value,
 			productId: form.productId.value,
 			quantity: form.quantity
 		}
@@ -31,7 +30,9 @@ class Ration extends PureComponent {
 	handleCancel =() => {
 		this.setState({cancel: true})
 	}
+	handleChange = () => () => {
 
+	}
 	render() {
 		const {period = {}} = this.props;
 		if(this.state.cancel){

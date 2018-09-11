@@ -1,13 +1,14 @@
 import React from 'react';
 // import formatNumber from 'format-number';
 import {PieChart, Pie, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import {  UNIT_MEASURENMENT} from '../../../contants/unit_of _measurement';
 const renderLegend = (props) => {
 	const {payload} = props;
 	return (
 		<ul className='dashboard__chart-legend'>
 		{
 			payload.map((entry, index) => (
-			<li key={`item-${index}`}><span style={{backgroundColor: entry.color}}/>{entry.value} <strong>({entry.payload.value} {entry.payload.unity})</strong></li>
+			<li key={`item-${index}`}><span style={{backgroundColor: entry.color}}/>{entry.value} <strong>({entry.payload.value} {UNIT_MEASURENMENT[entry.payload.unitOfMeasure]})</strong></li>
 			))
 		}
 		</ul>

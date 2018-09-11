@@ -1,10 +1,9 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
-import DistributionList from './components/programation-group-list';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {distributionsLoad} from '../../redux/actions/distribution';
+import {programationsLoad} from '../../redux/actions/programation';
 import ProgramationList from './components/programation-list';
 
 class ProgramationGroupDetail extends PureComponent {
@@ -13,9 +12,11 @@ class ProgramationGroupDetail extends PureComponent {
 		this.month = props.match.params.month
 	}
 	componentDidMount(){
-		// this.props.distributionsLoad();
+		if(Object.keys(this.props.programationsGroup).length === 0)
+			this.props.programationsLoad();
 	}
 	render() {
+		const {programationsGroup = {}} = this.props
 		return (
 		<Container className='dashboard'>
 			<Row>
@@ -31,15 +32,17 @@ class ProgramationGroupDetail extends PureComponent {
 				<Link class="btn btn-outline-success" to="programacion/new">Nueva programación</Link>
 				</Col>
 			</Row>
-			<ProgramationList programations={this.props.distributionsGroup[this.month].distributions} />
+			{ Object.keys(programationsGroup).length &&
+				<ProgramationList programations={this.props.programationsGroup[this.month].programations} />
+			}
 		</Container>
 		)
 	}
 }
 const mapStateToProps = (state, ownProps) => ({
-	distributionsGroup: state.distribution.distributionsGroup
+	programationsGroup: state.programation.programationsGroup
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-	distributionsLoad
+	programationsLoad
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(ProgramationGroupDetail);

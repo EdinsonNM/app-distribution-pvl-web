@@ -5,11 +5,11 @@ import ProgramationGroupList from './components/programation-group-list';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {distributionsLoad} from '../../redux/actions/distribution';
+import {programationsLoad} from '../../redux/actions/programation';
 
 class Programation extends PureComponent {
 	componentDidMount(){
-		this.props.distributionsLoad();
+		this.props.programationsLoad();
 	}
 	render() {
 		return (
@@ -24,18 +24,18 @@ class Programation extends PureComponent {
 			</Row>
 			<Row>
 				<Col md={12}>
-				<Link class="btn btn-outline-success" to="programacion/new">Nueva programación</Link>
+				<Link className="btn btn-outline-success" to="programacion/new">Nueva programación</Link>
 				</Col>
 			</Row>
-			<ProgramationGroupList distributionsGroup={this.props.distributionsGroup} />
+			<ProgramationGroupList programationsGroup={this.props.programationsGroup} />
 		</Container>
 		)
 	}
 }
 const mapStateToProps = (state, ownProps) => ({
-	distributionsGroup: state.distribution.distributionsGroup
+	programationsGroup: state.programation.programationsGroup
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-	distributionsLoad
+	programationsLoad
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Programation);

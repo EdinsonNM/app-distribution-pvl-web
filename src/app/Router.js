@@ -22,6 +22,7 @@ import Income from '../containers/incomes/Income';
 import ProductNew from '../containers/products/ProductNew';
 import programation from '../containers/programation/programation';
 import programationGroupDetail from '../containers/programation/programation-group-detail';
+import ProductEdit from '../containers/products/ProductEdit';
 
 const Router = () => (
   <MainWrapper>
@@ -49,6 +50,7 @@ const Pages = () => (
     <Route path='/pages/comites' component={Committees}/>
     <Route exact path='/pages/productos' component={Products}/>
     <Route exact path='/pages/productos/new' component={ProductNew}/>
+    <Route exact path='/pages/productos/edit/:id' component={ProductEdit}/>
     <Route exact path='/pages/ingresos' component={Incomes}/>
     <Route exact path='/pages/ingresos/new' component={Income}/>
     <Route path='/pages/raciones/dashboard' component={Rations}/>

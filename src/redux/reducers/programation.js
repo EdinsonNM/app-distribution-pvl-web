@@ -2,10 +2,14 @@ import { handleActions } from 'redux-actions';
 import { months } from '../../contants/months';
 const initialState = {
 	committees: [],
-	error:{}
+	error:{},
+	programationsGroup: {}
 };
 const reducer = handleActions({
-	DISTRIBUTION_COMMITTEES_LOAD_OK: {
+	PROGRAMATION_COMMITTEES_LOAD: (state, action) => ({
+		...state, committeeBenefLoaded:0
+	}),
+	PROGRAMATION_COMMITTEES_LOAD_OK: {
 		next: (state, action) => ({
 			...state, committees: action.payload
 		}),
@@ -13,34 +17,35 @@ const reducer = handleActions({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
 	},
-	DISTRIBUTION_LOAD_BENEFICIARIES_COUNT_OK: {
+	PROGRAMATION_LOAD_BENEFICIARIES_COUNT_OK: {
 		next: (state, action) => {
 			let committees = state.committees;
 			let committee = committees.find(c => action.payload.committee === c.id)
+			let committeeBenefLoaded = state.committeeBenefLoaded + 1
 			committee.beneficiaries =  action.payload.count
 			return {
-				...state, committees
+				...state, committees, committeeBenefLoaded
 			}
 		},
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
 	},
-	DISTRIBUTIONS_LOAD_OK: {
+	PROGRAMATIONS_LOAD_OK: {
 		next: (state, action) => {
-			let distributionsGroup = {}
+			let programationsGroup = {}
 			months.forEach((month, index) => {
-				distributionsGroup[index] = {
+				programationsGroup[index] = {
 					monthIndex: index,
 					month,
-					distributions : []
+					programations : []
 				}
 			})
 			action.payload.forEach(item => {
-				distributionsGroup[item.month].distributions.push(item); 
+				programationsGroup[item.month].programations.push(item); 
 			})
 			return {
-				...state, distributionsGroup
+				...state, programationsGroup
 			}
 		},
 		throw: (state, action) => ({

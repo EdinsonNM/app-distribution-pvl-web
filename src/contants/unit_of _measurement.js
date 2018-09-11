@@ -1,19 +1,22 @@
 export const UNIT_MEASURENMENT = {
-	grams: 'Gramos',
-	kilo: 'kilo',
-	milliliters: 'Mililitros',
-	cm3: 'centímetros cúbicos',
-	can: 'lata'
+	GRAMS: 'Gramos',
+	KILO: 'kilos',
+	MILLILITERS: 'Mililitros',
+	CM3: 'centímetros cúbicos',
+	CAN: 'latas'
 }
 export const UNIT_MEASURENMENT_ABREV = {
-	grams: 'Grs.',
-	milliliters: 'ml.',
-	cm3: 'cm<sup>3</sup>',
-	can: 'Lat.',
-	kilo: 'Kl.'
+	GRAMS: 'Grs.',
+	MILLILITERS: 'ml.',
+	CM3: 'cm<sup>3</sup>',
+	CAN: 'Lat.',
+	KILO: 'Kl.'
 }
 
-export const UNIT_MEASURENMENT_CONVERT = {
-	can:{ value: 50, unity: 'cm3'},
-	kilo: {value: 1000, unity: 'grams'}
+export const UNIT_MEASURENMENT_ABREV2 = {
+	GRAMS: 'Grs.',
+	MILLILITERS: 'ml.',
+	CM3: 'cm3',
+	CAN: 'Lat.',
+	KILO: 'Kl.'
 }

@@ -25,7 +25,8 @@ export const ROUTE_OUTGOING='/outgoings';
 
 export const ROUTE_USER='/users';
 
-export const ROUTE_DISTRIBUTION = '/distributions';
+export const ROUTE_PROGRAMATION = '/programations';
+export const ROUTE_PROGRAMATION_DETAIL = '/programationdetails';
 
 
 

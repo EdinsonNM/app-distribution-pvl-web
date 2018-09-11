@@ -11,13 +11,16 @@ import { bindActionCreators } from 'redux';
 import {UNIT_MEASURENMENT} from '../../contants/unit_of _measurement';
 import store from '../../app/store';
 
-const fnUnity = (value) => {
-	return <div>{UNIT_MEASURENMENT[value.value]}</div>;
-}
 const fnProduct = (value) => {
 	const products = store.getState().products.data;
 	const product = products.find(p => p.id === value.value)
 	return <div>{product.name}</div>
+	
+}
+const fnProductUnit = (value) => {
+	const products = store.getState().products.data;
+	const product = products.find(p => p.id === value.value)
+	return <div>{UNIT_MEASURENMENT[product.unitOfMeasureConversion]}</div>
 	
 }
 class RationsList extends PureComponent {
@@ -43,10 +46,10 @@ class RationsList extends PureComponent {
 			sortable: true
 		},
 		{
-			key: 'unity',
+			key: 'productId',
 			name: 'Unidad',
 			sortable: true,
-			formatter: fnUnity
+			formatter: fnProductUnit
 		},
 		];
 		

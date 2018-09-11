@@ -1,10 +1,28 @@
 import React, {PureComponent} from 'react';
-import { ButtonToolbar, Card, CardBody, Col, Row, Container } from 'reactstrap';
+import {
+    ButtonToolbar,
+    Card,
+    CardBody,
+    Col,
+    Row,
+    Container,
+    Button
+} from 'reactstrap';
 import EditTable from '../../../components/table/EditableTable';
 import Pagination from '../../../components/Pagination';
 import {Link} from 'react-router-dom';
+import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from 'reactstrap';
+import { DotsHorizontalIcon, MagnifyIcon } from 'mdi-react';
+import {UNIT_MEASURENMENT} from '../../../contants/unit_of _measurement';
 
-import MagnifyIcon from 'mdi-react/MagnifyIcon';
+
+
+const renderUnit = (value) => {
+	return <div>{UNIT_MEASURENMENT[value.value]}</div>
+}
+const renderOptions = (value) => {
+	return <Link to={`productos/edit/${value.value}`}>Editar</Link>
+}
 export default class ProductsList extends PureComponent {
 
 	constructor(props) {
@@ -20,6 +38,28 @@ export default class ProductsList extends PureComponent {
 			key: 'name',
 			name: 'Name',
 			sortable: true
+		},
+		{
+			key: 'unitOfMeasure',
+			name: 'Unidad',
+			sortable: true,
+			formatter: renderUnit
+		},
+		{
+			key: 'unitOfMeasureConversion',
+			name: 'Unidad Ración',
+			sortable: true,
+			formatter: renderUnit
+		},
+		{
+			key: 'quantityConversion',
+			name: 'Equivalencia',
+			sortable: true,
+		},
+		{
+			key: 'id',
+			name: 'options',
+			formatter: renderOptions
 		},
 		];
 		
