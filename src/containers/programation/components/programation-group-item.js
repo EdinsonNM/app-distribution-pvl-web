@@ -8,15 +8,14 @@ export default class ProgramationGroupItem extends PureComponent {
   render() {
     const {item} = this.props;
     let days = 0;
-    let committees = item.distributions[0].committees.length;
-    item.distributions.forEach(element => {
+    item.programations.forEach(element => {
       days+= element.days
     });
     let total = CustomDate.daysInMonth(item.monthIndex, 2018);
     let percentege = Math.round(days*100 / total);
     const data02 = [{value: percentege, fill: '#ff4861'},{value: 100-percentege, fill: '#eeeeee'}];
     return (
-      <Panel md={12} lg={6} xl={3} xs={12} title={this.props.title} subhead={`Programaciones realizadas: ${item.distributions.length} `}>
+      <Panel md={12} lg={6} xl={3} xs={12} title={this.props.title} subhead={`Programaciones realizadas: ${item.programations.length} `}>
         <div className='dashboard__stat'>
           <div className='dashboard__stat-chart'>
             <PieChart width={120} height={120}>
@@ -31,7 +30,7 @@ export default class ProgramationGroupItem extends PureComponent {
             </h4>
             <p>Comites</p>
             <h4 className='dashboard__stat-number'>
-              {committees} comites
+              x comites
             </h4>
             <div>
               <Link to={`programacion/detalle/${item.monthIndex}`}>Ver Detalle</Link>

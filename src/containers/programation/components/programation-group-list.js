@@ -4,11 +4,11 @@ import ProgramationGroupItem from './programation-group-item';
 
 export default class ProgramationGroupList extends PureComponent {
 	render() {
-		const {distributionsGroup = {}} = this.props;
+		const {programationsGroup = {}} = this.props;
 		const items = [];
-		Object.keys(distributionsGroup).forEach(item => {
-			if(distributionsGroup[item].distributions.length){
-				items.push(distributionsGroup[item])
+		Object.keys(programationsGroup).forEach(item => {
+			if(programationsGroup[item].programations.length){
+				items.push(programationsGroup[item])
 			}
 		})
 		return (
