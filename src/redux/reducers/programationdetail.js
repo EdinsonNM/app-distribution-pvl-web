@@ -1,5 +1,4 @@
 import { handleActions } from 'redux-actions';
-import { PROGRAMATIONDETAILS_LOAD_OK } from '../actions/programation-detail';
 const initialState = {
 	data: [],
 	error:{}
@@ -7,7 +6,10 @@ const initialState = {
 const reducer = handleActions({
 	PROGRAMATIONDETAILS_SAVE: (state, action) => ({
         ...state, totalSaved: 0
-    }),
+	}),
+	PROGRAMATIONDETAILS_LOAD: (action, state) => ({
+		...state, distributions: []
+	}),
 	PROGRAMATIONDETAIL_SAVE_OK: {
 		next: (state, action) => {
             let totalSaved = state.totalSaved + 1;

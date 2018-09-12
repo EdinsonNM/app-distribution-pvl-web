@@ -38,7 +38,6 @@ class ProgramationNew extends PureComponent {
 		this.setState({form: {...form, [name]: e.value}}, () => {
 			this.calculeMaxDaysFromMonth();
 			this.calculeRations();
-			debugger;
 			this.props.rationsLoad(this.props.periodDefault);
 		})
 	}

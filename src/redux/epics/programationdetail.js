@@ -59,7 +59,7 @@ class ProgramationDetailEpic{
     static loadAllDistribution = (action$) =>  action$.pipe(
 		ofType(PROGRAMATIONDETAILS_LOAD),
 		switchMap(({payload}) => {
-            let filter = {where: {programationId: payload.programationId, isDistributed: true }}
+            let filter = {where: {programationId: payload, isDistributed: true }}
 			return ProgramationDetailApi.getAll(filter).pipe(
 				map(response => programationdetailsLoadOk(response)),
 				catchError(error => of(programationdetailsLoadOk(error)))

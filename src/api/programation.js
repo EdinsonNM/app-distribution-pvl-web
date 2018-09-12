@@ -28,7 +28,7 @@ class ProgramationApi {
         return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
     static getDetails = (programationId, filter = {}) => {
-        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION}/:programationId/programationdetails`, {programationId})+ `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION}/:programationId/programationdetails`, {programationId})+ `${qs.stringify({filter}, { encodeValuesOnly: true })}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
 }

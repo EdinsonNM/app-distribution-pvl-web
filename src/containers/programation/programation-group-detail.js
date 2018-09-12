@@ -9,7 +9,7 @@ import {zonesLoad} from '../../redux/actions/zones';
 import ProgramationList from './components/programation-list';
 import ProgramationRation from './components/programationRation';
 import Panel from '../../components/Panel';
-import FormSearch from './components/formSearch';
+import FormSearchZone from './components/formSearchZone';
 import ListDistribution from './components/listDistribution';
 import {programationdetailsLoad, programationdetailsUpdatedistribution} from '../../redux/actions/programation-detail';
 import UtilColor from '../../lib/util-color';
@@ -79,7 +79,6 @@ class ProgramationGroupDetail extends PureComponent {
 		const {programation} = this.state;
 		const {distributions} = this.props;
 		let totalDistributions = this.calculeDistributions();
-		debugger;
 		return (
 			<Container className='dashboard'>
 				<Row>
@@ -92,9 +91,9 @@ class ProgramationGroupDetail extends PureComponent {
 					<Panel md="4" lg="4" title="Listado de Comites" subhead='Total de comites'  onChangeRefresh = {this.handleChangeSearch}>
 					{
 						(this.state.activeSearchZone) ?
-							<FormSearch zones={this.props.zones} handleAddZone={this.handleAddZone} />
+							<FormSearchZone zones={this.props.zones} handleAddZone={this.handleAddZone} />
 							:
-							<div>Filter by comite</div>
+							<formSearchCommittee />
 					}
 					</Panel>
 				</Row>

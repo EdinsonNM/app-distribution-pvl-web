@@ -20,7 +20,7 @@ class ProgramationDetailApi {
         return ajax.put(url, payload, HeaderRequest.getPublicRequestHeader());
     }
     static updateWhere = (payload, where) => {
-        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/update`, {}) + `?${qs.stringify({where}, {  indices: false, encodeValuesOnly: true })}`;
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/update`, {}) + `${qs.stringify({where}, {  indices: false, encodeValuesOnly: true })}`;
         return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
     static delete = (payload) => {
