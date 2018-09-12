@@ -6,7 +6,7 @@ const initialState = {
 const reducer = handleActions({
 	PERIODS_LOAD_OK: {
 		next: (state, action) => ({
-			...state, data: action.payload
+			...state, data: action.payload, periodDefault: action.payload[0].id
 		}),
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
@@ -19,7 +19,10 @@ const reducer = handleActions({
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
-	}
+	},
+	PERIOD_DEFAULT_SELECT: (state, action) => ({
+		...state, periodDefault: action.payload
+	})
 }, initialState);
 
 

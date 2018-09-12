@@ -28,10 +28,7 @@ export default class ProgramationGroupItem extends PureComponent {
             <h4 className='dashboard__stat-number'>
               {days} días
             </h4>
-            <p>Comites</p>
-            <h4 className='dashboard__stat-number'>
-              x comites
-            </h4>
+          
             <div>
               <Link to={`programacion/detalle/${item.monthIndex}`}>Ver Detalle</Link>
             </div>

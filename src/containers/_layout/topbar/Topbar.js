@@ -15,8 +15,6 @@ export default class Topbar extends PureComponent {
           <Link className='topbar__logo' to='/'/>
           <div className='topbar__right'>
             <TopbarSearch/>
-            <TopbarNotification/>
-            <TopbarMail new/>
             <TopbarProfile/>
           </div>
         </div>

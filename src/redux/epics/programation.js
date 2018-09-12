@@ -76,7 +76,7 @@ class ProgramationEpic{
 	static load = (action$) =>  action$.pipe(
 		ofType(PROGRAMATIONS_LOAD),
 		switchMap(() => {
-			return ProgramationApi.getAll({}).pipe(
+			return ProgramationApi.getAll({where: {periodId: store.getState().periods.periodDefault}}).pipe(
 				map(response => programationsLoadOk(response)),
 				catchError(error => of(programationsLoadOk(error)))
 			)

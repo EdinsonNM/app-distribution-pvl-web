@@ -8,15 +8,11 @@ import { ajax } from 'rxjs/ajax';
 
 class ProgramationApi {
 	static getAll = (filter) => {
-        let url = CustomUrl.getURL(ROUTE_PROGRAMATION, {}) + `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
+        let url = CustomUrl.getURL(ROUTE_PROGRAMATION, {}) + `${qs.stringify({filter}, { encodeValuesOnly: true })}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
 	}
 	static post = (payload) => {
         let url = CustomUrl.getURL(ROUTE_PROGRAMATION, {});
-        return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
-    }
-    static postDetail = (payload) => {
-        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION}/:programationId/programationdetails`, {programationId: payload.programationId});
         return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
     static put = (payload) => {
@@ -26,6 +22,14 @@ class ProgramationApi {
     static delete = (payload) => {
         let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION}/:id`, {id: payload});
         return ajax.delete(url,  HeaderRequest.getPublicRequestHeader());
+    }
+    static postDetail = (payload) => {
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION}/:programationId/programationdetails`, {programationId: payload.programationId});
+        return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
+    }
+    static getDetails = (programationId, filter = {}) => {
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION}/:programationId/programationdetails`, {programationId})+ `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
+        return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
 }
 export default ProgramationApi;

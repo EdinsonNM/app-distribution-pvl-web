@@ -47,9 +47,9 @@ class CommitteeEpic{
 			let filter;
 			if(payload.limit !== 0){
 				let skip = payload.page * payload.limit;
-				filter = { limit: payload.limit, skip, where: {name: {like: payload.query}}};
+				filter = { limit: payload.limit, skip, where: {name: {like: payload.query}, periodId: {like: store.getState().periods.periodDefault}}};
 			}else {
-				filter = { where: {name: {like: payload.query}}};
+				filter = { where: {name: {like: payload.query}, periodId: {like: store.getState().periods.periodDefault}}};
 			}
 			return CommitteeApi.getAll({filter}).pipe(
 				map(response => {

@@ -23,7 +23,7 @@ class FormSearch extends PureComponent {
 			</form>
 			<Table striped hover responsive>
 				<tbody>
-					{this.props.zones.slice(0,5).map((zone, index) => 
+					{this.props.zones.map((zone, index) => 
 						<tr key={index} onClick={handleAddZone(zone)} >
 							<td>{zone.name}</td>
 						</tr>

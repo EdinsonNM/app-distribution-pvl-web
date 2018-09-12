@@ -14,7 +14,7 @@ class PeriodApi{
         let url = CustomUrl.getURL(ROUTE_PERIOD, payload) + `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
-    static get = ({id}) => {
+    static get = (id) => {
         let url = CustomUrl.getURL(`${ROUTE_PERIOD}/:id`, {id});
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }

@@ -48,7 +48,7 @@ class PartnerEpic{
 		ofType(COMMITTEES_PARTNERS_LOAD),
 		switchMap(({payload}) => {
 				let skip = payload.page * 10;
-				let filter = { limit:10, skip, where: {name: {like: payload.query}}};
+				let filter = { limit:10, skip, where: {name: {like: payload.query}, periodId: store.getState().periods.periodDefault}};
 				return CommitteeApi.getAll({filter}).pipe(
 					map(response => {
 						store.dispatch(committeesPartnersLoadOk(response));

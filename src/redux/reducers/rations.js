@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 const initialState = {
-	periods: [],
+	period: {},
 	data: [],
 	error:{}
 };
@@ -10,7 +10,7 @@ const reducer = handleActions({
 	}),
 	PERIOD_RATIONS_LOAD_OK: {
 		next: (state, action) => ({
-			...state, periods: action.payload
+			...state, period: action.payload
 		}),
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
@@ -18,13 +18,11 @@ const reducer = handleActions({
 	},
 	PERIOD_RATIONS_LOAD_RATIONS_OK: {
 		next: (state, action) => {
-			let periods = action.payload.map((item, index) => ({
-				...state.periods[index],
-				rations: item
-			}));
+			let period = state.period
+			period.rations = action.payload
 			return {
 				...state,
-				periods
+				period
 			}
 		},
 		throw: (state, action) => ({

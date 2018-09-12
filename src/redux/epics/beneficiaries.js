@@ -48,7 +48,7 @@ class BeneficiaryEpic{
 		switchMap(({payload}) => {
 				let limit = 20
 				let skip = payload.page * limit;
-				let filter = { limit, skip, where: {name: {like: payload.query}}};
+				let filter = { limit, skip, where: {name: {like: payload.query}, periodId: store.getState().periods.periodDefault}};
 				return CommitteeApi.getAll({filter}).pipe(
 					map(response => {
 						store.dispatch(committeesBeneficiariesLoadOk(response));

@@ -38,7 +38,7 @@ class SidebarContent extends PureComponent {
           <SidebarLink title='Beneficiarios' icon='user' route='/pages/beneficiarios/dashboard' onClick={this.hideSidebar}/>
           <SidebarLink title='Productos' icon='store' route='/pages/productos' onClick={this.hideSidebar}/>  
           <SidebarLink title='Ingresos' icon='store' route='/pages/ingresos' onClick={this.hideSidebar}/>  
-          <SidebarLink title='Ración' icon='home' route='/pages/raciones/dashboard' onClick={this.hideSidebar}/> 
+          <SidebarLink title='Ración' icon='home' route={`/pages/raciones/periodo`} onClick={this.hideSidebar}/> 
           <SidebarLink title='Zonas de Distribución' icon='home' route='/pages/zonas' onClick={this.hideSidebar}/>
           <SidebarLink title='Programación' icon='home' route='/pages/programacion' onClick={this.hideSidebar}/> 
           
@@ -50,5 +50,7 @@ class SidebarContent extends PureComponent {
     )
   }
 }
-
-export default connect()(SidebarContent);
+const mapStateToProps = (state, ownProps) => ({
+  periodDefault: state.periods.periodDefault
+})
+export default connect(mapStateToProps)(SidebarContent);

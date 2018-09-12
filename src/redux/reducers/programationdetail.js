@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import { PROGRAMATIONDETAILS_LOAD_OK } from '../actions/programation-detail';
 const initialState = {
 	data: [],
 	error:{}
@@ -14,6 +15,14 @@ const reducer = handleActions({
                 ...state, totalSaved
             }
 		},
+		throw: (state, action) => ({
+			...state, error: {message: action.payload.message, status: action.payload.status}
+		}),
+	},
+	PROGRAMATIONDETAILS_LOAD_OK: {
+		next: (state, action) => ({
+			...state, distributions: action.payload
+		}),
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),

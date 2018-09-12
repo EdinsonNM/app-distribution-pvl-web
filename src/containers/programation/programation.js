@@ -11,6 +11,11 @@ class Programation extends PureComponent {
 	componentDidMount(){
 		this.props.programationsLoad();
 	}
+	componentDidUpdate(prevProps){
+		if(prevProps.periodDefault !== this.props.periodDefault) {
+			this.props.programationsLoad();
+		}
+	}
 	render() {
 		return (
 		<Container className='dashboard'>
@@ -33,7 +38,8 @@ class Programation extends PureComponent {
 	}
 }
 const mapStateToProps = (state, ownProps) => ({
-	programationsGroup: state.programation.programationsGroup
+	programationsGroup: state.programation.programationsGroup,
+	periodDefault: state.periods.periodDefault
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	programationsLoad

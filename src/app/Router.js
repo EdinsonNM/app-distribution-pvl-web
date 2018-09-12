@@ -54,8 +54,8 @@ const Pages = () => (
     <Route exact path='/pages/ingresos' component={Incomes}/>
     <Route exact path='/pages/ingresos/new' component={Income}/>
     <Route path='/pages/raciones/dashboard' component={Rations}/>
-    <Route exact path='/pages/raciones/periodo/:id' component={RationsList}/>
-    <Route exact path='/pages/raciones/periodo/:id/new' component={Ration}/>
+    <Route exact path='/pages/raciones/periodo' component={RationsList}/>
+    <Route exact path='/pages/raciones/periodo/new' component={Ration}/>
     <Route path='/pages/comite/:id' component={Committee}/>
     <Route path='/pages/socios/dashboard' component={Partners}/>
     <Route path='/pages/socios/lista/:id' component={PartnersList}/>

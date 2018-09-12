@@ -32,7 +32,7 @@ class Rations extends PureComponent {
 			</div>
 			</CardBody>
 			</Card>
-			<Periods periods={this.props.periods}/>
+			<Periods periods={[this.props.period]}/>
 		</Container>
 		)
 	}
@@ -40,7 +40,7 @@ class Rations extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		periods: state.rations.periods
+		period: state.rations.period
 	}
 }
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

@@ -26,7 +26,7 @@ const fnProductUnit = (value) => {
 class RationsList extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.periodId = props.match.params.id
+		this.periodId = this.props.periodDefault
 		this.heads = [
 		{
 			key: 'id',
@@ -59,7 +59,12 @@ class RationsList extends PureComponent {
 		this.onChangePage = this.onChangePage.bind(this);
 	}
 	componentDidMount() {
-	this.props.rationsLoad(this.periodId);
+		this.props.rationsLoad(this.props.periodDefault);
+	}
+	componentDidUpdate(prevProps){
+		if(this.props.periodDefault !== prevProps.periodDefault){
+			this.props.rationsLoad(this.props.periodDefault);
+		}
 	}
 	onChangePage(pageOfItems) {
 		// update state with new page of items
@@ -71,7 +76,7 @@ class RationsList extends PureComponent {
 		<Container className='dashboard'>
 			<Row>
 			<Col md={12}>
-				<h3 className='page-title'>Detalles Periodo</h3>
+				<h3 className='page-title'>Raciones del Periodo</h3>
 				<h3 className='page-subhead subhead'>
 				Asignación de productos por periodo
 				</h3>
@@ -89,7 +94,7 @@ class RationsList extends PureComponent {
 							<MagnifyIcon/>
 						</div>
 						</form>
-						<Link className='btn btn-primary products-list__btn-add' to={`${this.periodId}/new`}>Nueva ración</Link>
+						<Link className='btn btn-primary products-list__btn-add' to={`periodo/new`}>Nueva ración</Link>
 					</ButtonToolbar>
 					</div>
 					{ this.props.rations.length ? <EditTable heads={this.heads} rows={this.props.rations} enableRowSelect/> : ''}
@@ -106,6 +111,7 @@ class RationsList extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		rations: state.rations.data,
+		periodDefault: state.periods.periodDefault
 	}
 }
 

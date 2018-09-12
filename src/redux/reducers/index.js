@@ -10,6 +10,8 @@ import PeriodsReducer from './periods';
 import RationsReducer from './rations';
 import ZonesReducer from './zones';
 import ProgramationReducer from './programation';
+import ProgramationDetailReducer from './programationdetail';
+
 import IncomesReducer from './incomes';
 
 
@@ -30,5 +32,6 @@ export default combineReducers({
   rations: RationsReducer,
   zones: ZonesReducer,
   programation: ProgramationReducer,
-  incomes: IncomesReducer
+  incomes: IncomesReducer,
+  programationdetail: ProgramationDetailReducer
 });

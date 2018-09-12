@@ -31,32 +31,23 @@ class ProgramationNew extends PureComponent {
 	}
 	componentDidMount(){
 		this.props.committeesLoad('', 0, 0);
-		this.props.zonesLoad();
-		this.props.periodsLoad();
-	}
-	handleToggletab = (activeTab) => () => {
-		this.setState({ activeTab})
 	}
 
-	handleAddZone = (zone) => () => {
-		let {committees} = this.state;
-		const zoneCommittees = zone.committees || [];
-		// committees = [...committees, ...zoneCommittees];
-		committees = Array.from(new Set([...committees, ...zoneCommittees]));
-		this.props.programationCommitteesLoad(committees);
-		this.setState({committees}, () => this.calculeRations())
-	}
 	handleChangeForm = (name) => (e) => {
 		const {form} = this.state;
 		this.setState({form: {...form, [name]: e.value}}, () => {
 			this.calculeMaxDaysFromMonth();
 			this.calculeRations();
-			this.props.rationsLoad(this.state.form.period);
+			debugger;
+			this.props.rationsLoad(this.props.periodDefault);
 		})
 	}
 	componentDidUpdate(prevProps, prevState){
 		if(!CustomArray.equals(prevProps.rations, this.props.rations) ){
 			this.calculeRations();
+		}
+		if(prevProps.periodDefault !== this.props.periodDefault){
+			this.props.committeesLoad('', 0, 0);
 		}
 		if(!CustomArray.equals(prevProps.committees, this.props.committees) ){
 			let committees = this.props.committees.map(item => item.id)
@@ -65,9 +56,9 @@ class ProgramationNew extends PureComponent {
 		}
 	}
 	calculeMaxDaysFromMonth = () => {
-		const {period, month} = this.state.form;
-		if(period && month){
-			let periodoName = this.props.periods.find(p => p.id === period).name;
+		const {month} = this.state.form;
+		if(this.props.periodDefault && month){
+			let periodoName = this.props.periods.find(p => p.id === this.props.periodDefault).name;
 			let objPeriod = CustomDate.getObjectPeriod(periodoName);
 			let maxDay = CustomDate.daysInMonth(month + 1, objPeriod.year);
 			this.setState({maxDay}, () => {
@@ -115,7 +106,7 @@ class ProgramationNew extends PureComponent {
 	}
 	onSubmit  = (form) => {
 		const model = {
-			periodId: form.period.value,
+			periodId: this.props.periodDefault,
 			month: form.month.value,
 			days: form.days,
 			distributions: this.state.rationsTotales,
@@ -138,6 +129,7 @@ class ProgramationNew extends PureComponent {
 				onSubmit={this.onSubmit}
 				maxDay={this.state.maxDay}
 				periods={this.props.periods}
+				periodDefault={this.props.periodDefault}
 				handleChangeForm={this.handleChangeForm}
 				totalCommittees={this.props.committees.length}
 				beneficiariesLoaded={this.props.committeeBenefLoaded} />
@@ -153,11 +145,11 @@ class ProgramationNew extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
 	periods: state.periods.data,
-	zones: state.zones.data,
 	committees: state.committees.committees,
 	programationcommittees: state.programation.committees,
 	rations: state.rations.data,
-	committeeBenefLoaded: state.programation.committeeBenefLoaded
+	committeeBenefLoaded: state.programation.committeeBenefLoaded,
+	periodDefault: state.periods.periodDefault
 });
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	programationCommitteesLoad,

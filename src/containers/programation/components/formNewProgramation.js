@@ -23,13 +23,7 @@ class FormNewDistribution extends PureComponent {
 					<div className='form__form-group'>
 						<label className='form__form-group-label'>Periodo</label>
 						<div className='form__form-group-field'>
-						<Field
-							name='period'
-							component={renderSelectField}
-							options={periods.map(item => ({value:item.id, label: item.description}))}
-							placeholder='Número de días'
-							onChange={this.props.handleChangeForm('period')}
-						/>
+						<div>{this.props.periods.length && this.props.periods.find(p=> p.id === this.props.periodDefault).description}</div>
 						</div>
 					</div>
 						<div className='form__form-group'>

@@ -1,8 +1,12 @@
 import React, {PureComponent} from 'react';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from 'mdi-react/SearchIcon';
+import { connect } from 'react-redux';
+import { Select, MenuItem } from '@material-ui/core';
+import {bindActionCreators} from 'redux';
+import { periodDefaultSelect } from '../../../redux/actions/periods';
 
-export default class TopbarSearch extends PureComponent {
+class TopbarSearch extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {inputOpen: false};
@@ -13,16 +17,29 @@ export default class TopbarSearch extends PureComponent {
     e.preventDefault();
     this.setState({inputOpen: !this.state.inputOpen});
   }
+  handleChange = (e) => {
+    this.props.periodDefaultSelect(e.target.value);
+  }
   
   render() {
     return (
-      <form className='topbar__search material-form'>
-        <TextField
-          className={`material-form__field topbar__search-field${this.state.inputOpen ? ' topbar__search-field--open' : ''}`}/>
-        <button className='topbar__btn' onClick={this.onInputOpen}>
-          <SearchIcon/>
-        </button>
-      </form>
+        <Select native onChange={this.handleChange} value={this.props.periodDefault}>
+            {
+              this.props.periods.map(p => 
+                <option value={p.id}>{p.description}</option>
+              )
+            }
+          </Select>
+
     )
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  periodDefault: state.periods.periodDefault,
+  periods: state.periods.data
+})
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  periodDefaultSelect
+}, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(TopbarSearch);

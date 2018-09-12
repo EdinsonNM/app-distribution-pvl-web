@@ -8,7 +8,7 @@ import { ajax } from 'rxjs/ajax';
 
 class ProgramationDetailApi {
 	static getAll = (filter) => {
-        let url = CustomUrl.getURL(ROUTE_PROGRAMATION_DETAIL, {}) + `?${qs.stringify({filter}, { encodeValuesOnly: true })}`;
+        let url = CustomUrl.getURL(ROUTE_PROGRAMATION_DETAIL, {}) + `${qs.stringify({filter}, { encodeValuesOnly: true })}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
 	}
 	static post = (payload) => {
@@ -18,6 +18,10 @@ class ProgramationDetailApi {
     static put = (payload) => {
         let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/:id`, {id: payload.id});
         return ajax.put(url, payload, HeaderRequest.getPublicRequestHeader());
+    }
+    static updateWhere = (payload, where) => {
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/update`, {}) + `?${qs.stringify({where}, {  indices: false, encodeValuesOnly: true })}`;
+        return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
     static delete = (payload) => {
         let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/:id`, {id: payload});

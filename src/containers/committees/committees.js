@@ -15,6 +15,11 @@ class Committees extends PureComponent {
     this.props.committeesLoadSearch(e.target.value);;
     e.preventDefault();
   }
+  componentDidUpdate(prevProps){
+    if(this.props.periodDefault !== prevProps.periodDefault){
+      this.props.committeesLoad('', 0, 0);
+    }
+  }
   render() {
     return (
       <Container className='dashboard'>
@@ -35,7 +40,8 @@ class Committees extends PureComponent {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    committees: state.committees.committees
+    committees: state.committees.committees,
+    periodDefault: state.periods.periodDefault
   }
 }
 

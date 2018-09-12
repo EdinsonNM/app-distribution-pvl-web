@@ -12,6 +12,11 @@ class Partners extends PureComponent {
   componentDidMount(){
     this.props.committeesPartnersLoad();
   }
+  componentDidUpdate(prevProps){
+    if(this.props.periodDefault !== prevProps.periodDefault){
+      this.props.committeesPartnersLoad();
+    }
+  }
   filterSubmit = (e) => {
     this.props.committeesPartnersLoadSearch(e.target.value);
     
@@ -49,7 +54,8 @@ class Partners extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    committees: state.partners.committees
+    committees: state.partners.committees,
+    periodDefault: state.periods.periodDefault
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

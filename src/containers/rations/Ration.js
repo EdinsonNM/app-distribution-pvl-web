@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
 class Ration extends PureComponent {
 	constructor(props){
 		super(props);
-		this.periodId = props.match.params.id;
+		this.periodId = this.props.periodDefault;
 		this.state = {
 			cancel: false
 		}
@@ -36,7 +36,7 @@ class Ration extends PureComponent {
 	render() {
 		const {period = {}} = this.props;
 		if(this.state.cancel){
-			return <Redirect to={`/pages/raciones/dashboard`} />
+			return <Redirect to={`/pages/raciones/periodo/${this.periodId}`} />
 		}
 		return (
 		<Container>
@@ -57,6 +57,7 @@ class Ration extends PureComponent {
 const mapStateToProps = (state, ownProps) => ({
 	form: state.form.ration_form,
 	period: state.periods.period,
+	periodDefault: state.periods.periodDefault,
 	products: state.products.data
 })
 
