@@ -13,6 +13,7 @@ import FormSearchZone from './components/formSearchZone';
 import ListDistribution from './components/listDistribution';
 import {programationdetailsLoad, programationdetailsUpdatedistribution} from '../../redux/actions/programation-detail';
 import UtilColor from '../../lib/util-color';
+import FormSearchCommittee from './components/formSearchCommittee';
 
 class ProgramationGroupDetail extends PureComponent {
 	constructor(props){
@@ -76,7 +77,7 @@ class ProgramationGroupDetail extends PureComponent {
 		return rationsTotales;
 	}
 	renderDistribution = () => {
-		const {programation} = this.state;
+		const {programation, activeSearchZone} = this.state;
 		const {distributions} = this.props;
 		let totalDistributions = this.calculeDistributions();
 		return (
@@ -88,12 +89,12 @@ class ProgramationGroupDetail extends PureComponent {
 					<Panel md="4" lg="4" title="Total de Ración distribuida" subhead={`${programation.days} días programados`} >
 						<ProgramationRation data={totalDistributions} title={programation.month} />
 					</Panel>
-					<Panel md="4" lg="4" title="Listado de Comites" subhead='Total de comites'  onChangeRefresh = {this.handleChangeSearch}>
+					<Panel md="4" lg="4" title={activeSearchZone ? "Listado de Zonas":"Listado de Comites"} subhead='Total de comites'  onChangeRefresh = {this.handleChangeSearch}>
 					{
-						(this.state.activeSearchZone) ?
+						(activeSearchZone) ?
 							<FormSearchZone zones={this.props.zones} handleAddZone={this.handleAddZone} />
 							:
-							<formSearchCommittee />
+							<FormSearchCommittee committees={this.props.committees} />
 					}
 					</Panel>
 				</Row>

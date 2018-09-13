@@ -5,7 +5,7 @@ import {Table} from 'reactstrap';
 
 class FormSearch extends PureComponent {
 	render() {
-		const {handleAddCommittee} = this.props;
+		const {committees = [],handleAddCommittee} = this.props;
 		return(
 			<div>
 			<form className='form' onSubmit={() => {}}>
@@ -20,16 +20,18 @@ class FormSearch extends PureComponent {
 					<button className={`form__form-group-button`} ><AddIcon/></button>
 					</div>
 				</div>
-			</form>
+            </form>
+            <div style={{maxHeight: 300, overflow: 'auto'}}>
 			<Table striped hover responsive>
 				<tbody>
-					{this.props.committees.map((committee, index) => 
+					{committees.map((committee, index) => 
 						<tr key={index} onClick={handleAddCommittee(committee)} >
 							<td>{committee.name}</td>
 						</tr>
 					)}
 				</tbody>
-			</Table>
+            </Table>
+            </div>
 			</div>
 
 		)

@@ -21,6 +21,7 @@ class FormSearch extends PureComponent {
 					</div>
 				</div>
 			</form>
+			<div style={{maxHeight: 300, overflow: 'auto'}}>
 			<Table striped hover responsive>
 				<tbody>
 					{this.props.zones.map((zone, index) => 
@@ -30,6 +31,7 @@ class FormSearch extends PureComponent {
 					)}
 				</tbody>
 			</Table>
+			</div>
 			</div>
 
 		)
