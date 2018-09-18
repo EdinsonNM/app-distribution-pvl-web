@@ -28,7 +28,7 @@ class UsersEpic{
 		switchMap(({payload}) => {
 			if(payload.id){
 				AuthToken.setToken(payload);
-				document.location = '/pages/one';
+				document.location = '#/pages/one';
 			}
 			return empty();
 		})
