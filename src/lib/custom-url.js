@@ -1,5 +1,5 @@
 import AuthToken from './auth-token';
-const SERVER_URL = process.env.SERVER_URL || '/api'; // || 'http://104.211.27.152:9090/api/stark-services';
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || '/api'; // || 'http://104.211.27.152:9090/api/stark-services';
 class CustomUrl {
     static getURL = (url, params, server = true, prefix = SERVER_URL) => {
         let fullURL = server ? `${prefix}${url}` : url;

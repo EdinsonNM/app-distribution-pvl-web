@@ -8,7 +8,7 @@ import ScrollToTop from './app/ScrollToTop';
 
 render(
   <Provider store={store}>
-    <BrowserRouter basename='/pvl'>
+    <BrowserRouter >
       <ScrollToTop>
         <App/>
       </ScrollToTop>
