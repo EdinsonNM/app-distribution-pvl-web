@@ -74,7 +74,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "build-all": "chmod +x build.sh && ./build.sh"
+    "build-all": "chmod +x build.sh && ./build.sh",
+    "only-build": "chmod +x build.sh && ./only-build.sh"
   },
   "devDependencies": {
     "@types/qs": "^6.5.1",
