@@ -8,16 +8,16 @@ const Committee = ({committee, max}) => {
 	const color = UtilColor.getRandomColor();
 	const data = [{value: committee.partners, fill: color }, {value: max-committee.partners, fill: '#eeeeee'}];
 	return (
-		<Col md={12} xl={3} lg={6} sm={12} xs={12}>
-			<Card>
+		<Col xl={3} lg={4} md={6} sm={6} xs={12}>
+			<Card style={{paddingBottom: 0}}>
 			<CardBody className='dashboard__health-chart-card'>
 				<div className='card__title'>
-				<h5 className='bold-text'>{committee.name}</h5>
+				<h5 className='bold-text' style={{fontSize: 12, height: 30}}>{committee.name}</h5>
 				</div>
 				<div className='dashboard__health-chart'>
-				<ResponsiveContainer height={180}>
+				<ResponsiveContainer height={150}>
 					<PieChart>
-					<Pie data={data} dataKey='value' cy={85} innerRadius={80} outerRadius={90}/>
+					<Pie data={data} dataKey='value' cy={75} innerRadius={60} outerRadius={70}/>
 					</PieChart>
 				</ResponsiveContainer>
 				<div className='dashboard__health-chart-info'>

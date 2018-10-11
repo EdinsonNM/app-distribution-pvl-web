@@ -19,6 +19,7 @@ class Partners extends PureComponent {
   }
   filterSubmit = (e) => {
     this.props.committeesPartnersLoadSearch(e.target.value);
+    e.preventDefault();
     
   }
   render() {
@@ -26,9 +27,9 @@ class Partners extends PureComponent {
       <Container className='dashboard'>
         <Row>
           <Col md={12}>
-            <h3 className='page-title'>Dashboard Socios</h3>
+            <h3 className='page-title'>Socios por Comite</h3>
             <h3 className='page-subhead subhead'>
-              Listado de socios por comite
+              Seleccione un comite y a continuación en <a href="/socios/dashboard">Ver socios</a> para visualizar el listado de socios vinculados
             </h3>
           </Col>
         </Row>

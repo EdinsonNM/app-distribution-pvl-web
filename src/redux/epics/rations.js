@@ -2,7 +2,7 @@ import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
 import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
-import { of, forkJoin } from 'rxjs';
+import { of, forkJoin, empty } from 'rxjs';
 
 import store from '../../app/store';
 import {
@@ -16,7 +16,8 @@ import {
     rationsLoadOk,
 	periodRationsLoadRationsOk,
 	rationSaveOk,
-    RATION_SAVE
+    RATION_SAVE, 
+	RATION_SAVE_OK
 } from '../actions/rations';
 import PeriodApi from '../../api/period';
 import RationApi from '../../api/ration';
@@ -90,6 +91,15 @@ class RationsEpic{
 			catchError(error => of(rationSaveOk(error)))
 		))
 	);
+	static rationsSaveOk= (action$) =>  action$.pipe(
+		ofType(RATION_SAVE_OK),
+		switchMap(({payload}) => {
+			if(payload.id){
+				document.location = '#/pages/raciones/periodo';
+			}
+			return empty();
+		})
+	);
 }
 export default function RationsEpics (action$, store, deps){
 	return Observable.merge(
@@ -99,5 +109,6 @@ export default function RationsEpics (action$, store, deps){
 		RationsEpic.PeriodsChangePageBack(action$, store, deps),
 		RationsEpic.PeriodsWithRationsLoad(action$, store, deps),
 		RationsEpic.rationsSave(action$, store, deps),
+		RationsEpic.rationsSaveOk(action$, store, deps),
 	);
 }

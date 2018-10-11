@@ -2,12 +2,10 @@ import React, {PureComponent} from 'react';
 import { ButtonToolbar, Card, CardBody, Col, Row, Container } from 'reactstrap';
 import EditTable from '../../components/table/EditableTable';
 import Pagination from '../../components/Pagination';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
-import {partnersLoad} from '../../redux/actions/partners';
-import withRouter from '../committees/committees';
+import { partnersLoad, partnersLoadSearch } from '../../redux/actions/partners';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -18,24 +16,18 @@ class PartnersList extends PureComponent {
     this.committeeId = props.match.params.id
     this.heads = [
       {
-        key: 'id',
-        name: 'ID',
-        width: 80,
-        sortable: true
-      },
-      {
         key: 'names',
-        name: 'Names',
+        name: 'Nombres',
         sortable: true
       },
       {
         key: 'firstsurname',
-        name: 'Names',
+        name: 'A. Paterno',
         sortable: true
       },
       {
         key: 'lastsurname',
-        name: 'Names',
+        name: 'A. Materno',
         sortable: true
       },
     ];
@@ -46,13 +38,16 @@ class PartnersList extends PureComponent {
     this.onChangePage = this.onChangePage.bind(this);
   }
   componentDidMount() {
-   this.props.partnersLoad(this.committeeId);
+    this.props.partnersLoadSearch(this.committeeId);
   }
   onChangePage(pageOfItems) {
     // update state with new page of items
     this.setState({pageOfItems: pageOfItems});
   }
-  
+  filterSearch = (e) => {
+    this.props.partnersLoadSearch(this.committeeId, e.target.value);;
+    e.preventDefault();
+  }
   render() {
     return (
       <Container className='dashboard'>
@@ -70,13 +65,14 @@ class PartnersList extends PureComponent {
               <CardBody className='products-list'>
                 <div className='card__title'>
                   <ButtonToolbar className='products-list__btn-toolbar-top'>
-                    <form className='form'>
+                    <div className='form'>
+                    
                       <div className='form__form-group products-list__search'>
-                        <input placeholder='Search...' name='search'/>
+                        <input placeholder='Search...' name='search'onChange={this.filterSearch}/>
                         <MagnifyIcon/>
                       </div>
-                    </form>
-                    <Link className='btn btn-primary products-list__btn-add' to='/e-commerce/product_edit'>Nuevo Comite</Link>
+                    </div>
+                    <Link className='btn btn-primary products-list__btn-add' to='/e-commerce/product_edit'>Nuevo Socio</Link>
                   </ButtonToolbar>
                 </div>
                 { this.props.partners && <EditTable heads={this.heads} rows={this.props.partners} enableRowSelect/>}
@@ -97,6 +93,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-  partnersLoad
+  partnersLoad,
+  partnersLoadSearch
 }, dispatch);
 export default (connect(mapStateToProps, mapDispatchToProps)(PartnersList)); 

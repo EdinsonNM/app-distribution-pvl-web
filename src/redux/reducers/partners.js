@@ -38,6 +38,14 @@ const reducer = handleActions({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
 	},
+	PARTNERS_LOAD_COUNT_OK: {
+		next: (state, action) => ({
+			...state, totalPartners: action.payload
+		}),
+		throw: (state, action) => ({
+			...state, error: {message: action.payload.message, status: action.payload.status}
+		}),
+	},
 }, initialState);
 
 

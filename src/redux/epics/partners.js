@@ -2,7 +2,7 @@ import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
 import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
-import { of, forkJoin } from 'rxjs';
+import { of, forkJoin, concat } from 'rxjs';
 import {
     COMMITTEES_PARTNERS_LOAD,
     committeesPartnersLoadOk,
@@ -11,8 +11,11 @@ import {
     COMMITTEES_PARTNERS_LOAD_PAGENEXT,
     COMMITTEES_PARTNERS_LOAD_PAGEBACK,
     committeesPartnersLoad,
-    PARTNERS_LOAD,
-	partnersLoadOk
+	PARTNERS_LOAD,
+	partnersLoad,
+	partnersLoadOk, 
+	partnersLoadCountOk,
+	PARTNERS_LOAD_SEARCH
 } from '../actions/partners';
 import store from '../../app/store';
 import PartnerApi from '../../api/partner';
@@ -55,19 +58,39 @@ class PartnerEpic{
 						return response;
 					}),
 					mergeMap(response => forkJoin(
-						...response.map(c => CommitteeApi.getPartnersCount({id: c.id}).pipe(map(response => response))
+						...response.map(c => CommitteeApi.getPartnersCount(c.id).pipe(map(response => response))
 					))),
 					map(response => committeesPartnersLoadCountOk(response)),
 					catchError(error => of(committeesPartnersLoadOk(error)))
 				);
 		})
 	);
+	static partnersLoadSearch = (action$) =>  action$.pipe(
+		ofType(PARTNERS_LOAD_SEARCH),
+		debounceTime(1000),
+		switchMap(({payload}) => {
+			return of(partnersLoad(payload.id, 0, payload.query, payload.column))
+		})
+	);
 	static partnersLoad = (action$) =>  action$.pipe(
 		ofType(PARTNERS_LOAD),
-		switchMap(({payload}) => CommitteeApi.getPartners({id: payload}).pipe(
-			map(response => partnersLoadOk(response)),
-			catchError(error => of(partnersLoadOk(error)))
-		))
+		switchMap(({payload}) => {
+			let skip = payload.page * 10;
+			let filter = { limit:10, skip, where: {[payload.column]: {like: payload.query}}};
+			let partners = CommitteeApi.getPartners(payload.id, filter).pipe(
+				map(response => partnersLoadOk(response)),
+				catchError(error => of(partnersLoadOk(error)))
+				);
+			let total = CommitteeApi.getPartnersCount(payload.id, {where: {[payload.column]: {like: payload.query}}}).pipe(
+				map(response => partnersLoadCountOk(response)),
+				catchError(error => of(partnersLoadCountOk(error)))
+			)
+			return concat(
+				partners,
+				total
+			)
+
+		})
 	);
 }
 export default function PartnerEpics (action$, store, deps){
@@ -77,5 +100,6 @@ export default function PartnerEpics (action$, store, deps){
 		PartnerEpic.CommitteesChangePageNext(action$, store, deps),
 		PartnerEpic.CommitteesChangePageBack(action$, store, deps),
 		PartnerEpic.partnersLoad(action$, store, deps),
+		PartnerEpic.partnersLoadSearch(action$, store, deps),
 	);
 }

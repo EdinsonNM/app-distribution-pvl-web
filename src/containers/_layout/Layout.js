@@ -7,6 +7,7 @@ import { urbancoreLoad } from '../../redux/actions/urbancore';
 import { productsLoad } from '../../redux/actions/products';
 import { addresstypeLoad } from '../../redux/actions/addresstype';
 import { periodsLoad } from '../../redux/actions/periods';
+import { ToastContainer } from 'react-toastify';
 
 class Layout extends PureComponent {
   componentDidMount(){
@@ -20,6 +21,7 @@ class Layout extends PureComponent {
       <div>
         <Topbar/>
         <Sidebar/>
+        <ToastContainer />
       </div>
     )
   }

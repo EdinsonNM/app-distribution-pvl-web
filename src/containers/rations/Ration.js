@@ -36,7 +36,7 @@ class Ration extends PureComponent {
 	render() {
 		const {period = {}} = this.props;
 		if(this.state.cancel){
-			return <Redirect to={`/pages/raciones/periodo/${this.periodId}`} />
+			return <Redirect to={`/pages/raciones/periodo`} />
 		}
 		return (
 		<Container>

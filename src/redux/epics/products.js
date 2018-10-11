@@ -39,7 +39,7 @@ class ProductsEpic{
 	static saveOk = (action$) =>  action$.pipe(
 		ofType(PRODUCT_SAVE_OK),
 		switchMap(() => {
-			document.location = '/pages/productos';
+			document.location = '#/pages/productos';
 			return empty();
 		})
 	);
@@ -67,7 +67,7 @@ class ProductsEpic{
 		ofType(PRODUCT_UPDATE_OK),
 		switchMap(({payload}) => {
 			if(payload.id){
-				document.location = '/pages/productos';
+				document.location = '#/pages/productos';
 			}
 			return empty();
 		})

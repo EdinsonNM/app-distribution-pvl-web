@@ -2,6 +2,8 @@ import { Observable } from 'rxjs-compat';
 import { switchMap, catchError, map, mergeMap, tap, finalize } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { of, concat, forkJoin, empty, from } from 'rxjs';
+import { toast } from 'react-toastify';
+
 import {
 	programationCommitteesLoadOk,
     programationLoadBeneficiariesCount,
@@ -51,7 +53,7 @@ class ProgramationEpic{
 	static PartnersCount= (action$) =>  action$.pipe(
 		ofType(PROGRAMATION_LOAD_PARTNERS_COUNT),
 		mergeMap(({payload}) => {
-			return CommitteeApi.getPartnersCount(payload).pipe(
+			return CommitteeApi.getPartnersCount(payload.id).pipe(
 				map(response => programationLoadPartnersCountOk(payload.id, response.count))
 			)
 	}))
@@ -69,7 +71,10 @@ class ProgramationEpic{
 	static saveOk = (action$) =>  action$.pipe(
 		ofType(PROGRAMATION_SAVE_OK),
 		switchMap(({payload}) => {
-			// document.location = '/pages/programacion';
+			toast("Programación registrada satosfactoriamente!", {
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
+			document.location = '#/pages/programacion';
 			return empty();
 		})
 	);

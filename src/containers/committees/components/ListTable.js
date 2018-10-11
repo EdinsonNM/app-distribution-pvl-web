@@ -12,42 +12,29 @@ export default class ListTable extends PureComponent {
   constructor(props) {
     super(props);
     this.heads = [
-      {
-        key: 'id',
-        name: 'ID',
-        width: 80,
-        sortable: true
-      },
+
       {
         key: 'name',
         name: 'Nombre',
         sortable: true
       },
       {
-        key: 'urbancoreType',
-        name: 'urbancoreType',
-        sortable: true,
-      },
-      {
-        key: 'urbancoreName',
-        name: 'urbancoreName',
+        key: 'populatedCenterName',
+        name: 'Centro Poblado',
         sortable: true,
       },
       {
         key: 'populatedCenterType',
-        name: 'populatedCenterType',
+        name: 'Tipo Zona',
         sortable: true,
       },
+
       {
-        key: 'populatedCenterName',
-        name: 'populatedCenterName',
+        key: 'urbancoreName',
+        name: 'Núcleo urbano',
         sortable: true,
       },
-      {
-        key: 'addresstype',
-        name: 'addresstype',
-        sortable: true,
-      }
+      
     ];
     
     this.state = {
@@ -69,12 +56,12 @@ export default class ListTable extends PureComponent {
           <CardBody className='products-list'>
             <div className='card__title'>
               <ButtonToolbar className='products-list__btn-toolbar-top'>
-                <form className='form'>
+                <div className='form'>
                   <div className='form__form-group products-list__search'>
                     <input placeholder='Search...' name='search' onChange={this.props.handleSearch}/>
                     <MagnifyIcon/>
                   </div>
-                </form>
+                </div>
                 <Link className='btn btn-primary products-list__btn-add' to='/pages/comite/new'>Nuevo Comite</Link>
               </ButtonToolbar>
             </div>

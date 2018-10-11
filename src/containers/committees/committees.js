@@ -12,7 +12,8 @@ class Committees extends PureComponent {
     this.props.committeesLoad('', 0, 0);
   }
   filterSearch = (e) => {
-    this.props.committeesLoadSearch(e.target.value);;
+    debugger;
+    this.props.committeesLoadSearch(e.target.value);
     e.preventDefault();
   }
   componentDidUpdate(prevProps){

@@ -19,14 +19,16 @@ class CommitteeApi{
         let url = CustomUrl.getURL(`${ROUTE_COMMITTEE}/:id`, {id});
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
-    static getPartnersCount = (payload) => {
-        let url = CustomUrl.getURL(ROUTE_COMMITTEE_PARTNERS_COUNT, payload);
+    static getPartnersCount = (id, filter) => {
+        let filterString = (filter) ? `${qs.stringify({filter}, { encodeValuesOnly: true })}` : '';
+        let url = CustomUrl.getURL(ROUTE_COMMITTEE_PARTNERS_COUNT, {id}) + filterString;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
-    static getPartners = (payload) => {
-        let url = CustomUrl.getURL(ROUTE_COMMITTEE_PARTNERS, payload);
+    static getPartners = (id, filter) => {
+        let url = CustomUrl.getURL(ROUTE_COMMITTEE_PARTNERS, {id})+ `${qs.stringify({filter}, { encodeValuesOnly: true })}`;;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
+    
 
     static getBeneficiariesCount = (payload) => {
         let url = CustomUrl.getURL(ROUTE_COMMITTEE_BENEFICIARIES_COUNT, payload);
