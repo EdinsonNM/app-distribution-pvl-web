@@ -7,6 +7,8 @@ export const ROUTE_PERIOD_RATIONS_COUNT='/periods/:id/rations/count';
 export const ROUTE_PERIOD_RATIONS='/periods/:id/rations';
 
 export const ROUTE_COMMITTEE='/committees';
+export const ROUTE_COMMITTEE_COUNT='/committees/count';
+
 export const ROUTE_COMMITTEE_PARTNERS_COUNT='/committees/:id/partners/count';
 export const ROUTE_COMMITTEE_PARTNERS='/committees/:id/partners';
 export const ROUTE_COMMITTEE_BENEFICIARIES_COUNT='/committees/:id/beneficiaries/count';

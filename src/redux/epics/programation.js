@@ -45,7 +45,7 @@ class ProgramationEpic{
 	static BeneficiariesCount= (action$) =>  action$.pipe(
 		ofType(PROGRAMATION_LOAD_BENEFICIARIES_COUNT),
 		mergeMap(({payload}) => {
-			return CommitteeApi.getBeneficiariesCount(payload).pipe(
+			return CommitteeApi.getBeneficiariesCount(payload.id).pipe(
 				map(response => programationLoadBeneficiariesCountOk(payload.id, response.count))
 			)
 		}))

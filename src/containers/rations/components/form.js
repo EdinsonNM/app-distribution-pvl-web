@@ -27,7 +27,7 @@ class Form extends PureComponent {
 			<CardBody>
 				<div className='card__title'>
 				<h5 className='bold-text'>Datos Ración</h5>
-				<h5 className='subhead'>Complete toda la información para realizar el registro de un comité</h5>
+				<h5 className='subhead'>Complete toda la información para realizar el registro de una ración</h5>
 				</div>
 				<form className='form form--horizontal' onSubmit={handleSubmit}>
 				

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
-import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
+import { switchMap, catchError, map, mergeMap, debounceTime, tap } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { of, forkJoin, empty } from 'rxjs';
 
@@ -17,7 +17,11 @@ import {
 	periodRationsLoadRationsOk,
 	rationSaveOk,
     RATION_SAVE, 
-	RATION_SAVE_OK
+	RATION_SAVE_OK, 
+	RATIONS_DELETE, 
+	RATIONS_DELETE_OK,
+	rationsDeleteOk,
+	rationsLoad
 } from '../actions/rations';
 import PeriodApi from '../../api/period';
 import RationApi from '../../api/ration';
@@ -87,6 +91,7 @@ class RationsEpic{
 	static rationsSave= (action$) =>  action$.pipe(
 		ofType(RATION_SAVE),
 		switchMap(({payload}) => RationApi.post(payload).pipe(
+			tap(() => store.dispatch(rationsLoad(store.getState().periods.periodDefault))),
 			map(response => rationSaveOk(response.response)),
 			catchError(error => of(rationSaveOk(error)))
 		))
@@ -96,6 +101,23 @@ class RationsEpic{
 		switchMap(({payload}) => {
 			if(payload.id){
 				document.location = '#/pages/raciones/periodo';
+			}
+			return empty();
+		})
+	);
+	static rationsDelete= (action$) =>  action$.pipe(
+		ofType(RATIONS_DELETE),
+		switchMap(({payload}) => RationApi.delete(payload).pipe(
+			tap(() => store.dispatch(rationsLoad(store.getState().periods.periodDefault))),
+			map(response => rationsDeleteOk(response.response)),
+			catchError(error => of(rationsDeleteOk(error)))
+		))
+	);
+	static rationsDeleteOk= (action$) =>  action$.pipe(
+		ofType(RATIONS_DELETE_OK),
+		switchMap(({payload}) => {
+			if(payload.count > 0){
+				
 			}
 			return empty();
 		})
@@ -110,5 +132,7 @@ export default function RationsEpics (action$, store, deps){
 		RationsEpic.PeriodsWithRationsLoad(action$, store, deps),
 		RationsEpic.rationsSave(action$, store, deps),
 		RationsEpic.rationsSaveOk(action$, store, deps),
+		RationsEpic.rationsDelete(action$, store, deps),
+		RationsEpic.rationsDeleteOk(action$, store, deps),
 	);
 }

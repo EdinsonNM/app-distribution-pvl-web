@@ -5,7 +5,7 @@ import {Provider} from 'react-redux'
 import {HashRouter} from 'react-router-dom';
 import store from './app/store';
 import ScrollToTop from './app/ScrollToTop';
-
+import 'react-toastify/dist/ReactToastify.css';
 render(
   <Provider store={store}>
     <HashRouter >

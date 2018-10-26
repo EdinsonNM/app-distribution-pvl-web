@@ -1,7 +1,9 @@
 import React, {PureComponent} from 'react';
 import { Table, Button, ButtonToolbar } from 'reactstrap';
 import { MagnifyIcon } from 'mdi-react';
+import { Link } from 'react-router-dom';
 import {UNIT_MEASURENMENT_ABREV} from '../../../contants/unit_of _measurement';
+import ProgramationDetailApi from '../../../api/programaciondetail';
 
 export default class ListDistribution extends PureComponent{
     render(){
@@ -37,7 +39,15 @@ export default class ListDistribution extends PureComponent{
                                 <td>{r.totalRation} <span dangerouslySetInnerHTML={{__html: UNIT_MEASURENMENT_ABREV[r.unitOfMeasure]}}></span></td>
                             )
                         }
-                        <td><Button size="sm">Confirmar</Button></td>
+                        <td>
+                        {
+                            (programation.withActa)?
+                            <a target="blank" href={ProgramationDetailApi.download(programation.id)} download>Imprimir</a>
+                            :
+                            <Button size="sm" onClick={() => this.props.programationdetailConfirmDistribution(programation.programationId,programation.id) }>Confirmar</Button>
+
+                        }
+                        </td>
                         </tr>
                     )
                 }

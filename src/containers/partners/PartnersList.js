@@ -8,6 +8,7 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
 import { partnersLoad, partnersLoadSearch } from '../../redux/actions/partners';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import CustomArray from '../../lib/custom-array';
 
 class PartnersList extends PureComponent {
   
@@ -36,17 +37,24 @@ class PartnersList extends PureComponent {
       pageOfItems: []
     };
     this.onChangePage = this.onChangePage.bind(this);
+    this.limit = 10;
   }
   componentDidMount() {
     this.props.partnersLoadSearch(this.committeeId);
   }
   onChangePage(pageOfItems) {
-    // update state with new page of items
-    this.setState({pageOfItems: pageOfItems});
+    //debugger;
+    this.setState({rows: pageOfItems});
   }
   filterSearch = (e) => {
     this.props.partnersLoadSearch(this.committeeId, e.target.value);;
     e.preventDefault();
+  }
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(!CustomArray.equals(this.props.partners, prevProps.partners)){
+      let rows = this.props.partners.slice(0, this.limit);
+      this.setState({rows});
+    }
   }
   render() {
     return (
@@ -75,8 +83,8 @@ class PartnersList extends PureComponent {
                     <Link className='btn btn-primary products-list__btn-add' to='/e-commerce/product_edit'>Nuevo Socio</Link>
                   </ButtonToolbar>
                 </div>
-                { this.props.partners && <EditTable heads={this.heads} rows={this.props.partners} enableRowSelect/>}
-                { this.props.partners && <Pagination items={this.props.partners} onChangePage={this.onChangePage}/>}
+                <EditTable heads={this.heads} rows={this.state.rows} enableRowSelect/>
+                { this.props.partners.length && <Pagination limit={this.limit} items={this.props.partners} onChangePage={this.onChangePage} initialPage={1}/>}
               </CardBody>
             </Card>
           </Col>

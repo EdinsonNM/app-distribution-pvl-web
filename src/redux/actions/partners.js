@@ -4,6 +4,8 @@ import {createActions} from 'redux-actions';
 export const COMMITTEES_PARTNERS_LOAD = 'COMMITTEES_PARTNERS_LOAD';
 export const COMMITTEES_PARTNERS_LOAD_OK = 'COMMITTEES_PARTNERS_LOAD_OK';
 export const COMMITTEES_PARTNERS_LOAD_COUNT_OK = 'COMMITTEES_PARTNERS_LOAD_COUNT_OK';
+export const COMMITTEES_PARTNERS_TOTAL_COUNT_OK = 'COMMITTEES_PARTNERS_TOTAL_COUNT_OK';
+
 export const PARTNERS_LOAD = 'PARTNERS_LOAD';
 export const PARTNERS_LOAD_OK = 'PARTNERS_LOAD_OK';
 export const PARTNERS_LOAD_SEARCH = 'PARTNERS_LOAD_SEARCH';
@@ -28,7 +30,8 @@ const actionsCreator = createActions(
 	COMMITTEES_PARTNERS_LOAD_OK,
 	COMMITTEES_PARTNERS_LOAD_COUNT_OK,
 	PARTNERS_LOAD_OK,
-	PARTNERS_LOAD_COUNT_OK
+	PARTNERS_LOAD_COUNT_OK,
+	COMMITTEES_PARTNERS_TOTAL_COUNT_OK
 	);
 export const {
 	committeesPartnersLoad,
@@ -38,5 +41,8 @@ export const {
 	partnersLoadOk,
 	committeesPartnersLoadCountOk,
 	committeesPartnersLoadSearch,
-	partnersLoadCountOk
+	partnersLoadCountOk,
+	committeesPartnersTotalCountOk,
+	committeesPartnersLoadPagenext,
+	committeesPartnersLoadPageback
 } = actionsCreator;

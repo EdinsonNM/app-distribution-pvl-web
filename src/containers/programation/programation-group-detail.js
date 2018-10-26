@@ -11,16 +11,18 @@ import ProgramationRation from './components/programationRation';
 import Panel from '../../components/Panel';
 import FormSearchZone from './components/formSearchZone';
 import ListDistribution from './components/listDistribution';
-import {programationdetailsLoad, programationdetailsUpdatedistribution} from '../../redux/actions/programation-detail';
+import {programationdetailsLoad, programationdetailsUpdatedistribution, programationdetailConfirmDistribution} from '../../redux/actions/programation-detail';
 import UtilColor from '../../lib/util-color';
 import FormSearchCommittee from './components/formSearchCommittee';
+import { committeesLoadSearch } from '../../redux/actions/committees';
 
+const myColors = UtilColor.getArrayColors();
 class ProgramationGroupDetail extends PureComponent {
 	constructor(props){
 		super(props);
 		this.month = props.match.params.month
 		this.state = {
-			activeSearchZone: true,
+			activeSearchZone: false,
 			committees: [],
 			showListDistribution: false
 		}
@@ -38,9 +40,13 @@ class ProgramationGroupDetail extends PureComponent {
 		let {committees, programation} = this.state;
 		const zoneCommittees = zone.committees || [];
 		committees = Array.from(new Set([...committees, ...zoneCommittees]));
-		//this.props.programationCommitteesLoad(committees);
 		this.props.programationdetailsUpdatedistribution(programation.id, committees)
-		//this.setState({committees})
+	}
+	handleAddCommittee = (committee) => () => {
+		let {committees, programation} = this.state;
+		committees = Array.from(new Set([...committees, committee.id]));
+		this.props.programationdetailsUpdatedistribution(programation.id, committees)
+		
 	}
 	handleChangeSearch = (status) => {
 		let {activeSearchZone} = this.state;
@@ -71,7 +77,7 @@ class ProgramationGroupDetail extends PureComponent {
 					name: ration.productName,
 				},
 				unitOfMeasure: ration.unitOfMeasure,
-				fill: UtilColor.getRandomColor()
+				fill: myColors[index]
 			}
 		})
 		return rationsTotales;
@@ -94,17 +100,16 @@ class ProgramationGroupDetail extends PureComponent {
 						(activeSearchZone) ?
 							<FormSearchZone zones={this.props.zones} handleAddZone={this.handleAddZone} />
 							:
-							<FormSearchCommittee committees={this.props.committees} />
+							<FormSearchCommittee committees={this.props.committees} search={this.props.committeesLoadSearch} handleAddCommittee={this.handleAddCommittee}/>
 					}
 					</Panel>
 				</Row>
 				<Row>
 					<Panel md="12" lg="12" title="Listado de Comites Distribuidos" subhead='Total de comites' >
-						<ListDistribution committees={this.state.committees} distributions={distributions}/>
+						<ListDistribution committees={this.state.committees} distributions={distributions}
+						programationdetailConfirmDistribution={this.props.programationdetailConfirmDistribution}/>
 					</Panel>
-					<Panel md="12" lg="12" title="Listado de Comites Distribuidos con acta" subhead='Total de comites' >
-						<ListDistribution committees={this.state.committees} distributions={distributions}/>
-					</Panel>
+					
 				</Row>
 			</Container>
 		)
@@ -129,6 +134,7 @@ class ProgramationGroupDetail extends PureComponent {
 						<ProgramationList
 							handleAddDistribution={this.handleAddDistribution}
 							programations={this.props.programationsGroup[this.month].programations}
+							
 						/>
 					}
 				</Row>
@@ -141,14 +147,17 @@ class ProgramationGroupDetail extends PureComponent {
 	}
 }
 const mapStateToProps = (state, ownProps) => ({
+	committees: state.committees.committees,
 	programationsGroup: state.programation.programationsGroup,
 	zones: state.zones.data,
 	distributions: state.programationdetail.distributions
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
+	committeesLoadSearch,
 	programationsLoad,
 	zonesLoad,
 	programationdetailsUpdatedistribution,
-	programationdetailsLoad
+	programationdetailsLoad,
+	programationdetailConfirmDistribution
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(ProgramationGroupDetail);

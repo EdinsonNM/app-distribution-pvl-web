@@ -12,10 +12,10 @@ const reducer = handleActions({
 	}),
 	PROGRAMATIONDETAIL_SAVE_OK: {
 		next: (state, action) => {
-            let totalSaved = state.totalSaved + 1;
-			return {
-                ...state, totalSaved
-            }
+		let totalSaved = state.totalSaved + 1;
+		return {
+			...state, totalSaved
+		}
 		},
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
@@ -28,7 +28,18 @@ const reducer = handleActions({
 		throw: (state, action) => ({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
-	}
+	},
+	PROGRAMATIONDETAIL_TOTAL_FOR_SAVE: (state, action) => ({
+        ...state, totalForSave: action.payload
+	}),
+	/*PROGRAMATIONDETAIL_COMNFIRM_DISTRIBUTION_OK: {
+		next: (state, action) => ({
+			...state, distributions: action.payload
+		}),
+		throw: (state, action) => ({
+			...state, error: {message: action.payload.message, status: action.payload.status}
+		}),
+	},*/
 }, initialState);
 
 

@@ -7,5 +7,8 @@ class UtilColor{
 		}
 		return color;
 	}
+	static getArrayColors(){
+		return [1,2,3,4,5,6,7,8,9].map(() => UtilColor.getRandomColor())	
+	}
 }
 export default UtilColor;

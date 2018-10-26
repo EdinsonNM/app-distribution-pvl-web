@@ -3,7 +3,6 @@ import {
     Container,
     Col,
     Row,
-    Progress
 } from 'reactstrap';
 import Panel from '../../components/Panel';
 import FormNewDistribution from './components/formNewProgramation';
@@ -27,7 +26,8 @@ class ProgramationNew extends PureComponent {
 		form:{},
 		maxDay: 31,
 		percentege: 0,
-		programations: []
+		programations: [],
+		disableForm: false
 	}
 	componentDidMount(){
 		this.props.committeesLoad('', 0, 0);
@@ -110,6 +110,7 @@ class ProgramationNew extends PureComponent {
 			days: form.days,
 			distributions: this.state.rationsTotales,
 		}
+		this.setState({disableForm: true})
 		this.props.programationSave(model, this.state.programations);
 	}
 	render(){
@@ -131,7 +132,9 @@ class ProgramationNew extends PureComponent {
 				periodDefault={this.props.periodDefault}
 				handleChangeForm={this.handleChangeForm}
 				totalCommittees={this.props.committees.length}
-				beneficiariesLoaded={this.props.committeeBenefLoaded} />
+				beneficiariesLoaded={this.props.committeeBenefLoaded}
+				disableForm={this.state.disableForm}
+				/>
 				
 				<Panel md="8" lg="8" title="Total de Ración programada" subhead={`Programación para ${this.state.committees.length} comites`} >
 					<DistributionRation data={this.state.rationsTotales}  />
@@ -148,7 +151,9 @@ const mapStateToProps = (state, ownProps) => ({
 	programationcommittees: state.programation.committees,
 	rations: state.rations.data,
 	committeeBenefLoaded: state.programation.committeeBenefLoaded,
-	periodDefault: state.periods.periodDefault
+	periodDefault: state.periods.periodDefault,
+	totalForSave: state.programationdetail.totalSaved,
+	totalSaved: state.programationdetail.totalSaved
 });
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	programationCommitteesLoad,

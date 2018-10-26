@@ -13,7 +13,7 @@ class Committees extends PureComponent {
   }
   filterSearch = (e) => {
     debugger;
-    this.props.committeesLoadSearch(e.target.value);
+    this.props.committeesLoad(e.target.value, 0, 0);
     e.preventDefault();
   }
   componentDidUpdate(prevProps){

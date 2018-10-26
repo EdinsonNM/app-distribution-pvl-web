@@ -27,5 +27,12 @@ class ProgramationDetailApi {
         let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/:id`, {id: payload});
         return ajax.delete(url,  HeaderRequest.getPublicRequestHeader());
     }
+    static confirmDistribution = (id) => {
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/confirmdistribution/:id`, {id});
+        return ajax.put(url, {},  HeaderRequest.getPublicRequestHeader());
+    }
+    static download = (id) => {
+        return CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/download/:id`, {id});
+    }
 }
 export default ProgramationDetailApi;

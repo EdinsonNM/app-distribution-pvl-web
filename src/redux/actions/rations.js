@@ -12,6 +12,9 @@ export const PERIOD_RATIONS_LOAD_PAGENEXT = 'PERIOD_RATIONS_LOAD_PAGENEXT';
 export const RATION_SAVE = 'RATION_SAVE';
 export const RATION_SAVE_OK = 'RATION_SAVE_OK';
 
+export const RATIONS_DELETE = 'RATIONS_DELETE';
+export const RATIONS_DELETE_OK = 'RATIONS_DELETE_OK';
+
 
 const actionsCreator = createActions(
 	{
@@ -25,7 +28,9 @@ const actionsCreator = createActions(
 	RATIONS_LOAD,
 	RATIONS_LOAD_OK,
 	RATION_SAVE,
-	RATION_SAVE_OK
+	RATION_SAVE_OK,
+	RATIONS_DELETE,
+	RATIONS_DELETE_OK
 );
 export const {
 	periodRationsLoad,
@@ -35,5 +40,7 @@ export const {
 	periodRationsLoadRationsOk,
 	periodRationsLoadSearch,
 	rationSave,
-	rationSaveOk
+	rationSaveOk,
+	rationsDelete,
+	rationsDeleteOk
 } = actionsCreator;

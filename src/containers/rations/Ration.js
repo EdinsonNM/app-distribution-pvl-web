@@ -42,8 +42,7 @@ class Ration extends PureComponent {
 		<Container>
 			<Row>
 			<Col md={12}>
-				<h3 className='page-title'>PERIODO</h3>
-				<h3 className='page-subhead subhead'>{period.description}</h3>
+				<h3 className='page-title'>Nueva Ración</h3>
 			</Col>
 			</Row>
 			<Row>

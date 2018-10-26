@@ -5,11 +5,13 @@ import Pagination from '../../components/Pagination';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
-import {rationsLoad} from '../../redux/actions/rations';
+import {rationsLoad, rationsDelete} from '../../redux/actions/rations';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {UNIT_MEASURENMENT} from '../../contants/unit_of _measurement';
 import store from '../../app/store';
+import { Button } from '@material-ui/core';
+import { AddIcon, TrashIcon, RemoveIcon, DeleteIcon } from 'mdi-react';
 
 const fnProduct = (value) => {
 	const products = store.getState().products.data;
@@ -23,6 +25,10 @@ const fnProductUnit = (value) => {
 	return <div>{UNIT_MEASURENMENT[product.unitOfMeasureConversion]}</div>
 	
 }
+const fnRemove = (value) => {
+	const deleteItem = () => store.dispatch(rationsDelete(value.value));
+	return <Button size="small" style={{color: 'gray'}} onClick={deleteItem}><DeleteIcon/></Button>
+}
 class RationsList extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -30,9 +36,9 @@ class RationsList extends PureComponent {
 		this.heads = [
 		{
 			key: 'id',
-			name: 'ID',
+			name: 'Quitar',
 			width: 80,
-			sortable: true
+			formatter: fnRemove
 		},
 		{
 			key: 'productId',
@@ -78,7 +84,7 @@ class RationsList extends PureComponent {
 			<Col md={12}>
 				<h3 className='page-title'>Raciones del Periodo</h3>
 				<h3 className='page-subhead subhead'>
-				Asignación de productos por periodo
+				Asignación de raciones por periodo
 				</h3>
 			</Col>
 			</Row>
@@ -97,8 +103,9 @@ class RationsList extends PureComponent {
 						<Link className='btn btn-primary products-list__btn-add' to={`periodo/new`}>Nueva ración</Link>
 					</ButtonToolbar>
 					</div>
-					{ this.props.rations.length ? <EditTable heads={this.heads} rows={this.props.rations} enableRowSelect/> : ''}
+					{ this.props.rations.length ? <EditTable heads={this.heads} rows={this.props.rations} /> : ''}
 					{ this.props.rations.length ? <Pagination items={this.props.rations} onChangePage={this.onChangePage}/> : ''}
+					
 				</CardBody>
 				</Card>
 			</Col>
@@ -116,6 +123,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-	rationsLoad
+	rationsLoad,
+	rationsDelete
 }, dispatch);
 export default (connect(mapStateToProps, mapDispatchToProps)(RationsList)); 

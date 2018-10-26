@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs-compat';
-import { switchMap, catchError, map } from 'rxjs/operators';
+import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { of , empty} from 'rxjs';
 import {
@@ -12,9 +12,14 @@ import {
     PRODUCT_LOAD,
     productUpdateOk,
     PRODUCT_UPDATE,
-    PRODUCT_UPDATE_OK
+    PRODUCT_UPDATE_OK, 
+	PRODUCT_DELETE,
+	productLoad,
+	productDeleteOk,
+	productsLoad
 } from '../actions/products';
 import ProductApi from '../../api/product';
+import store from '../../app/store';
 
 class ProductsEpic{
 	static load = (action$) =>  action$.pipe(
@@ -72,6 +77,14 @@ class ProductsEpic{
 			return empty();
 		})
 	);
+	static delete= (action$) =>  action$.pipe(
+		ofType(PRODUCT_DELETE),
+		switchMap(({payload}) => ProductApi.delete(payload).pipe(
+			tap(() => store.dispatch(productsLoad())),
+			map(response => productDeleteOk(response.response)),
+			catchError(error => of(productDeleteOk(error)))
+		))
+	);
 }
 export default function ProductsEpics (action$, store, deps){
 	return Observable.merge(
@@ -81,5 +94,6 @@ export default function ProductsEpics (action$, store, deps){
 		ProductsEpic.update(action$, store, deps),
 		ProductsEpic.updateOk(action$, store, deps),
 		ProductsEpic.loadProduct(action$, store, deps),
+		ProductsEpic.delete(action$, store, deps),
 	);
 }

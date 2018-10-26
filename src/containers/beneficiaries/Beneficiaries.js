@@ -1,10 +1,11 @@
 import React, {PureComponent} from 'react';
-import { Col, Container, Row, CardBody, Card, ButtonToolbar } from 'reactstrap';
+import { Col, Container, Row, CardBody, Card, ButtonToolbar, Button } from 'reactstrap';
 import Committees from './components/committees';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { committeesBeneficiariesLoad, committeesBeneficiariesLoadSearch } from '../../redux/actions/beneficiaries';
+import { committeesBeneficiariesLoad, committeesBeneficiariesLoadSearch, committeesBeneficiariesLoadPageback, committeesBeneficiariesLoadPagenext } from '../../redux/actions/beneficiaries';
 import FilterSearch from '../../components/filterSearch';
+import { KeyboardArrowLeftIcon, KeyboardArrowRightIcon } from 'mdi-react';
 
 
 class Beneficiaries extends PureComponent {
@@ -15,7 +16,15 @@ class Beneficiaries extends PureComponent {
 		this.props.committeesBeneficiariesLoadSearch(e.target.value);
 		
 	}
+	getPager = () => {
+		let total = Math.floor(this.props.totalCommittees / 10);
+		return {
+			total
+		}
+	}
 	render() {
+		let pager = this.getPager();
+    	const {totalCommittees, pageCommittees} = this.props
 		return (
 			<Container className='dashboard'>
 				<Row>
@@ -41,17 +50,30 @@ class Beneficiaries extends PureComponent {
 				<Committees committees={this.props.committees}/>
 				</CardBody>
 				</Card>
+				<Row>
+				<Col xs="2">
+				{pageCommittees > 0 && <Button size="sm" color='primary' outline onClick={this.props.committeesBeneficiariesLoadPageback}><KeyboardArrowLeftIcon /> Atras</Button>}
+				</Col>
+				<Col xs="8" className="text-center">Del {pageCommittees*10 + 1} al {pageCommittees*10 +10} de {totalCommittees} registros</Col>
+				<Col xs="2" className="text-right">
+				{(pageCommittees < pager.total) &&<Button size="sm" color='primary' outline onClick={this.props.committeesBeneficiariesLoadPagenext}>Siguiente <KeyboardArrowRightIcon /></Button>}
+				</Col>
+			</Row>
 			</Container>
 		)
 	}
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    committees: state.beneficiaries.committees
+	committees: state.beneficiaries.committees,
+	pageCommittees:state.beneficiaries.pageCommittees,
+	totalCommittees:state.beneficiaries.totalCommittees,
 });
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	committeesBeneficiariesLoad,
-	committeesBeneficiariesLoadSearch
+	committeesBeneficiariesLoadSearch,
+	committeesBeneficiariesLoadPageback,
+	committeesBeneficiariesLoadPagenext
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Beneficiaries);

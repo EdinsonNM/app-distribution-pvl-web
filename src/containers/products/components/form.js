@@ -15,7 +15,7 @@ class Form extends PureComponent {
 		this.setState({[type]: e.value});
 	}
 	render() {
-		const {handleSubmit, reset} = this.props;
+		const {handleSubmit, handleCancel} = this.props;
 
 		return (
 		<Col md={12} lg={12}>
@@ -73,9 +73,9 @@ class Form extends PureComponent {
 					</div>
 				</div>
 				<ButtonToolbar className='form__button-toolbar'>
-					<Button color='primary' type='submit'>Submit</Button>
-					<Button type='button' onClick={reset}>
-					Cancel
+					<Button color='primary' type='submit'>Guardar</Button>
+					<Button type='button' onClick={handleCancel}>
+					Cancelar
 					</Button>
 				</ButtonToolbar>
 				</form>

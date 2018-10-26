@@ -6,14 +6,15 @@ import {
     Col,
     Row,
     Container,
-    Button
 } from 'reactstrap';
 import EditTable from '../../../components/table/EditableTable';
 import Pagination from '../../../components/Pagination';
 import {Link} from 'react-router-dom';
-import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from 'reactstrap';
-import { DotsHorizontalIcon, MagnifyIcon } from 'mdi-react';
+import { MagnifyIcon, DeleteIcon } from 'mdi-react';
 import {UNIT_MEASURENMENT} from '../../../contants/unit_of _measurement';
+import { productDelete } from '../../../redux/actions/products';
+import store from '../../../app/store';
+import { Button } from '@material-ui/core';
 
 
 
@@ -23,6 +24,11 @@ const renderUnit = (value) => {
 const renderOptions = (value) => {
 	return <Link to={`productos/edit/${value.value}`}>Editar</Link>
 }
+
+const fnRemove = (value) => {
+	const deleteItem = () => store.dispatch(productDelete(value.value));
+	return <Button size="small" style={{color: 'gray'}} onClick={deleteItem}><DeleteIcon/></Button>
+}
 export default class ProductsList extends PureComponent {
 
 	constructor(props) {
@@ -30,9 +36,9 @@ export default class ProductsList extends PureComponent {
 		this.heads = [
 		{
 			key: 'id',
-			name: 'ID',
+			name: 'Quitar',
 			width: 80,
-			sortable: true
+			formatter: fnRemove
 		},
 		{
 			key: 'name',
@@ -94,7 +100,7 @@ export default class ProductsList extends PureComponent {
 						<Link className='btn btn-primary products-list__btn-add' to='productos/new'>Nuevo Producto</Link>
 					</ButtonToolbar>
 					</div>
-					{this.props.rows.length && <EditTable heads={this.heads} rows={this.props.rows} enableRowSelect/>}
+					{this.props.rows.length && <EditTable heads={this.heads} rows={this.props.rows} />}
 					{this.props.rows.length && <Pagination items={this.props.rows} onChangePage={this.onChangePage}/>}
 				</CardBody>
 				</Card>

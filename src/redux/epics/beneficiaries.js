@@ -2,7 +2,7 @@ import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
 import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
-import { of, forkJoin } from 'rxjs';
+import { of, forkJoin, concat } from 'rxjs';
 import {
     COMMITTEES_BENEFICIARIES_LOAD,
     COMMITTEES_BENEFICIARIES_LOAD_SEARCH,
@@ -12,7 +12,10 @@ import {
     committeesBeneficiariesLoadCountOk,
     committeesBeneficiariesLoad,
     committeesBeneficiariesLoadOk,
-	beneficiariesLoadOk
+	beneficiariesLoadOk,
+	beneficiariesLoad,
+	committeesBeneficiariesTotalCountOk,
+	BENEFICIARIES_LOAD_SEARCH
 } from '../actions/beneficiaries';
 import store from '../../app/store';
 class BeneficiaryEpic{
@@ -46,28 +49,45 @@ class BeneficiaryEpic{
 	static CommitteesLoad = (action$) =>  action$.pipe(
 		ofType(COMMITTEES_BENEFICIARIES_LOAD),
 		switchMap(({payload}) => {
-				let limit = 20
-				let skip = payload.page * limit;
-				let filter = { limit, skip, where: {name: {like: payload.query}, periodId: store.getState().periods.periodDefault}};
-				return CommitteeApi.getAll({filter}).pipe(
+				let skip = payload.page * 10;
+				let filter = { limit:10, skip, where: {name: {like: payload.query}, periodId: store.getState().periods.periodDefault}};
+				let obsCount = CommitteeApi.getCount({name: {like: payload.query}, periodId: store.getState().periods.periodDefault}).pipe(
+					map(count => committeesBeneficiariesTotalCountOk(count))
+				)
+				let committees =   CommitteeApi.getAll({filter}).pipe(
 					map(response => {
 						store.dispatch(committeesBeneficiariesLoadOk(response));
 						return response;
 					}),
 					mergeMap(response => forkJoin(
-						...response.map(c => CommitteeApi.getBeneficiariesCount({id: c.id}).pipe(map(response => response))
+						...response.map(c => CommitteeApi.getBeneficiariesCount(c.id).pipe(map(response => response))
 					))),
 					map(response => committeesBeneficiariesLoadCountOk(response)),
 					catchError(error => of(committeesBeneficiariesLoadOk(error)))
 				);
+				return concat(
+					obsCount,
+					committees
+				)
+		})
+	);
+	static beneficiariesLoadSearch = (action$) =>  action$.pipe(
+		ofType(BENEFICIARIES_LOAD_SEARCH),
+		debounceTime(1000),
+		switchMap(({payload}) => {
+			return of(beneficiariesLoad(payload.id, 0, payload.query, payload.column))
 		})
 	);
 	static beneficiariesLoad = (action$) =>  action$.pipe(
 		ofType(BENEFICIARIES_LOAD),
-		switchMap(({payload}) => CommitteeApi.getBeneficiaries({id: payload}).pipe(
-			map(response => beneficiariesLoadOk(response)),
-			catchError(error => of(beneficiariesLoadOk(error)))
-		))
+		switchMap(({payload}) => {
+			let skip = payload.page * 10;
+			let filter = { limit:9999, skip, where: {[payload.column]: {like: payload.query}}};
+			return CommitteeApi.getBeneficiaries(payload.id, filter).pipe(
+				map(response => beneficiariesLoadOk(response)),
+				catchError(error => of(beneficiariesLoadOk(error)))
+			)
+		})
 	);
 }
 export default function BeneficiaryEpics (action$, store, deps){
@@ -77,5 +97,6 @@ export default function BeneficiaryEpics (action$, store, deps){
 		BeneficiaryEpic.CommitteesChangePageNext(action$, store, deps),
 		BeneficiaryEpic.CommitteesChangePageBack(action$, store, deps),
 		BeneficiaryEpic.beneficiariesLoad(action$, store, deps),
+		BeneficiaryEpic.beneficiariesLoadSearch(action$, store, deps),
 	);
 }

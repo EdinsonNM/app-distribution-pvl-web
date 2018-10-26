@@ -8,6 +8,10 @@ class RationApi{
         let url = CustomUrl.getURL(ROUTE_RATION, {});
         return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
+    static delete = (id) => {
+        let url = CustomUrl.getURL(`${ROUTE_RATION}/:id`, {id});
+        return ajax.delete(url, HeaderRequest.getPublicRequestHeader());
+    }
 }
 
 export default RationApi;

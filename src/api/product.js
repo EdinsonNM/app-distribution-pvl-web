@@ -21,6 +21,10 @@ class ProductApi{
         let url = CustomUrl.getURL(`${ROUTE_PRODUCTS}/:id`, {id: payload.id});
         return ajax.put(url, payload, HeaderRequest.getPublicRequestHeader());
     }
+    static delete = (id) => {
+        let url = CustomUrl.getURL(`${ROUTE_PRODUCTS}/:id`, {id});
+        return ajax.delete(url, HeaderRequest.getPublicRequestHeader());
+    }
 }
 
 export default ProductApi;

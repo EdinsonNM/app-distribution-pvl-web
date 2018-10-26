@@ -15,7 +15,8 @@ import {
 	partnersLoad,
 	partnersLoadOk, 
 	partnersLoadCountOk,
-	PARTNERS_LOAD_SEARCH
+	PARTNERS_LOAD_SEARCH,
+	committeesPartnersTotalCountOk
 } from '../actions/partners';
 import store from '../../app/store';
 import PartnerApi from '../../api/partner';
@@ -52,7 +53,10 @@ class PartnerEpic{
 		switchMap(({payload}) => {
 				let skip = payload.page * 10;
 				let filter = { limit:10, skip, where: {name: {like: payload.query}, periodId: store.getState().periods.periodDefault}};
-				return CommitteeApi.getAll({filter}).pipe(
+				let obsCount = CommitteeApi.getCount({name: {like: payload.query}, periodId: store.getState().periods.periodDefault}).pipe(
+					map(count => committeesPartnersTotalCountOk(count))
+				)
+				let committees =  CommitteeApi.getAll({filter}).pipe(
 					map(response => {
 						store.dispatch(committeesPartnersLoadOk(response));
 						return response;
@@ -63,6 +67,10 @@ class PartnerEpic{
 					map(response => committeesPartnersLoadCountOk(response)),
 					catchError(error => of(committeesPartnersLoadOk(error)))
 				);
+				return concat(
+					obsCount,
+					committees
+				)
 		})
 	);
 	static partnersLoadSearch = (action$) =>  action$.pipe(
@@ -76,7 +84,7 @@ class PartnerEpic{
 		ofType(PARTNERS_LOAD),
 		switchMap(({payload}) => {
 			let skip = payload.page * 10;
-			let filter = { limit:10, skip, where: {[payload.column]: {like: payload.query}}};
+			let filter = { limit:9999, skip, where: {[payload.column]: {like: payload.query}}};
 			let partners = CommitteeApi.getPartners(payload.id, filter).pipe(
 				map(response => partnersLoadOk(response)),
 				catchError(error => of(partnersLoadOk(error)))

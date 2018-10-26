@@ -4,8 +4,11 @@ import Form from './components/form';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {productSave} from '../../redux/actions/products';
+import { Redirect } from 'react-router';
 class ProductNew extends PureComponent {
-
+	state = {
+		cancel: false
+	}
 	onSubmit = (form) => {
 		const model = {
 			name: form.name,
@@ -16,7 +19,13 @@ class ProductNew extends PureComponent {
 
 		this.props.productSave(model);
 	}
+	onCancel = () => {
+		this.setState({cancel: true})
+	}
 	render() {
+		if(this.state.cancel){
+			return <Redirect to={`/pages/productos`} />
+		}
 		return (
 		<Container>
 			<Row>
@@ -26,7 +35,7 @@ class ProductNew extends PureComponent {
 			</Col>
 			</Row>
 			<Row>
-				<Form onSubmit={this.onSubmit} />
+				<Form onSubmit={this.onSubmit} handleCancel={this.onCancel}/>
 			</Row>
 		</Container>
 		)

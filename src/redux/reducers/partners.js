@@ -1,6 +1,8 @@
 import { handleActions } from 'redux-actions';
+import { COMMITTEES_PARTNERS_TOTAL_COUNT_OK } from '../actions/partners';
 const initialState = {
 	committees: [],
+	data: [],
 	error:{}
 };
 const reducer = handleActions({
@@ -46,6 +48,14 @@ const reducer = handleActions({
 			...state, error: {message: action.payload.message, status: action.payload.status}
 		}),
 	},
+	COMMITTEES_PARTNERS_TOTAL_COUNT_OK: {
+		next: (state, action) => ({
+			...state, totalCommittees: action.payload.count
+		}),
+		throw: (state, action) => ({
+			...state, error: {message: action.payload.message, status: action.payload.status}
+		}),
+	}
 }, initialState);
 
 

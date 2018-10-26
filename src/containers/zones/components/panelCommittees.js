@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import Panel from '../../../components/Panel';
 import { Field , reduxForm} from 'redux-form';
 import { MagnifyIcon, SearchIcon, AddIcon } from 'mdi-react';
-import { Nav, NavItem, NavLink, TabContent, TabPane, Table, Button } from 'reactstrap';
+import { Nav, NavItem, NavLink, TabContent, TabPane, Table, Button, Alert } from 'reactstrap';
 import classnames from 'classnames';
 
 class PanelCommittees extends PureComponent {
@@ -14,6 +14,13 @@ class PanelCommittees extends PureComponent {
 	}
 	render(){
 		const { handleSubmit, zone, handleAddCommittee, handleDeleteCommittee, zoneCommittees = [] } = this.props;
+		if(!zone.name){
+			return (
+				<Panel lg={6} xl={6} md={12} xs={12} title={`Seleccione una Zona`}>
+					<Alert>Seleccione una zona del listado de la izquierda para agregar o quitar uno o mas comites</Alert>
+				</Panel>
+			)
+		}
 		return(
 			<Panel lg={6} xl={6} md={12} xs={12} title={`Comites asignados a "${zone.name}"`}>
 				
@@ -50,7 +57,10 @@ class PanelCommittees extends PureComponent {
 									{
 										zoneCommittees.map((c, index) => 
 											<tr key={index}>
-												<td>{c.name}</td>
+												<td>
+												{c.name}<br/>
+												<small>{c.populatedCenterName}</small>
+												</td>
 												<td>
 													<Button outline className='sm' color='danger' size='sm' style={{marginBottom: 0}} onClick={handleDeleteCommittee(c.id)}>
 														Remover
@@ -58,6 +68,9 @@ class PanelCommittees extends PureComponent {
 												</td>
 											</tr>
 										)
+									}
+									{
+										zoneCommittees.length === 0 && <Alert color="light">Agregue uno o mas comites a la zona seleccionada</Alert>
 									}
 								</tbody>
 							</Table>
@@ -77,17 +90,23 @@ class PanelCommittees extends PureComponent {
 								</div>
 							</form>
 							<Table responsive hover>
-								<thead>
-									<tr>
-										<th>Comite</th>
-										<th></th>
-									</tr>
-								</thead>
+								{
+									this.props.committees.length>0 &&
+									<thead>
+										<tr>
+											<th>Comite</th>
+											<th></th>
+										</tr>
+									</thead>
+								}
 								<tbody>
 									{
 										this.props.committees.map((c, index) => 
 											<tr key={index}>
-												<td>{c.name}</td>
+												<td>
+													{c.name}<br/>
+													<small>{c.populatedCenterName}</small>
+												</td>
 												<td>
 													<Button outline className='sm' color='primary' size='sm' style={{marginBottom: 0}} onClick={handleAddCommittee(c)}>
 														Agregar
@@ -95,6 +114,9 @@ class PanelCommittees extends PureComponent {
 												</td>
 											</tr>
 										)
+									}
+									{
+										this.props.committees.length === 0 && <Alert>Escriba el nombre del comite que desee agregar a la zona seleccionada y a continuación presione "agregar"</Alert>
 									}
 								</tbody>
 							</Table>

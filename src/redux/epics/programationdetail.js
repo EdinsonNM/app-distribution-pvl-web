@@ -12,10 +12,15 @@ import {
     programationdetailsUpdatedistributionOk,
     PROGRAMATIONDETAILS_LOAD,
     programationdetailsLoadOk,
-    programationdetailsLoad
+    programationdetailsLoad,
+    programationdetailTotalForSave,
+    programationdetailConfirmDistributionOk,
+    PROGRAMATIONDETAIL_SAVE_OK,
+    PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION
 } from '../actions/programation-detail';
 import store from '../../app/store';
 import ProgramationDetailApi from '../../api/programaciondetail';
+import { toast } from 'react-toastify';
 
 class ProgramationDetailEpic{
 
@@ -31,7 +36,7 @@ class ProgramationDetailEpic{
                 }
                 store.dispatch(programationdetailSave(item))
             });
-			
+			store.dispatch(programationdetailTotalForSave(payload.details.length))
 			return empty();
 		})
     );
@@ -44,10 +49,29 @@ class ProgramationDetailEpic{
             )
         )
     );
+    static saveOk = (action$) =>  action$.pipe(
+		ofType(PROGRAMATIONDETAIL_SAVE_OK),
+        mergeMap(({payload}) => {
+            const total = store.getState().programationdetail.totalForSave;
+            const progress = store.getState().programationdetail.totalSaved;
+            if(progress === total){
+                toast("Programación registrada satosfactoriamente!", {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                });
+                document.location = '#/pages/programacion';
+            }
+            return empty();
+        })
+    );
     static ActiveDistributionMultiple = (action$) =>  action$.pipe(
 		ofType(PROGRAMATIONDETAILS_UPDATEDISTRIBUTION),
 		mergeMap(({payload}) => {
-            let where = { committeeId: {inq: payload.committees }, programationId: payload.programationId};
+            let where;
+            if(payload.committees.length > 1){
+                where = { committeeId: {inq: payload.committees }, programationId: payload.programationId};
+            }else {
+                where = { committeeId: payload.committees[0], programationId: payload.programationId};
+            }
             let data = {isDistributed: true}
             return ProgramationDetailApi.updateWhere(data, where).pipe(
                 tap(response => store.dispatch(programationdetailsLoad(payload.programationId))),
@@ -65,6 +89,17 @@ class ProgramationDetailEpic{
 				catchError(error => of(programationdetailsLoadOk(error)))
 			)
 		})
+    );
+    
+    static confirmDistribution = (action$) =>  action$.pipe(
+		ofType(PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION),
+		switchMap(({payload}) => {
+			return ProgramationDetailApi.confirmDistribution(payload.id).pipe(
+                tap(response => store.dispatch(programationdetailsLoad(payload.programationId))),
+				map(response => programationdetailConfirmDistributionOk(response)),
+				catchError(error => of(programationdetailConfirmDistributionOk(error)))
+			)
+		})
 	);
 
 }
@@ -72,8 +107,10 @@ export default function ProgramationDetailEpics(action$){
 	return Observable.merge(
         ProgramationDetailEpic.saveAll(action$),
         ProgramationDetailEpic.save(action$),
+        ProgramationDetailEpic.saveOk(action$),
         ProgramationDetailEpic.ActiveDistributionMultiple(action$),
         ProgramationDetailEpic.loadAllDistribution(action$),
+        ProgramationDetailEpic.confirmDistribution(action$),
     );
     
 }

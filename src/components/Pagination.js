@@ -37,7 +37,7 @@ export default class PaginationComponent extends PureComponent {
     const items = this.props.items;
     const pager = this.state.pager;
     const size = this.state.size;
-    
+    //debugger;
     if (page < 1 || page > pager.totalPages) {
       return;
     }
@@ -46,7 +46,7 @@ export default class PaginationComponent extends PureComponent {
     this.pager = this.getPager(items.length, page, size);
     
     // get new page of items from items array
-    const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+    const pageOfItems = items.slice(this.pager.startIndex, this.pager.endIndex + 1);
     
     // update state
     this.setState({pager: this.pager});
@@ -89,9 +89,10 @@ export default class PaginationComponent extends PureComponent {
     let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
     
     // create an array of pages to ng-repeat in the pager control
-    // TODO: agregar data
-    let pages = [];
-    
+    let pages=[];
+    for(let i=startPage; i<= endPage; i++){
+      pages.push(i);
+    }    
     // return object with all pager properties required by the view
     return {
       totalItems: totalItems,
@@ -112,28 +113,28 @@ export default class PaginationComponent extends PureComponent {
         {(!this.pager.pages || this.pager.pages.length <= 1) ? '' :
           <Pagination className='pagination'>
             <PaginationItem className='pagination__item' disabled={this.pager.currentPage === 1}>
-              <PaginationLink className='pagination__link' href='#' onClick={() => this.setPage(1)}>
+              <PaginationLink className='pagination__link' href='#' onClick={(e) => {e.preventDefault();this.setPage(1)}}>
                 <ChevronLeftIcon className='pagination__link-icon'/>
               </PaginationLink>
             </PaginationItem>
             {this.pager.pages.map((page, index) =>
               <PaginationItem className='pagination__item' key={index} active={this.pager.currentPage === page}>
-                <PaginationLink className='pagination__link' href='#' onClick={() => this.setPage(page)}>
+                <PaginationLink className='pagination__link' href='#' onClick={(e) => {e.preventDefault();this.setPage(page)}}>
                   {page}
                 </PaginationLink>
               </PaginationItem>
             )}
             <PaginationItem className='pagination__item' disabled={this.pager.currentPage === this.pager.totalPages}>
-              <PaginationLink className='pagination__link' href='#' onClick={() => this.setPage(this.pager.totalPages)}>
+              <PaginationLink className='pagination__link' href='#' onClick={(e) => {e.preventDefault();this.setPage(this.pager.totalPages)}}>
                 <ChevronRightIcon className='pagination__link-icon'/>
               </PaginationLink>
             </PaginationItem>
           </Pagination>
         }
         <div className='pagination-info'>
-          <span>Showing {this.pager.pageSize * (this.pager.currentPage - 1) + 1 + ' '}
-            to {this.pager.pageSize * this.pager.currentPage > this.props.items.length ? this.props.items.length
-              : this.pager.pageSize * this.pager.currentPage} of {this.props.items.length} entries</span>
+          <span>Mostrando {this.pager.pageSize * (this.pager.currentPage - 1) + 1 + ' '}
+            al {this.pager.pageSize * this.pager.currentPage > this.props.items.length ? this.props.items.length
+              : this.pager.pageSize * this.pager.currentPage} de {this.props.items.length} registros</span>
         </div>
       </div>
     );

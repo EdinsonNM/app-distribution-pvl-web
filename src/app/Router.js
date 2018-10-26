@@ -60,7 +60,7 @@ const Pages = () => (
     <Route path='/pages/socios/dashboard' component={Partners}/>
     <Route path='/pages/socios/lista/:id' component={PartnersList}/>
     <Route path='/pages/beneficiarios/dashboard' component={Beneficiaries}/>
-    <Route path='/pages/beneficiarios/lista' component={BeneficiariesList}/>
+    <Route path='/pages/beneficiarios/lista/:id' component={BeneficiariesList}/>
     <Route path='/pages/beneficiarios/new' component={Beneficiary}/>
     <Route path='/pages/zonas' component={Zones}/>
     <Route exact path='/pages/programacion' component={programation}/>

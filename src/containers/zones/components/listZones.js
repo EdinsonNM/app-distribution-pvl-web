@@ -1,8 +1,6 @@
 import React, {PureComponent} from 'react';
-import { ButtonToolbar, Card, CardBody, Col, Table, Button } from 'reactstrap';
-import EditTable from '../../../components/table/EditableTable';
-import Pagination from '../../../components/Pagination';
-import { RemoveIcon , TrashIcon} from 'mdi-react';
+import { Col, Table, Button, Alert } from 'reactstrap';
+import { TrashIcon} from 'mdi-react';
 
 
 export default class ListZones extends PureComponent {
@@ -16,18 +14,8 @@ export default class ListZones extends PureComponent {
 			}
 		];
 		
-		this.state = {
-			pageOfItems: []
-		};
+	}
 
-		this.onChangePage = this.onChangePage.bind(this);
-	}
-	
-	onChangePage(pageOfItems) {
-		// update state with new page of items
-		this.setState({pageOfItems: pageOfItems});
-	}
-	
 	render() {
 		const {select, handleDeleteZone} = this.props;
 		return (
@@ -44,6 +32,11 @@ export default class ListZones extends PureComponent {
 								</td>
 							</tr>
 						)}
+						{
+							this.props.rows.length === 0 && <Alert color="light">
+							Agrupe diferentes comites en una o mas Zonas para facilitar la distribución de productos. Ingrese el nombre de la zona y a continuación presione "Enter" o el boton "+" para agregar un nueva zona.
+							</Alert>
+						}
 					</tbody>
 				</Table>
 

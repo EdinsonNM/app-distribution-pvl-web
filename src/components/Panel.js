@@ -51,7 +51,7 @@ export default class AlertComponent extends PureComponent {
     setTimeout(() => this.setState({refresh: false}, () => {
       if(this.props.onChangeRefresh)
         this.props.onChangeRefresh(this.state.refresh)
-    }), 2000);
+    }), 1000);
   }
   
   render() {

@@ -27,7 +27,7 @@ const Committee = ({committee, max}) => {
 				</div>
 				</div>
 				<p className='dashboard__goal'>Referencia: {committee.beneficiaries}-{max}</p>
-				<Link to="lista">Ver Beneficiarios</Link>
+				<Link to={`lista/${committee.id}`}>Ver Beneficiarios</Link>
 			</CardBody>
 			</Card>
 		</Col>

@@ -1,152 +1,98 @@
 import React, {PureComponent} from 'react';
-import { ButtonToolbar, Card, CardBody, Col, Row , Container} from 'reactstrap';
+import { ButtonToolbar, Card, CardBody, Col, Row, Container } from 'reactstrap';
 import EditTable from '../../components/table/EditableTable';
 import Pagination from '../../components/Pagination';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
+import { beneficiariesLoad, beneficiariesLoadSearch } from '../../redux/actions/beneficiaries';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-
-class PhotoFormatter extends PureComponent {
-	static propTypes = {
-		value: PropTypes.string.isRequired
-	};
-	
-	render() {
-		return (
-		<div className='products-list__img-wrap'>
-			<img src={this.props.value} alt=''/>
-		</div>
-		)
-	}
-}
-
-class StatusFormatter extends PureComponent {
-	static propTypes = {
-		value: PropTypes.string.isRequired
-	};
-	
-	render() {
-		return (
-		this.props.value === 'Enabled' ? <span className='badge badge-success'>Enabled</span> :
-			<span className='badge badge-disabled'>Disabled</span>
-		)
-	}
-}
-
-export default class BeneficiariesList extends PureComponent {
+class BeneficiariesList extends PureComponent {
 	constructor(props) {
 		super(props);
+		this.committeeId = props.match.params.id
 		this.heads = [
 		{
-			key: 'id',
-			name: 'ID',
-			width: 80,
-			sortable: true
-		},
-		{
-			key: 'name',
+			key: 'names',
 			name: 'Nombres',
 			sortable: true
 		},
 		{
-			key: 'category',
-			name: 'Apellido Paterno',
+			key: 'firstsurname',
+			name: 'A. Paterno',
 			sortable: true
 		},
 		{
-			key: 'quantity',
-			name: 'Apellido Materno',
+			key: 'lastsurname',
+			name: 'A. Materno',
 			sortable: true
-		},
-		{
-			key: 'articul',
-			name: 'Articul',
-			sortable: true
-		},
-		{
-			key: 'price',
-			name: 'Price, $',
-			sortable: true,
-		},
-		{
-			key: 'status',
-			name: 'Status',
-			sortable: true,
-			formatter: StatusFormatter,
-			width: 110
 		},
 		];
 		
 		this.state = {
-		rows: this.createRows(17),
 		pageOfItems: []
 		};
-		this.createRows = this.createRows.bind(this);
-		this.getRandomDate = this.getRandomDate.bind(this);
 		this.onChangePage = this.onChangePage.bind(this);
 	}
-	
+	componentDidMount() {
+		this.props.beneficiariesLoadSearch(this.committeeId);
+	}
 	onChangePage(pageOfItems) {
 		// update state with new page of items
 		this.setState({pageOfItems: pageOfItems});
 	}
-	
-	getRandomDate = (start, end) => {
-		return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
-	};
-	
-	createRows = (numberOfRows) => {
-		let rows = [];
-		
-		for (let i = 1; i < numberOfRows + 1; i++) {
-		rows.push({
-			id: Math.min(99999, Math.round(Math.random() * 99999 + 1000)),
-			name: ['Glass Vase', 'Pillow'][Math.floor((Math.random() * 2))],
-			category: 'Home accessories',
-			quantity: Math.min(400, Math.round(Math.random() * 400)),
-			articul: 'art' + Math.min(99999, Math.round(Math.random() * 99999 + 1)),
-			price: Math.min(1000, Math.random() * 1000 + 20).toFixed(2),
-			status: ['Enabled', 'Disabled'][Math.floor((Math.random() * 2))],
-		});
-		}
-		return rows;
-	};
-	
+	filterSearch = (e) => {
+		this.props.beneficiariesLoadSearch(this.committeeId, e.target.value);;
+		e.preventDefault();
+	}
 	render() {
 		return (
-			<Container className='dashboard'>
-				<Row>
-				<Col md={12}>
-					<h3 className='page-title'>Beneficiarios</h3>
-					<h3 className='page-subhead subhead'>
-					Es la persona padre, madre o tutor que representa a uno o más usuarios o beneficiarios del Programa del Vaso de Leche.
-					</h3>
-				</Col>
-				</Row>
-				<Row>
-					<Col md={12} lg={12}>
-						<Card>
-						<CardBody className='products-list'>
-							<div className='card__title'>
-							<ButtonToolbar className='products-list__btn-toolbar-top'>
-								<form className='form'>
-								<div className='form__form-group products-list__search'>
-									<input placeholder='Search...' name='search'/>
-									<MagnifyIcon/>
-								</div>
-								</form>
-								<Link className='btn btn-primary products-list__btn-add' to='new'>Nuevo Beneficiario</Link>
-							</ButtonToolbar>
-							</div>
-							<EditTable heads={this.heads} rows={this.state.rows} enableRowSelect/>
-							<Pagination items={this.state.rows} onChangePage={this.onChangePage}/>
-						</CardBody>
-						</Card>
-					</Col>
-				</Row>
-      		</Container>
+		<Container className='dashboard'>
+			<Row>
+			<Col md={12}>
+				<h3 className='page-title'>Listado de beneficiarios por Comite</h3>
+				<h3 className='page-subhead subhead'>
+				Es la persona que recibe los beneficios del Programa de Vaso de Leche.
+				</h3>
+			</Col>
+			</Row>
+			<Row>
+				<Col md={12} lg={12}>
+				<Card>
+				<CardBody className='products-list'>
+					<div className='card__title'>
+					<ButtonToolbar className='products-list__btn-toolbar-top'>
+						<div className='form'>
+						
+						<div className='form__form-group products-list__search'>
+							<input placeholder='Search...' name='search'onChange={this.filterSearch}/>
+							<MagnifyIcon/>
+						</div>
+						</div>
+						<Link className='btn btn-primary products-list__btn-add' to='/beneficiarios/new'>Nuevo Beneficiario</Link>
+					</ButtonToolbar>
+					</div>
+					{ this.props.beneficiaries.length && <EditTable heads={this.heads} rows={this.props.beneficiaries} enableRowSelect/>}
+					{ this.props.beneficiaries.length && <Pagination items={this.props.beneficiaries} onChangePage={this.onChangePage}/>}
+				</CardBody>
+				</Card>
+			</Col>
+			</Row>
+		</Container>
+		
 		)
 	}
 }
+const mapStateToProps = (state, ownProps) => {
+	return {
+		beneficiaries: state.beneficiaries.data
+	}
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
+	beneficiariesLoad,
+	beneficiariesLoadSearch
+}, dispatch);
+export default (connect(mapStateToProps, mapDispatchToProps)(BeneficiariesList)); 

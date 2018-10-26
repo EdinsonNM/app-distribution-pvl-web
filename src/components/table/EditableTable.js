@@ -15,18 +15,13 @@ export default class EditableTable extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.limit = props.limit;
-    let originalRows = this.props.rows;
-    let rows = originalRows.slice(0, this.limit);
-    this.state = {rows, originalRows};
-    this.rowGetter = this.rowGetter.bind(this);
-    this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
-    this.handleGridSort = this.handleGridSort.bind(this);
+    let rows = props.rows || [];
+    this.state = {rows};
   }
   componentDidUpdate(prevProps){
-    let originalRows = this.props.rows;
     if(!CustomArray.equals(this.props.rows, prevProps.rows)){
-      let rows = originalRows.slice(0, this.limit);
-      this.setState({rows, originalRows});
+      let rows = this.props.rows;
+      this.setState({rows});
     }
   }
   componentDidMount(){
@@ -54,8 +49,8 @@ export default class EditableTable extends PureComponent {
       }
     };
     
-    let sortRows = this.state.originalRows.slice(0);
-    const rows = sortDirection === 'NONE' ? this.state.originalRows.slice(0, this.limit) : sortRows.sort(comparer).slice(0, this.limit);
+    let sortRows = this.state.rows.slice(0);
+    const rows = sortDirection === 'NONE' ? this.state.rows.slice(0, this.limit) : sortRows.sort(comparer).slice(0, this.limit);
     
     this.setState({rows});
   };

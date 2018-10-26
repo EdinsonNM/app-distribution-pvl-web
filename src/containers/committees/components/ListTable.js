@@ -5,6 +5,7 @@ import Pagination from '../../../components/Pagination';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
+import CustomArray from '../../../lib/custom-array';
 
 
 export default class ListTable extends PureComponent {
@@ -38,15 +39,23 @@ export default class ListTable extends PureComponent {
     ];
     
     this.state = {
-      pageOfItems: []
+      rows: [],
+      pageOfItems: [],
+      page: 1
     };
 
     this.onChangePage = this.onChangePage.bind(this);
   }
   
   onChangePage(pageOfItems) {
-    // update state with new page of items
-    this.setState({pageOfItems: pageOfItems});
+    //debugger;
+    this.setState({rows: pageOfItems});
+  }
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(!CustomArray.equals(this.props.rows, prevProps.rows)){
+      let rows = this.props.rows.slice(0, 10);
+      this.setState({rows});
+    }
   }
   
   render() {
@@ -65,8 +74,8 @@ export default class ListTable extends PureComponent {
                 <Link className='btn btn-primary products-list__btn-add' to='/pages/comite/new'>Nuevo Comite</Link>
               </ButtonToolbar>
             </div>
-            {this.props.rows.length && <EditTable limit={10} heads={this.heads} rows={this.props.rows} enableRowSelect/>}
-					  {this.props.rows.length && <Pagination items={this.props.rows} onChangePage={this.onChangePage}/>}
+            <EditTable limit={10} heads={this.heads} rows={this.state.rows} enableRowSelect/>
+					  {this.props.rows.length && <Pagination page={this.state.page} items={this.props.rows} onChangePage={this.onChangePage} initialPage={1}/>}
           </CardBody>
         </Card>
       </Col>

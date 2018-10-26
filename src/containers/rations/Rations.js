@@ -27,7 +27,7 @@ class Rations extends PureComponent {
 				</ButtonToolbar>
 				<h3 className='page-title'>Raciones asignadas por periodo</h3>
 				<h3 className='page-subhead subhead'>
-				Listado de racioens asiganadas por periodo
+				Listado de raciones asiganadas por periodo
 				</h3>
 			</div>
 			</CardBody>

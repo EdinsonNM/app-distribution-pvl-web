@@ -1,9 +1,9 @@
-import {applyMiddleware, createStore} from 'redux';
+import {applyMiddleware, createStore, compose} from 'redux';
 import reducer from '../redux/reducers/index';
 import rootEpic from '../redux/epics';
 import { createEpicMiddleware } from 'redux-observable';
 import { createLogger } from 'redux-logger';
-import { ajax } from 'rxjs/observable/dom/ajax';
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const epicMiddleware = createEpicMiddleware();
 const getMiddleware = () => {
@@ -12,7 +12,7 @@ const getMiddleware = () => {
   }
   return applyMiddleware(epicMiddleware, createLogger());
 };
-const store = createStore(reducer, getMiddleware());
+const store = createStore(reducer,composeEnhancers(getMiddleware()) );
 
 epicMiddleware.run(rootEpic);
 export default store;

@@ -1,11 +1,21 @@
 import React, {PureComponent} from 'react';
-import { Col, Container, Row, CardBody, Card, ButtonToolbar } from 'reactstrap';
+import {
+    Col,
+    Container,
+    Row,
+    CardBody,
+    Card,
+    ButtonToolbar,
+    ButtonGroup,
+    Button
+} from 'reactstrap';
 import Committees from './components/committees';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { committeesPartnersLoad, committeesPartnersLoadSearch } from '../../redux/actions/partners';
+import { committeesPartnersLoad, committeesPartnersLoadSearch, committeesPartnersLoadPagenext, committeesPartnersLoadPageback } from '../../redux/actions/partners';
 import { reduxForm } from 'redux-form';
 import FilterCommittees from './components/filterCommittees';
+import { KeyboardArrowLeftIcon , KeyboardArrowRightIcon} from 'mdi-react';
 
 
 class Partners extends PureComponent {
@@ -22,7 +32,15 @@ class Partners extends PureComponent {
     e.preventDefault();
     
   }
+  getPager = () => {
+    let total = Math.floor(this.props.totalCommittees / 10);
+    return {
+      total
+    }
+  }
   render() {
+    let pager = this.getPager();
+    const {totalCommittees, pageCommittees} = this.props
     return (
       <Container className='dashboard'>
         <Row>
@@ -48,6 +66,15 @@ class Partners extends PureComponent {
           <Committees committees={this.props.committees}/>
           </CardBody>
           </Card>
+          <Row>
+            <Col xs="2">
+            {pageCommittees > 0 && <Button size="sm" color='primary' outline onClick={this.props.committeesPartnersLoadPageback}><KeyboardArrowLeftIcon /> Atras</Button>}
+            </Col>
+            <Col xs="8" className="text-center">Del {pageCommittees*10 + 1} al {pageCommittees*10 +10} de {totalCommittees} registros</Col>
+            <Col xs="2" className="text-right">
+            {(pageCommittees < pager.total) &&<Button size="sm" color='primary' outline onClick={this.props.committeesPartnersLoadPagenext}>Siguiente <KeyboardArrowRightIcon /></Button>}
+            </Col>
+          </Row>
       </Container>
     )
   }
@@ -55,13 +82,17 @@ class Partners extends PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    totalCommittees: state.partners.totalCommittees,
     committees: state.partners.committees,
-    periodDefault: state.periods.periodDefault
+    periodDefault: state.periods.periodDefault,
+    pageCommittees:state.partners.pageCommittees,
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
   committeesPartnersLoad,
-  committeesPartnersLoadSearch
+  committeesPartnersLoadSearch,
+  committeesPartnersLoadPagenext,
+  committeesPartnersLoadPageback
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'committees_partners_form', // a unique identifier for this form

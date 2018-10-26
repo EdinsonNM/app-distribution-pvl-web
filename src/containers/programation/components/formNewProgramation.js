@@ -11,8 +11,9 @@ class FormNewDistribution extends PureComponent {
 	state = {
 		committees: []
 	}
+
 	render() {
-		const {totalCommittees = 0, beneficiariesLoaded = 0, periods = [], handleSubmit} = this.props;
+		const {totalCommittees = 0, beneficiariesLoaded = 0, handleSubmit} = this.props;
 		let minValueDay = minValue(this.state.maxDay);
 		let percentege =  0;
 		if(totalCommittees > 0)
@@ -62,7 +63,7 @@ class FormNewDistribution extends PureComponent {
 						<Button type='button'>
 							Cancel
 						</Button>
-						<Button color='primary' type='submit' disabled={totalCommittees !== beneficiariesLoaded}>Crear programación</Button>
+						<Button color='primary' type='submit' disabled={totalCommittees !== beneficiariesLoaded || this.props.disableForm}>Crear programación</Button>
 					</ButtonToolbar>
 				</form>
 				
