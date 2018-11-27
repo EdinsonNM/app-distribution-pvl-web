@@ -19,7 +19,6 @@ import {
 	committeesPartnersTotalCountOk
 } from '../actions/partners';
 import store from '../../app/store';
-import PartnerApi from '../../api/partner';
 class PartnerEpic{
 	static CommitteesSearch = (action$) =>  action$.pipe(
 		ofType(COMMITTEES_PARTNERS_LOAD_SEARCH),

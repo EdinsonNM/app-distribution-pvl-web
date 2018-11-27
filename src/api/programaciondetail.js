@@ -31,6 +31,10 @@ class ProgramationDetailApi {
         let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/confirmdistribution/:id`, {id});
         return ajax.put(url, {},  HeaderRequest.getPublicRequestHeader());
     }
+    static removeDistribution = (id) => {
+        let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/removedistribution/:id`, {id});
+        return ajax.put(url, {},  HeaderRequest.getPublicRequestHeader());
+    }
     static download = (id) => {
         return CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/download/:id`, {id});
     }

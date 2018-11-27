@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import { Col, Container, Row, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -11,7 +11,7 @@ import ProgramationRation from './components/programationRation';
 import Panel from '../../components/Panel';
 import FormSearchZone from './components/formSearchZone';
 import ListDistribution from './components/listDistribution';
-import {programationdetailsLoad, programationdetailsUpdatedistribution, programationdetailConfirmDistribution} from '../../redux/actions/programation-detail';
+import {programationdetailsLoad, programationdetailsUpdatedistribution, programationdetailConfirmDistribution, programationdetailRemoveDistribution} from '../../redux/actions/programation-detail';
 import UtilColor from '../../lib/util-color';
 import FormSearchCommittee from './components/formSearchCommittee';
 import { committeesLoadSearch } from '../../redux/actions/committees';
@@ -98,15 +98,24 @@ class ProgramationGroupDetail extends PureComponent {
 					<Panel md="4" lg="4" title={activeSearchZone ? "Listado de Zonas":"Listado de Comites"} subhead='Total de comites'  onChangeRefresh = {this.handleChangeSearch}>
 					{
 						(activeSearchZone) ?
-							<FormSearchZone zones={this.props.zones} handleAddZone={this.handleAddZone} />
+							<FormSearchZone zones={this.props.zones} handleAddZone={this.handleAddZone} onChangeForm = {this.handleChangeSearch}/>
 							:
-							<FormSearchCommittee committees={this.props.committees} search={this.props.committeesLoadSearch} handleAddCommittee={this.handleAddCommittee}/>
+							<FormSearchCommittee committees={this.props.committees} search={this.props.committeesLoadSearch} handleAddCommittee={this.handleAddCommittee} onChangeForm = {this.handleChangeSearch}/>
 					}
 					</Panel>
 				</Row>
 				<Row>
+					<Panel md="12" lg="12" title="Listado de Comites Programados" subhead='Total de comites' >
+						<ListDistribution committees={this.state.committees} distributions={distributions.filter(item => !item.withActa)}
+						programationdetailConfirmDistribution={this.props.programationdetailConfirmDistribution}
+						programationdetailRemoveDistribution={this.props.programationdetailRemoveDistribution}
+						/>
+					</Panel>
+					
+				</Row>
+				<Row>
 					<Panel md="12" lg="12" title="Listado de Comites Distribuidos" subhead='Total de comites' >
-						<ListDistribution committees={this.state.committees} distributions={distributions}
+						<ListDistribution committees={this.state.committees} distributions={distributions.filter(item => item.withActa)}
 						programationdetailConfirmDistribution={this.props.programationdetailConfirmDistribution}/>
 					</Panel>
 					
@@ -138,6 +147,7 @@ class ProgramationGroupDetail extends PureComponent {
 						/>
 					}
 				</Row>
+				
 			</Container>
 		)
 	}
@@ -158,6 +168,7 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	zonesLoad,
 	programationdetailsUpdatedistribution,
 	programationdetailsLoad,
-	programationdetailConfirmDistribution
+	programationdetailConfirmDistribution,
+	programationdetailRemoveDistribution
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(ProgramationGroupDetail);

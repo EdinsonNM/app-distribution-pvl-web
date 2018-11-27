@@ -19,12 +19,16 @@ export const PROGRAMATIONDETAIL_UPDATEDISTRIBUTION = 'PROGRAMATIONDETAIL_UPDATED
 export const PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION = 'PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION';
 export const PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION_OK = 'PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION_OK';
 
+export const PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION = 'PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION';
+export const PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION_OK = 'PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION_OK';
+
 
 const actionsCreator = createActions(
 	{
         PROGRAMATIONDETAILS_SAVE: (programation, details) => ({programation, details}),
         PROGRAMATIONDETAILS_UPDATEDISTRIBUTION: (programationId, committees) => ({programationId, committees}),
         PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION: (programationId, id) => ({programationId, id}),
+        PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION: (programationId, id) => ({programationId, id}),
 
     },
 	PROGRAMATIONDETAILS_LOAD,
@@ -36,7 +40,8 @@ const actionsCreator = createActions(
     PROGRAMATIONDETAILS_UPDATEDISTRIBUTION_OK,
     PROGRAMATIONDETAIL_UPDATEDISTRIBUTION,
     PROGRAMATIONDETAIL_TOTAL_FOR_SAVE,
-    PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION_OK
+    PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION_OK,
+    PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION_OK
 );
 export const {
 	programationdetailsLoad,
@@ -51,5 +56,7 @@ export const {
     programationdetailUpdatedistribution,
     programationdetailTotalForSave,
     programationdetailConfirmDistribution,
+    programationdetailRemoveDistribution,
+    programationdetailRemoveDistributionOk,
     programationdetailConfirmDistributionOk
 } = actionsCreator;

@@ -16,7 +16,9 @@ import {
     programationdetailTotalForSave,
     programationdetailConfirmDistributionOk,
     PROGRAMATIONDETAIL_SAVE_OK,
-    PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION
+    PROGRAMATIONDETAIL_CONFIRM_DISTRIBUTION,
+    PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION,
+    programationdetailRemoveDistributionOk
 } from '../actions/programation-detail';
 import store from '../../app/store';
 import ProgramationDetailApi from '../../api/programaciondetail';
@@ -100,6 +102,16 @@ class ProgramationDetailEpic{
 				catchError(error => of(programationdetailConfirmDistributionOk(error)))
 			)
 		})
+    );
+    static removeDistribution = (action$) =>  action$.pipe(
+		ofType(PROGRAMATIONDETAIL_REMOVE_DISTRIBUTION),
+		switchMap(({payload}) => {
+			return ProgramationDetailApi.removeDistribution(payload.id).pipe(
+                tap(response => store.dispatch(programationdetailsLoad(payload.programationId))),
+				map(response => programationdetailRemoveDistributionOk(response)),
+				catchError(error => of(programationdetailRemoveDistributionOk(error)))
+			)
+		})
 	);
 
 }
@@ -111,6 +123,7 @@ export default function ProgramationDetailEpics(action$){
         ProgramationDetailEpic.ActiveDistributionMultiple(action$),
         ProgramationDetailEpic.loadAllDistribution(action$),
         ProgramationDetailEpic.confirmDistribution(action$),
+        ProgramationDetailEpic.removeDistribution(action$),
     );
     
 }

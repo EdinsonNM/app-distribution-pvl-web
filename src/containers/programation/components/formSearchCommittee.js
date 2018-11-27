@@ -2,12 +2,18 @@ import React, {PureComponent} from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { AddIcon } from 'mdi-react';
 import {Table} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class FormSearch extends PureComponent {
+	changeForm = (e) => {
+		e.preventDefault();
+		this.props.onChangeForm();
+	}
 	render() {
 		const {committees = [],handleAddCommittee} = this.props;
 		return(
 			<div>
+			<Link to='/' onClick={this.changeForm}>Realizar busqueda por zonas</Link>
 			<div className='form' onSubmit={() => {}}>
 				<div className='form__form-group'>
 					<div className='form__form-group-field'>
@@ -21,7 +27,7 @@ class FormSearch extends PureComponent {
 					<button className={`form__form-group-button`} ><AddIcon/></button>
 					</div>
 				</div>
-            </div>
+			</div>
             <div style={{maxHeight: 300, overflow: 'auto'}}>
 			<Table striped hover responsive>
 				<tbody>

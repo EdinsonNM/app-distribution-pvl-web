@@ -2,12 +2,18 @@ import React, {PureComponent} from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { AddIcon } from 'mdi-react';
 import {Table} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class FormSearch extends PureComponent {
+	changeForm = (e) => {
+		e.preventDefault();
+		this.props.onChangeForm();
+	}
 	render() {
 		const {handleAddZone} = this.props;
 		return(
 			<div>
+			<Link to='/' onClick={this.changeForm}>Realizar busqueda por comites</Link>
 			<div className='form' onSubmit={() => {}}>
 				<div className='form__form-group'>
 					<div className='form__form-group-field'>
