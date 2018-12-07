@@ -30,9 +30,14 @@ class Form extends PureComponent {
 		showPassword: !this.state.showPassword
 		})
 	};
-	
+	handleChangeProduct = (e) => {
+		console.log(e.value);
+		let product = this.props.products.find(p => p.id === e.value);
+		this.props.handleChangeUnity(product.unitOfMeasure);
+		this.setState({unity:product.unitOfMeasure});
+	}
 	render() {
-		const {handleSubmit, reset} = this.props;
+		const {handleSubmit, handleCancel} = this.props;
 
 		return (
 		<Col md={12} lg={12}>
@@ -50,27 +55,18 @@ class Form extends PureComponent {
 						name='product'
 						component={renderSelectField}
 						options={this.props.products.map(item => ({value:item.id, label: item.name}))}
+						onChange = {this.handleChangeProduct}
 					/>
 					</div>
 				</div>
 				<div className='form__form-group'>
-					<label className='form__form-group-label'>Unidad</label>
-					<div className='form__form-group-field'>
-					<Field
-						name='unity'
-						component={renderSelectField}
-						options={Object.keys(UNIT_MEASURENMENT).map(key => ({value:key, label: UNIT_MEASURENMENT[key]}))}
-					/>
-					</div>
-				</div>
-				<div className='form__form-group'>
-					<label className='form__form-group-label'>Cantidad</label>
+					<label className='form__form-group-label'>Cantidad({UNIT_MEASURENMENT[this.state.unity]})</label>
 					<div className='form__form-group-field'>
 						<Field
 							name='quantity'
 							component='input'
 							type='text'
-							placeholder='Nombre'
+							placeholder='Cantidad'
 						/>
 					</div>
 				</div>
@@ -102,7 +98,7 @@ class Form extends PureComponent {
 				
 				<ButtonToolbar className='form__button-toolbar'>
 					<Button color='primary' type='submit'>Submit</Button>
-					<Button type='button' onClick={reset}>
+					<Button type='button'  onClick={handleCancel}>
 					Cancel
 					</Button>
 				</ButtonToolbar>

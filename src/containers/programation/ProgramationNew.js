@@ -75,7 +75,8 @@ class ProgramationNew extends PureComponent {
 				productId: r.product.id,
 				productName: r.product.name,
 				totalRation: Math.floor((r.quantity / r.product.quantityConversion) * c.beneficiaries * this.state.form.days + 0.25),
-				unitOfMeasure: r.product.unitOfMeasure
+				unitOfMeasure: r.product.unitOfMeasure,
+				price: r.product.price
 			}));
 			return {
 				committeeId: c.id,

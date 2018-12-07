@@ -42,7 +42,7 @@ export default class ListDistribution extends PureComponent{
                         <td>
                         {
                             (programation.withActa)?
-                            <a target="blank" href={ProgramationDetailApi.download(programation.id)} download>Imprimir</a>
+                            <a target="blank" href={ProgramationDetailApi.download(programation.id, programation.programationId)} download>Imprimir</a>
                             :
                             <div>
                             <Button color="success" size="sm" onClick={() => this.props.programationdetailConfirmDistribution(programation.programationId,programation.id) }>Confirmar</Button>

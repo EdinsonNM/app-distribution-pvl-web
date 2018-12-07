@@ -35,8 +35,8 @@ class ProgramationDetailApi {
         let url = CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/removedistribution/:id`, {id});
         return ajax.put(url, {},  HeaderRequest.getPublicRequestHeader());
     }
-    static download = (id) => {
-        return CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/download/:id`, {id});
+    static download = (id, programationId) => {
+        return CustomUrl.getURL(`${ROUTE_PROGRAMATION_DETAIL}/download/:programationId/:id`, {programationId, id});
     }
 }
 export default ProgramationDetailApi;

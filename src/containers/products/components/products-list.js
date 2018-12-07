@@ -24,7 +24,9 @@ const renderUnit = (value) => {
 const renderOptions = (value) => {
 	return <Link to={`productos/edit/${value.value}`}>Editar</Link>
 }
-
+const renderPrice = (value) => {
+	return <span>{parseFloat(value.value).toFixed(2)}</span>
+}
 const fnRemove = (value) => {
 	const deleteItem = () => store.dispatch(productDelete(value.value));
 	return <Button size="small" style={{color: 'gray'}} onClick={deleteItem}><DeleteIcon/></Button>
@@ -61,6 +63,12 @@ export default class ProductsList extends PureComponent {
 			key: 'quantityConversion',
 			name: 'Equivalencia',
 			sortable: true,
+		},
+		{
+			key: 'price',
+			name: 'Precio (S/.)',
+			sortable: true,
+			formatter: renderPrice
 		},
 		{
 			key: 'id',

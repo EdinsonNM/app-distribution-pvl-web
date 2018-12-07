@@ -5,22 +5,33 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {productsLoad} from '../../redux/actions/products';
 import {incomeSave} from '../../redux/actions/incomes';
+import { Redirect } from 'react-router-dom';
 class Committee extends PureComponent {
+	state = {
+		canel: false,
+		unity: null
+	}
 	componentDidMount(){
 		this.props.productsLoad();
 	}
+	handleChangeUnity = (unity) => this.setState({unity})
 	onSubmit = (form) => {
-		debugger;
-		console.log(form);
 		this.props.incomeSave({
 			productId: form.product.value,
-			unityId: form.unity.value,
+			unityId: this.state.unity,
 			quantity: form.quantity,
 			inputCode: form.inputCode,
 			entryDate: form.entryDate.toDate()
-		})
+		});
+		this.setState({cancel: true});
+	}
+	onCancel = () => {
+		this.setState({cancel: true})
 	}
 	render() {
+		if(this.state.cancel){
+			return <Redirect to={`/pages/ingresos`} />
+		}
 		return (
 		<Container>
 			<Row>
@@ -30,7 +41,7 @@ class Committee extends PureComponent {
 			</Col>
 			</Row>
 			<Row>
-				<Form onSubmit={this.onSubmit} products={this.props.products}/>
+				<Form onSubmit={this.onSubmit} products={this.props.products} handleCancel={this.onCancel} handleChangeUnity={this.handleChangeUnity}/>
 			</Row>
 		</Container>
 		)

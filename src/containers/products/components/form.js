@@ -72,6 +72,16 @@ class Form extends PureComponent {
 						<span dangerouslySetInnerHTML={{__html: UNIT_MEASURENMENT_ABREV[this.state.unitOfMeasureConversion]}}></span>
 					</div>
 				</div>
+				<div className='form__form-group'>
+					<label className='form__form-group-label'>Precio por {UNIT_MEASURENMENT[this.state.unitOfMeasure]} (S/.)</label>
+					<div className='form__form-group-field'>
+						<Field
+							name='price'
+							component='input'
+							type='text'
+						/>
+					</div>
+				</div>
 				<ButtonToolbar className='form__button-toolbar'>
 					<Button color='primary' type='submit'>Guardar</Button>
 					<Button type='button' onClick={handleCancel}>

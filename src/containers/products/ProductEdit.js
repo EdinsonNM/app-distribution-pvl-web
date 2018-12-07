@@ -18,7 +18,8 @@ class ProductNew extends PureComponent {
 			name: form.name,
 			unitOfMeasure: form.unitOfMeasure.value,
 			unitOfMeasureConversion: form.unitOfMeasureConversion.value,
-			quantityConversion: form.quantityConversion
+			quantityConversion: form.quantityConversion,
+			price: form.price
 		}
 		this.props.productUpdate(model);
 	}
