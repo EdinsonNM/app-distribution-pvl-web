@@ -110,6 +110,7 @@ class ProgramationNew extends PureComponent {
 			month: form.month.value,
 			days: form.days,
 			distributions: this.state.rationsTotales,
+			year: parseInt(this.props.periods.find(p => p.id === this.props.periodDefault).name.substring(0,4), 10)
 		}
 		this.setState({disableForm: true})
 		this.props.programationSave(model, this.state.programations);

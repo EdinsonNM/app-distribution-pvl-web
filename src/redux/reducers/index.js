@@ -5,6 +5,8 @@ import UrbanCoreReducer from './urbancore';
 import ProductsReducer from './products';
 import AddresstypeReducer from './addresstype';
 import PartnersReducer from './partners';
+import DocumenttypeReducer from './documenttype';
+
 import BeneficiariesReducer from './beneficiaries';
 import PeriodsReducer from './periods';
 import RationsReducer from './rations';
@@ -13,6 +15,7 @@ import ProgramationReducer from './programation';
 import ProgramationDetailReducer from './programationdetail';
 
 import IncomesReducer from './incomes';
+import ReportsReducer from './reports';
 
 
 import {reducer as reduxFormReducer} from 'redux-form';
@@ -26,6 +29,7 @@ export default combineReducers({
   urbancore: UrbanCoreReducer,
   products: ProductsReducer,
   addresstype: AddresstypeReducer,
+  documenttype: DocumenttypeReducer,
   partners: PartnersReducer,
   beneficiaries: BeneficiariesReducer,
   periods: PeriodsReducer,
@@ -33,5 +37,6 @@ export default combineReducers({
   zones: ZonesReducer,
   programation: ProgramationReducer,
   incomes: IncomesReducer,
-  programationdetail: ProgramationDetailReducer
+  programationdetail: ProgramationDetailReducer,
+  reports: ReportsReducer
 });

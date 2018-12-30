@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { urbancoreLoad } from '../../redux/actions/urbancore';
 import { productsLoad } from '../../redux/actions/products';
+import { documenttypeLoad } from '../../redux/actions/documenttype';
 import { addresstypeLoad } from '../../redux/actions/addresstype';
 import { periodsLoad } from '../../redux/actions/periods';
 import { ToastContainer } from 'react-toastify';
@@ -15,6 +16,7 @@ class Layout extends PureComponent {
     this.props.productsLoad();
     this.props.addresstypeLoad();
     this.props.periodsLoad();
+    this.props.documenttypeLoad();
   }
   render() {
     return (
@@ -31,6 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
   urbancoreLoad,
   productsLoad,
   addresstypeLoad,
+  documenttypeLoad,
   periodsLoad
 }, dispatch)
 export default connect(null, mapDispatchToProps)(Layout)

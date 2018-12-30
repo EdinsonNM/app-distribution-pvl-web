@@ -34,8 +34,8 @@ class Form extends PureComponent {
 			<Card>
 			<CardBody>
 				<div className='card__title'>
-				<h5 className='bold-text'>Datos de Beneficiario</h5>
-				<h5 className='subhead'>Complete toda la información para realizar el registro de un comité</h5>
+				<h5 className='bold-text'>Datos del Socio</h5>
+				<h5 className='subhead'>Ingrese los datos del socio</h5>
 				</div>
 				<form className='form form--horizontal' onSubmit={handleSubmit}>
 				
@@ -135,16 +135,81 @@ class Form extends PureComponent {
 					</div>
 				</div>
 				<div className='form__form-group'>
-					<label className='form__form-group-label'>Motivo beneficio</label>
+					<label className='form__form-group-label'>Dirección</label>
 					<div className='form__form-group-field'>
-						<Field
-							name='select'
-							component={renderSelectField}
-							options={[
-							{value: 'one', label: 'One'},
-							{value: 'two', label: 'Two'},
-							]}
-						/>
+					<Field
+						name='addresstypeId'
+						component={renderSelectField}
+						options={this.props.addresstype.map(item => ({value:item.id, label: item.name}))}
+					/>
+					</div>
+				</div>
+				<div className='form__form-group'>
+					<div className='form__form-group-field'>
+					<Field
+						name='addresstypeName'
+						component='input'
+						type='text'
+						placeholder='Dirección'
+					/>
+					</div>
+				</div>
+				
+				<div className="form__form-group">
+					<label className='form__form-group-label'></label>
+					<div className='form__form-group-field' style={{paddingLeft: 5}}>
+						<div className="container">
+							<div className="row">
+								<div className="col-md-2">
+									<Field
+										name='number'
+										component='input'
+										type='text'
+										placeholder='Nro'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='letter'
+										component='input'
+										type='text'
+										placeholder='Letra'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='block'
+										component='input'
+										type='text'
+										placeholder='Block'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='manzana'
+										component='input'
+										type='text'
+										placeholder='Manzana'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='lote'
+										component='input'
+										type='text'
+										placeholder='Lote'
+									/>
+								</div>
+								<div className="col-md-2">
+									<Field
+										name='floor'
+										component='input'
+										type='text'
+										placeholder='Piso'
+									/>
+								</div>
+							</div>				
+						</div>
 					</div>
 				</div>
 				<ButtonToolbar className='form__button-toolbar'>
@@ -162,5 +227,5 @@ class Form extends PureComponent {
 }
 
 export default reduxForm({
-	form: 'committee_form', // a unique identifier for this form
+	form: 'partner_form', // a unique identifier for this form
 })(Form);

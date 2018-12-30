@@ -13,6 +13,8 @@ import IncomesEpics from './incomes';
 import OutgoingsEpics from './outgoings';
 import UsersEpics from './users';
 import ProgramationDetailEpics from './programationdetail';
+import DocumentTypeEpics from './documenttype';
+import ReportsEpics from './reports';
 export default combineEpics(
 	CommitteeEpics,
 	UrbanCoresEpics,
@@ -27,5 +29,7 @@ export default combineEpics(
 	OutgoingsEpics,
 	UsersEpics,
 	ProgramationEpics,
-	ProgramationDetailEpics
+	ProgramationDetailEpics,
+	DocumentTypeEpics,
+	ReportsEpics
 )

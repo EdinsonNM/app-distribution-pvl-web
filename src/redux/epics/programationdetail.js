@@ -34,6 +34,9 @@ class ProgramationDetailEpic{
                     committeeId: payload.programation.committeeId,
                     programationId: payload.programation.id,
                     periodId: payload.programation.periodId,
+                    year: payload.programation.year,
+                    month: payload.programation.month,
+                    withActa: false,
                     ...element
                 }
                 store.dispatch(programationdetailSave(item))

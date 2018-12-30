@@ -41,11 +41,13 @@ class SidebarContent extends PureComponent {
           <SidebarLink title='Ración' icon='home' route={`/pages/raciones/periodo`} onClick={this.hideSidebar}/> 
           <SidebarLink title='Zonas de Distribución' icon='home' route='/pages/zonas' onClick={this.hideSidebar}/>
           <SidebarLink title='Programación' icon='home' route='/pages/programacion' onClick={this.hideSidebar}/> 
-          
-        </ul>
-        <ul className='sidebar__block'>
-          <SidebarLink title='Log Out' icon='exit' route='/log_in' onClick={this.hideSidebar}/>
-        </ul>
+          </ul>
+          <ul className='sidebar__block'>
+            <SidebarLink title='Reporte Ingresos/salidas' icon='home' route='/pages/reports/input-output' onClick={this.hideSidebar}/> 
+          </ul>
+          <ul className='sidebar__block'>
+            <SidebarLink title='Log Out' icon='exit' route='/log_in' onClick={this.hideSidebar}/>
+          </ul>
       </div>
     )
   }

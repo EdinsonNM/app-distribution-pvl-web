@@ -80,7 +80,7 @@ class PartnersList extends PureComponent {
                         <MagnifyIcon/>
                       </div>
                     </div>
-                    <Link className='btn btn-primary products-list__btn-add' to='/e-commerce/product_edit'>Nuevo Socio</Link>
+                    <Link className='btn btn-primary products-list__btn-add' to='/pages/socios/new'>Nuevo Socio</Link>
                   </ButtonToolbar>
                 </div>
                 <EditTable heads={this.heads} rows={this.state.rows} enableRowSelect/>

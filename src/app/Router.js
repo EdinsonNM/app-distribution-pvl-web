@@ -23,6 +23,8 @@ import ProductNew from '../containers/products/ProductNew';
 import programation from '../containers/programation/programation';
 import programationGroupDetail from '../containers/programation/programation-group-detail';
 import ProductEdit from '../containers/products/ProductEdit';
+import PartnerNew from '../containers/partners/PartnerNew';
+import ReportInputOutput from '../containers/reports/input-output';
 
 const Router = () => (
   <MainWrapper>
@@ -59,6 +61,7 @@ const Pages = () => (
     <Route path='/pages/comite/:id' component={Committee}/>
     <Route path='/pages/socios/dashboard' component={Partners}/>
     <Route path='/pages/socios/lista/:id' component={PartnersList}/>
+    <Route exact path='/pages/socios/new' component={PartnerNew}/>
     <Route path='/pages/beneficiarios/dashboard' component={Beneficiaries}/>
     <Route path='/pages/beneficiarios/lista/:id' component={BeneficiariesList}/>
     <Route path='/pages/beneficiarios/new' component={Beneficiary}/>
@@ -66,6 +69,7 @@ const Pages = () => (
     <Route exact path='/pages/programacion' component={programation}/>
     <Route exact path='/pages/programacion/detalle/:month' component={programationGroupDetail}/>
     <Route exact path='/pages/programacion/new' component={ProgramationNew}/>
+    <Route exact path='/pages/reports/input-output' component={ReportInputOutput}/>
   </Switch>
 );
 

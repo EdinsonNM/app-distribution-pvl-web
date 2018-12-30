@@ -1,6 +1,8 @@
 export const ROUTE_URBANCORES='/urbancores';
 export const ROUTE_ADDRESSTYPE='/addresstypes';
 export const ROUTE_PRODUCTS='/products';
+export const ROUTE_DOCUMENTTYPE='/documenttypes';
+
 
 export const ROUTE_PERIOD='/periods';
 export const ROUTE_PERIOD_RATIONS_COUNT='/periods/:id/rations/count';
