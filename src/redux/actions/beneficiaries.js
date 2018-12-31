@@ -14,6 +14,9 @@ export const COMMITTEES_BENEFICIARIES_LOAD_SEARCH = 'COMMITTEES_BENEFICIARIES_LO
 export const COMMITTEES_BENEFICIARIES_LOAD_PAGEBACK = 'COMMITTEES_BENEFICIARIES_LOAD_PAGEBACK';
 export const COMMITTEES_BENEFICIARIES_LOAD_PAGENEXT = 'COMMITTEES_BENEFICIARIES_LOAD_PAGENEXT';
 
+export const BENEFICIARY_SAVE = 'BENEFICIARY_SAVE';
+export const BENEFICIARY_SAVE_OK = 'BENEFICIARY_SAVE_OK';
+export const COMMITTEE_SELECTED = 'COMMITTEE_SELECTED';
 
 const actionsCreator = createActions(
 	{
@@ -28,7 +31,10 @@ const actionsCreator = createActions(
 	COMMITTEES_BENEFICIARIES_LOAD_OK,
 	COMMITTEES_BENEFICIARIES_LOAD_COUNT_OK,
 	COMMITTEES_BENEFICIARIES_TOTAL_COUNT_OK,
-	BENEFICIARIES_LOAD_OK
+	BENEFICIARIES_LOAD_OK,
+	BENEFICIARY_SAVE,
+	BENEFICIARY_SAVE_OK,
+	COMMITTEE_SELECTED
 );
 export const {
 	committeesBeneficiariesLoad,
@@ -40,5 +46,8 @@ export const {
 	committeesBeneficiariesLoadSearch,
 	committeesBeneficiariesTotalCountOk,
 	committeesBeneficiariesLoadPageback,
-	committeesBeneficiariesLoadPagenext
+	committeesBeneficiariesLoadPagenext,
+	beneficiarySave,
+	beneficiarySaveOk,
+	committeeSelected
 } = actionsCreator;

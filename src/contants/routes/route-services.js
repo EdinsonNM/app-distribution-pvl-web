@@ -3,6 +3,7 @@ export const ROUTE_ADDRESSTYPE='/addresstypes';
 export const ROUTE_BENEFITTYPE='/benefittypes';
 export const ROUTE_PRODUCTS='/products';
 export const ROUTE_DOCUMENTTYPE='/documenttypes';
+export const ROUTE_RELATIONSHIPS='/relationship';
 
 
 export const ROUTE_PERIOD='/periods';

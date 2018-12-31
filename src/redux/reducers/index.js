@@ -17,6 +17,7 @@ import ProgramationDetailReducer from './programationdetail';
 import IncomesReducer from './incomes';
 import ReportsReducer from './reports';
 import BenefittypeReducer from './benefittype';
+import RelationshipReducer from './relationship';
 
 
 import {reducer as reduxFormReducer} from 'redux-form';
@@ -40,5 +41,7 @@ export default combineReducers({
   incomes: IncomesReducer,
   programationdetail: ProgramationDetailReducer,
   reports: ReportsReducer,
-  benefittype: BenefittypeReducer
+  benefittype: BenefittypeReducer,
+  relationships:RelationshipReducer
+
 });

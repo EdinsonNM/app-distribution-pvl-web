@@ -5,14 +5,19 @@ import Pagination from '../../components/Pagination';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
-import { beneficiariesLoad, beneficiariesLoadSearch } from '../../redux/actions/beneficiaries';
+import {
+    beneficiariesLoad,
+    beneficiariesLoadSearch,
+    committeeSelected
+} from '../../redux/actions/beneficiaries';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class BeneficiariesList extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.committeeId = props.match.params.id
+		this.committeeId = props.match.params.id;
+		this.props.committeeSelected(this.committeeId)
 		this.heads = [
 		{
 			key: 'names',
@@ -71,7 +76,7 @@ class BeneficiariesList extends PureComponent {
 							<MagnifyIcon/>
 						</div>
 						</div>
-						<Link className='btn btn-primary products-list__btn-add' to='/beneficiarios/new'>Nuevo Beneficiario</Link>
+						<Link className='btn btn-primary products-list__btn-add' to='/pages/beneficiarios/new'>Nuevo Beneficiario</Link>
 					</ButtonToolbar>
 					</div>
 					{ this.props.beneficiaries.length && <EditTable heads={this.heads} rows={this.props.beneficiaries} enableRowSelect/>}
@@ -93,6 +98,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	beneficiariesLoad,
-	beneficiariesLoadSearch
+	beneficiariesLoadSearch,
+	committeeSelected
 }, dispatch);
 export default (connect(mapStateToProps, mapDispatchToProps)(BeneficiariesList)); 

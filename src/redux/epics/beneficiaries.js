@@ -2,7 +2,7 @@ import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
 import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
-import { of, forkJoin, concat } from 'rxjs';
+import { of, forkJoin, concat, empty } from 'rxjs';
 import {
     COMMITTEES_BENEFICIARIES_LOAD,
     COMMITTEES_BENEFICIARIES_LOAD_SEARCH,
@@ -12,12 +12,16 @@ import {
     committeesBeneficiariesLoadCountOk,
     committeesBeneficiariesLoad,
     committeesBeneficiariesLoadOk,
-	beneficiariesLoadOk,
-	beneficiariesLoad,
-	committeesBeneficiariesTotalCountOk,
-	BENEFICIARIES_LOAD_SEARCH
+    beneficiariesLoadOk,
+    beneficiariesLoad,
+    committeesBeneficiariesTotalCountOk,
+    BENEFICIARIES_LOAD_SEARCH,
+    BENEFICIARY_SAVE,
+    BENEFICIARY_SAVE_OK,
+	beneficiarySaveOk
 } from '../actions/beneficiaries';
 import store from '../../app/store';
+import BeneficiaryApi from '../../api/beneficiary';
 class BeneficiaryEpic{
 	static CommitteesSearch = (action$) =>  action$.pipe(
 		ofType(COMMITTEES_BENEFICIARIES_LOAD_SEARCH),
@@ -89,6 +93,22 @@ class BeneficiaryEpic{
 			)
 		})
 	);
+	static save = (action$) =>  action$.pipe(
+		ofType(BENEFICIARY_SAVE),
+		switchMap(({payload}) => {
+			return BeneficiaryApi.post(payload).pipe(
+				map(response => beneficiarySaveOk(response)),
+				catchError(error => of(beneficiarySaveOk(error)))
+			)
+		})
+	);
+	static saveOk = (action$) =>  action$.pipe(
+		ofType(BENEFICIARY_SAVE_OK),
+		switchMap(() => {
+			document.location = `#/pages/beneficiarios/lista/${store.getState().beneficiaries.committeeSelected}`;
+			return empty();
+		})
+	);
 }
 export default function BeneficiaryEpics (action$, store, deps){
 	return Observable.merge(
@@ -98,5 +118,7 @@ export default function BeneficiaryEpics (action$, store, deps){
 		BeneficiaryEpic.CommitteesChangePageBack(action$, store, deps),
 		BeneficiaryEpic.beneficiariesLoad(action$, store, deps),
 		BeneficiaryEpic.beneficiariesLoadSearch(action$, store, deps),
+		BeneficiaryEpic.save(action$, store, deps),
+		BeneficiaryEpic.saveOk(action$, store, deps),
 	);
 }

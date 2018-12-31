@@ -16,6 +16,7 @@ import ProgramationDetailEpics from './programationdetail';
 import DocumentTypeEpics from './documenttype';
 import ReportsEpics from './reports';
 import BenefitTypeEpics from './benefittype';
+import RelationshipEpics from './relationship';
 export default combineEpics(
 	CommitteeEpics,
 	UrbanCoresEpics,
@@ -33,5 +34,6 @@ export default combineEpics(
 	ProgramationDetailEpics,
 	DocumentTypeEpics,
 	ReportsEpics,
-	BenefitTypeEpics
+	BenefitTypeEpics,
+	RelationshipEpics
 )

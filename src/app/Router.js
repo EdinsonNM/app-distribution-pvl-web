@@ -10,7 +10,6 @@ import Committee from '../containers/committees/committee';
 import PartnersList from '../containers/partners/PartnersList';
 import Beneficiaries from '../containers/beneficiaries/Beneficiaries';
 import BeneficiariesList from '../containers/beneficiaries/Beneficiaries-list';
-import Beneficiary from '../containers/beneficiaries/Beneficiary';
 import Products from '../containers/products/Products';
 import Rations from '../containers/rations/Rations';
 import RationsList from '../containers/rations/RationsList';
@@ -25,6 +24,7 @@ import programationGroupDetail from '../containers/programation/programation-gro
 import ProductEdit from '../containers/products/ProductEdit';
 import PartnerNew from '../containers/partners/PartnerNew';
 import ReportInputOutput from '../containers/reports/input-output';
+import BeneficiaryNew from '../containers/beneficiaries/BeneficiaryNew';
 
 const Router = () => (
   <MainWrapper>
@@ -64,7 +64,7 @@ const Pages = () => (
     <Route exact path='/pages/socios/new' component={PartnerNew}/>
     <Route path='/pages/beneficiarios/dashboard' component={Beneficiaries}/>
     <Route path='/pages/beneficiarios/lista/:id' component={BeneficiariesList}/>
-    <Route path='/pages/beneficiarios/new' component={Beneficiary}/>
+    <Route path='/pages/beneficiarios/new' component={BeneficiaryNew}/>
     <Route path='/pages/zonas' component={Zones}/>
     <Route exact path='/pages/programacion' component={programation}/>
     <Route exact path='/pages/programacion/detalle/:month' component={programationGroupDetail}/>
