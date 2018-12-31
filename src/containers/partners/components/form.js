@@ -1,19 +1,15 @@
 import React, {PureComponent} from 'react';
 import { Card, CardBody, Col, Button, ButtonToolbar, Row } from 'reactstrap';
 import {Field, reduxForm} from 'redux-form';
-import renderFileInputField from '../../../components/form/FileInput';
 import renderSelectField from '../../../components/form/Select';
-import renderMultiSelectField from '../../../components/form/MultiSelect';
-
-import EyeIcon from 'mdi-react/EyeIcon';
-import EmailIcon from 'mdi-react/EmailIcon';
-import AccountSearchIcon from 'mdi-react/AccountSearchIcon';
+import renderRadioButtonField from '../../../components/form/RadioButton';
 
 class Form extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			showPassword: false,
+			benefitTypeDisabled: false
 		};
 		
 		this.showPassword = this.showPassword.bind(this);
@@ -25,7 +21,11 @@ class Form extends PureComponent {
 		showPassword: !this.state.showPassword
 		})
 	};
-	
+	toggleBenefitType = (e) => {
+		this.setState({
+			benefitTypeDisabled: (e[0] === '0')
+		})
+	}
 	render() {
 		const {handleSubmit, reset} = this.props;
 
@@ -43,7 +43,7 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Nombres</label>
 					<div className='form__form-group-field'>
 						<Field
-							name='name'
+							name='names'
 							component='input'
 							type='text'
 							placeholder='Nombre'
@@ -54,7 +54,7 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Apellido Paterno</label>
 					<div className='form__form-group-field'>
 						<Field
-							name='name'
+							name='firstsurname'
 							component='input'
 							type='text'
 							placeholder='Nombre'
@@ -65,7 +65,7 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Apellido Materno</label>
 					<div className='form__form-group-field'>
 						<Field
-							name='name'
+							name='lastsurname'
 							component='input'
 							type='text'
 							placeholder='Nombre'
@@ -76,12 +76,9 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Tipo Documento</label>
 					<div className='form__form-group-field'>
 					<Field
-						name='select'
+						name='documenttypeId'
 						component={renderSelectField}
-						options={[
-						{value: 'one', label: 'One'},
-						{value: 'two', label: 'Two'},
-						]}
+						options={this.props.documenttype.map(d=>({value: d.id,label: d.name}))}
 					/>
 					</div>
 				</div>
@@ -89,7 +86,7 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Documento</label>
 					<div className='form__form-group-field'>
 						<Field
-							name='name'
+							name='documentId'
 							component='input'
 							type='text'
 							placeholder='Nombre'
@@ -100,40 +97,56 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Fecha Nacimiento</label>
 					<div className='form__form-group-field'>
 						<Field
-							name='name'
+							name='birthday'
 							component='input'
 							type='date'
 							placeholder='Nombre'
 						/>
 					</div>
 				</div>
-				<div className='form__form-group'>
-					<label className='form__form-group-label'>Sexo</label>
+				<div className="form__form-group">
+					<label className='form__form-group-label'>Es Beneficiario?</label>
 					<div className='form__form-group-field'>
-					<Field
-						name='select'
-						component={renderSelectField}
-						options={[
-						{value: 'one', label: 'One'},
-						{value: 'two', label: 'Two'},
-						]}
-					/>
+					<div className="container">
+						<div className="row">
+							<div className="col-md-4">
+								<Field
+								name='isBeneficiary'
+								component={renderRadioButtonField}
+								label='Si'
+								radioValue="1"
+								class="colored-click"
+								onChange={this.toggleBenefitType}
+								/>
+							</div>
+							<div className="col-md-4">
+								<Field
+								name='isBeneficiary'
+								component={renderRadioButtonField}
+								label='No'
+								radioValue="0"
+								onChange={this.toggleBenefitType}
+								class="colored-click"
+								/>
+							</div>
+						</div>
+						
+					</div>
+						
 					</div>
 				</div>
-				
-				<div className='form__form-group'>
-					<label className='form__form-group-label'>Parentesco Socio</label>
-					<div className='form__form-group-field'>
-						<Field
-							name='select'
-							component={renderSelectField}
-							options={[
-							{value: 'one', label: 'One'},
-							{value: 'two', label: 'Two'},
-							]}
-						/>
+				{ !this.state.benefitTypeDisabled && 
+					<div className='form__form-group'>
+						<label className='form__form-group-label'>Tipo Beneficiario</label>
+						<div className='form__form-group-field'>
+							<Field
+								name='benefittypeId'
+								component={renderSelectField}
+								options={this.props.benefittype.map(item => ({value: item.id, label: item.name}))}
+							/>
+						</div>
 					</div>
-				</div>
+				}
 				<div className='form__form-group'>
 					<label className='form__form-group-label'>Dirección</label>
 					<div className='form__form-group-field'>

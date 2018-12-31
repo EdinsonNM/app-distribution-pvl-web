@@ -8,7 +8,10 @@ class PartnerApi{
         let url = CustomUrl.getURL(ROUTE_PARTNER, payload) + qs.stringify({filter});
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
- 
+    static post = (payload) => {
+        let url = CustomUrl.getURL(ROUTE_PARTNER, {});
+        return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
+    }
 }
 
 export default PartnerApi;

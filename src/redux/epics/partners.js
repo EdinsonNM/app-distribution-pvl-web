@@ -2,7 +2,7 @@ import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
 import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
-import { of, forkJoin, concat } from 'rxjs';
+import { of, forkJoin, concat, empty } from 'rxjs';
 import {
     COMMITTEES_PARTNERS_LOAD,
     committeesPartnersLoadOk,
@@ -11,14 +11,18 @@ import {
     COMMITTEES_PARTNERS_LOAD_PAGENEXT,
     COMMITTEES_PARTNERS_LOAD_PAGEBACK,
     committeesPartnersLoad,
-	PARTNERS_LOAD,
-	partnersLoad,
-	partnersLoadOk, 
-	partnersLoadCountOk,
-	PARTNERS_LOAD_SEARCH,
-	committeesPartnersTotalCountOk
+    PARTNERS_LOAD,
+    partnersLoad,
+    partnersLoadOk,
+    partnersLoadCountOk,
+    PARTNERS_LOAD_SEARCH,
+    committeesPartnersTotalCountOk,
+    PARTNER_SAVE,
+    PARTNER_SAVE_OK,
+	partnerSaveOk
 } from '../actions/partners';
 import store from '../../app/store';
+import PartnerApi from '../../api/partner';
 class PartnerEpic{
 	static CommitteesSearch = (action$) =>  action$.pipe(
 		ofType(COMMITTEES_PARTNERS_LOAD_SEARCH),
@@ -99,6 +103,23 @@ class PartnerEpic{
 
 		})
 	);
+
+	static save = (action$) =>  action$.pipe(
+		ofType(PARTNER_SAVE),
+		switchMap(({payload}) => {
+			return PartnerApi.post(payload).pipe(
+				map(response => partnerSaveOk(response)),
+				catchError(error => of(partnerSaveOk(error)))
+			)
+		})
+	);
+	static saveOk = (action$) =>  action$.pipe(
+		ofType(PARTNER_SAVE_OK),
+		switchMap(() => {
+			document.location = `#/pages/socios/lista/${store.getState().partners.committeeSelected}`;
+			return empty();
+		})
+	);
 }
 export default function PartnerEpics (action$, store, deps){
 	return Observable.merge(
@@ -108,5 +129,7 @@ export default function PartnerEpics (action$, store, deps){
 		PartnerEpic.CommitteesChangePageBack(action$, store, deps),
 		PartnerEpic.partnersLoad(action$, store, deps),
 		PartnerEpic.partnersLoadSearch(action$, store, deps),
+		PartnerEpic.save(action$, store, deps),
+		PartnerEpic.saveOk(action$, store, deps),
 	);
 }

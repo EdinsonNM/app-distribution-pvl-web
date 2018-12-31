@@ -17,7 +17,10 @@ export const COMMITTEES_PARTNERS_LOAD_SEARCH = 'COMMITTEES_PARTNERS_LOAD_SEARCH'
 export const COMMITTEES_PARTNERS_LOAD_PAGEBACK = 'COMMITTEES_PARTNERS_LOAD_PAGEBACK';
 export const COMMITTEES_PARTNERS_LOAD_PAGENEXT = 'COMMITTEES_PARTNERS_LOAD_PAGENEXT';
 
+export const PARTNER_SAVE = 'PARTNER_SAVE';
+export const PARTNER_SAVE_OK = 'PARTNER_SAVE_OK';
 
+export const COMMITTEE_SELECTED = 'COMMITTEE_SELECTED';
 const actionsCreator = createActions(
 	{
 		COMMITTEES_PARTNERS_LOAD: (page = 0, query = '') => ({ page, query: query.toUpperCase() }),
@@ -31,7 +34,10 @@ const actionsCreator = createActions(
 	COMMITTEES_PARTNERS_LOAD_COUNT_OK,
 	PARTNERS_LOAD_OK,
 	PARTNERS_LOAD_COUNT_OK,
-	COMMITTEES_PARTNERS_TOTAL_COUNT_OK
+	COMMITTEES_PARTNERS_TOTAL_COUNT_OK,
+	PARTNER_SAVE,
+	PARTNER_SAVE_OK,
+	COMMITTEE_SELECTED
 	);
 export const {
 	committeesPartnersLoad,
@@ -44,5 +50,8 @@ export const {
 	partnersLoadCountOk,
 	committeesPartnersTotalCountOk,
 	committeesPartnersLoadPagenext,
-	committeesPartnersLoadPageback
+	committeesPartnersLoadPageback,
+	partnerSave,
+	partnerSaveOk,
+	committeeSelected
 } = actionsCreator;

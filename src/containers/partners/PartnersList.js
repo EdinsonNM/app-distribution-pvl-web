@@ -5,7 +5,7 @@ import Pagination from '../../components/Pagination';
 import {Link} from 'react-router-dom';
 
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
-import { partnersLoad, partnersLoadSearch } from '../../redux/actions/partners';
+import { partnersLoad, partnersLoadSearch, committeeSelected } from '../../redux/actions/partners';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CustomArray from '../../lib/custom-array';
@@ -38,6 +38,7 @@ class PartnersList extends PureComponent {
     };
     this.onChangePage = this.onChangePage.bind(this);
     this.limit = 10;
+    this.props.committeeSelected(this.committeeId);
   }
   componentDidMount() {
     this.props.partnersLoadSearch(this.committeeId);
@@ -102,6 +103,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
   partnersLoad,
+  committeeSelected,
   partnersLoadSearch
 }, dispatch);
 export default (connect(mapStateToProps, mapDispatchToProps)(PartnersList)); 

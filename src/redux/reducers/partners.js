@@ -1,13 +1,16 @@
 import { handleActions } from 'redux-actions';
-import { COMMITTEES_PARTNERS_TOTAL_COUNT_OK } from '../actions/partners';
 const initialState = {
 	committees: [],
 	data: [],
-	error:{}
+	error:{},
+	committeeSelected: null
 };
 const reducer = handleActions({
 	COMMITTEES_PARTNERS_LOAD: (state, action) => ({
 		...state, queryCommittees: action.payload.query, pageCommittees: action.payload.page
+	}),
+	COMMITTEE_SELECTED: (state, action) => ({
+		...state, committeeSelected: action.payload
 	}),
 	COMMITTEES_PARTNERS_LOAD_OK: {
 		next: (state, action) => ({

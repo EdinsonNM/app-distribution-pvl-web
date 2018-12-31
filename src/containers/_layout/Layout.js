@@ -9,6 +9,7 @@ import { documenttypeLoad } from '../../redux/actions/documenttype';
 import { addresstypeLoad } from '../../redux/actions/addresstype';
 import { periodsLoad } from '../../redux/actions/periods';
 import { ToastContainer } from 'react-toastify';
+import { benefittypeLoad } from '../../redux/actions/benefittype';
 
 class Layout extends PureComponent {
   componentDidMount(){
@@ -17,6 +18,7 @@ class Layout extends PureComponent {
     this.props.addresstypeLoad();
     this.props.periodsLoad();
     this.props.documenttypeLoad();
+    this.props.benefittypeLoad();
   }
   render() {
     return (
@@ -34,6 +36,7 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
   productsLoad,
   addresstypeLoad,
   documenttypeLoad,
-  periodsLoad
+  periodsLoad,
+  benefittypeLoad
 }, dispatch)
 export default connect(null, mapDispatchToProps)(Layout)

@@ -3,22 +3,22 @@ import {Col, Container, Row} from 'reactstrap';
 import Form from './components/form';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {productSave} from '../../redux/actions/products';
 import { Redirect } from 'react-router';
+import {partnerSave} from '../../redux/actions/partners';
 class PartnerNew extends PureComponent {
 	state = {
 		cancel: false
 	}
 	onSubmit = (form) => {
 		const model = {
-			name: form.name,
-			unitOfMeasure: form.unitOfMeasure.value,
-			unitOfMeasureConversion: form.unitOfMeasureConversion.value,
-			quantityConversion: form.quantityConversion,
-			price: form.price
+			...form,
+			addresstypeId: form.addresstypeId.value,
+			documenttypeId: form.documenttypeId.value,
+			benefittypeId: (form.benefittypeId) ? form.benefittypeId.value : null,
+			committeeId: this.props.committeeSelected
 		}
 
-		this.props.productSave(model);
+		this.props.partnerSave(model);
 	}
 	onCancel = () => {
 		this.setState({cancel: true})
@@ -44,9 +44,12 @@ class PartnerNew extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    addresstype: state.addresstype.data
+	addresstype: state.addresstype.data,
+	documenttype: state.documenttype.data,
+	benefittype: state.benefittype.data,
+	committeeSelected: state.partners.committeeSelected
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-	productSave
+	partnerSave
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(PartnerNew)

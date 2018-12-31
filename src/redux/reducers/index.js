@@ -16,6 +16,7 @@ import ProgramationDetailReducer from './programationdetail';
 
 import IncomesReducer from './incomes';
 import ReportsReducer from './reports';
+import BenefittypeReducer from './benefittype';
 
 
 import {reducer as reduxFormReducer} from 'redux-form';
@@ -38,5 +39,6 @@ export default combineReducers({
   programation: ProgramationReducer,
   incomes: IncomesReducer,
   programationdetail: ProgramationDetailReducer,
-  reports: ReportsReducer
+  reports: ReportsReducer,
+  benefittype: BenefittypeReducer
 });
