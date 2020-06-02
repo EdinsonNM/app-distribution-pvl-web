@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
-import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
+import { switchMap, catchError, map, mergeMap, debounceTime,tap } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { of, forkJoin, concat, empty } from 'rxjs';
 import {
@@ -19,7 +19,13 @@ import {
     committeesPartnersTotalCountOk,
     PARTNER_SAVE,
     PARTNER_SAVE_OK,
-	partnerSaveOk
+	partnerSaveOk,
+	partnerUpdateOk,
+    PARTNER_UPDATE,
+    PARTNER_UPDATE_OK, 
+	PARTNER_DELETE,	
+	partnerDeleteOk,
+	partnerLoad
 } from '../actions/partners';
 import store from '../../app/store';
 import PartnerApi from '../../api/partner';
@@ -59,6 +65,7 @@ class PartnerEpic{
 				let obsCount = CommitteeApi.getCount({name: {like: payload.query}, periodId: store.getState().periods.periodDefault}).pipe(
 					map(count => committeesPartnersTotalCountOk(count))
 				)
+				console.log(obsCount);
 				let committees =  CommitteeApi.getAll({filter}).pipe(
 					map(response => {
 						store.dispatch(committeesPartnersLoadOk(response));
@@ -120,6 +127,33 @@ class PartnerEpic{
 			return empty();
 		})
 	);
+	static update = (action$) =>  action$.pipe(
+		ofType(PARTNER_UPDATE),
+		switchMap(({payload}) => {
+			return PartnerApi.put(payload).pipe(
+				map(response => partnerUpdateOk(response.response)),
+				catchError(error => of(partnerUpdateOk(error)))
+			)
+		})
+	);
+	static updateOk = (action$) =>  action$.pipe(
+		ofType(PARTNER_UPDATE_OK),
+		switchMap(({payload}) => {
+			if(payload.id){
+				document.location = '#/pages/partners';
+			}
+			return empty();
+		})
+	);	
+	static delete= (action$) =>  action$.pipe(		
+		ofType(PARTNER_DELETE),
+		switchMap(({payload}) => PartnerApi.delete(payload).pipe(
+			tap(() => store.dispatch(partnersLoad(store.getState().partners.committeeSelected))),
+			map(response => partnerDeleteOk(response.response)),
+			catchError(error => of(partnerDeleteOk(error)))
+		))
+	);
+	
 }
 export default function PartnerEpics (action$, store, deps){
 	return Observable.merge(
@@ -131,5 +165,9 @@ export default function PartnerEpics (action$, store, deps){
 		PartnerEpic.partnersLoadSearch(action$, store, deps),
 		PartnerEpic.save(action$, store, deps),
 		PartnerEpic.saveOk(action$, store, deps),
+		PartnerEpic.update(action$, store, deps),
+		PartnerEpic.updateOk(action$, store, deps),
+		//PartnerEpic.loadPartner(action$, store, deps),
+		PartnerEpic.delete(action$, store, deps),
 	);
 }

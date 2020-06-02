@@ -6,7 +6,7 @@ import MainWrapper from './MainWrapper';
 import LogIn from '../containers/log_in/LogIn';
 import Committees from '../containers/committees/committees';
 import Partners from '../containers/partners/Partners';
-import Committee from '../containers/committees/committee';
+import CommitteeNew from '../containers/committees/committeeNew';
 import PartnersList from '../containers/partners/PartnersList';
 import Beneficiaries from '../containers/beneficiaries/Beneficiaries';
 import BeneficiariesList from '../containers/beneficiaries/Beneficiaries-list';
@@ -58,7 +58,7 @@ const Pages = () => (
     <Route path='/pages/raciones/dashboard' component={Rations}/>
     <Route exact path='/pages/raciones/periodo' component={RationsList}/>
     <Route exact path='/pages/raciones/periodo/new' component={Ration}/>
-    <Route path='/pages/comite/:id' component={Committee}/>
+    <Route path='/pages/comite/new' component={CommitteeNew}/>
     <Route path='/pages/socios/dashboard' component={Partners}/>
     <Route path='/pages/socios/lista/:id' component={PartnersList}/>
     <Route exact path='/pages/socios/new' component={PartnerNew}/>

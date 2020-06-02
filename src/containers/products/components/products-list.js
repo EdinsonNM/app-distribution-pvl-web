@@ -91,8 +91,7 @@ export default class ProductsList extends PureComponent {
 	
 	render() {
 		return (
-		<Container className='dashboard'>
-			
+		<Container className='dashboard'>			
 			<Row>
 				<Col md={12} lg={12}>
 				<Card>

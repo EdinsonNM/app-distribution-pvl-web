@@ -14,8 +14,8 @@ class ReportsEpic{
 	static report1Load = (action$) =>  action$.pipe(
 		ofType(INPUTS_OUTPUTS_LOAD),
 		switchMap(({payload}) => {
-            let range = CustomDate.getMonthDateRange(payload.year, payload.month);
-            let inputsObs = IncomeApi.getAll({filter:{where:{entryDate:{gt: range.start, lt: range.end}}}}).pipe(
+            let range = CustomDate.getMonthDateRange(payload.year, payload.month);   
+            let inputsObs = IncomeApi.getAll({filter:{where:{productId:payload.productId}}}).pipe(
                 mergeMap(response =>
                     forkJoin(...response.map(item => 
                         ProductApi.get(item.productId).pipe(

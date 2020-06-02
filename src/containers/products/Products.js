@@ -23,8 +23,8 @@ class Committees extends PureComponent {
 			</Col>
 			</Row>
 			<Row>
-			<ProductsList rows={this.props.products}/>
-		</Row>
+				<ProductsList rows={this.props.products}/>
+			</Row>
 		</Container>
 		)
 	}

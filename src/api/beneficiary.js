@@ -12,6 +12,10 @@ class BeneficiaryApi{
         let url = CustomUrl.getURL(ROUTE_BENEFICIARY, {});
         return ajax.post(url, payload, HeaderRequest.getPublicRequestHeader());
     }
+    static delete = (id) => {
+        let url = CustomUrl.getURL(`${ROUTE_BENEFICIARY}/:id`, {id});
+        return ajax.delete(url, HeaderRequest.getPublicRequestHeader());
+    }
 }
 
 export default BeneficiaryApi;

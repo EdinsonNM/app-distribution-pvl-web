@@ -4,11 +4,28 @@ import EditTable from '../../components/table/EditableTable';
 import Pagination from '../../components/Pagination';
 import {Link} from 'react-router-dom';
 
-import MagnifyIcon from 'mdi-react/MagnifyIcon';
 import { partnersLoad, partnersLoadSearch, committeeSelected } from '../../redux/actions/partners';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CustomArray from '../../lib/custom-array';
+import {MagnifyIcon,DeleteIcon,EditIcon} from 'mdi-react';
+import { Button } from '@material-ui/core';
+
+import { partnerUpdate } from '../../redux/actions/partners';
+import { partnerDelete } from '../../redux/actions/partners';
+import store from '../../app/store';
+
+
+const fnEdit = (value) => {
+	const editItem = () => store.dispatch(partnerUpdate(value.value));
+	return <Button size="small" style={{color: 'gray'}} onClick={editItem}><EditIcon/></Button>
+}
+const fnRemove = (value) => {
+  
+	const deleteItem = () => store.dispatch(partnerDelete(value.value));
+	return <Button size="small" style={{color: 'gray'}} onClick={deleteItem}><DeleteIcon/></Button>
+}
+
 
 class PartnersList extends PureComponent {
   
@@ -31,6 +48,18 @@ class PartnersList extends PureComponent {
         name: 'A. Materno',
         sortable: true
       },
+     /* {
+        key: 'id',
+        name: 'Editar',
+        width: 80,
+        formatter: fnEdit
+      },*/
+      {
+        key: 'id',
+        name: 'Quitar',
+        width: 80,
+        formatter: fnRemove
+      },
     ];
     
     this.state = {
@@ -45,6 +74,7 @@ class PartnersList extends PureComponent {
   }
   onChangePage(pageOfItems) {
     //debugger;
+    
     this.setState({rows: pageOfItems});
   }
   filterSearch = (e) => {

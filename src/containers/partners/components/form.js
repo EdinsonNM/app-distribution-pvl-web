@@ -27,7 +27,7 @@ class Form extends PureComponent {
 		})
 	}
 	render() {
-		const {handleSubmit, reset} = this.props;
+		const {handleSubmit, handleCancel} = this.props;
 
 		return (
 		<Col md={12} lg={12}>
@@ -46,7 +46,7 @@ class Form extends PureComponent {
 							name='names'
 							component='input'
 							type='text'
-							placeholder='Nombre'
+							placeholder='Nombres'
 						/>
 					</div>
 				</div>
@@ -57,7 +57,7 @@ class Form extends PureComponent {
 							name='firstsurname'
 							component='input'
 							type='text'
-							placeholder='Nombre'
+							placeholder='Apellido Paterno'
 						/>
 					</div>
 				</div>
@@ -68,7 +68,7 @@ class Form extends PureComponent {
 							name='lastsurname'
 							component='input'
 							type='text'
-							placeholder='Nombre'
+							placeholder='Apellido Materno'
 						/>
 					</div>
 				</div>
@@ -89,7 +89,7 @@ class Form extends PureComponent {
 							name='documentId'
 							component='input'
 							type='text'
-							placeholder='Nombre'
+							placeholder='Nro de DNI'
 						/>
 					</div>
 				</div>
@@ -100,7 +100,7 @@ class Form extends PureComponent {
 							name='birthday'
 							component='input'
 							type='date'
-							placeholder='Nombre'
+							placeholder='Fecha de Nacimiento'
 						/>
 					</div>
 				</div>
@@ -227,7 +227,7 @@ class Form extends PureComponent {
 				</div>
 				<ButtonToolbar className='form__button-toolbar'>
 					<Button color='primary' type='submit'>Submit</Button>
-					<Button type='button' onClick={reset}>
+					<Button type='button' onClick={handleCancel}>
 					Cancel
 					</Button>
 				</ButtonToolbar>

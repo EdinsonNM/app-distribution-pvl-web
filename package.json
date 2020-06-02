@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@types/qs": "^6.5.1",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.14.0",
     "sass-loader": "^7.0.3"
   },
   "jest": {

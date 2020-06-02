@@ -34,7 +34,7 @@ class Committees extends PureComponent {
         </Row>
         <Row>
           <ListTable rows={this.props.committees} handleSearch={this.filterSearch}/>
-      </Row>
+        </Row>
       </Container>
     )
   }

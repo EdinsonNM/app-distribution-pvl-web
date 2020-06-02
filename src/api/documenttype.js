@@ -9,6 +9,7 @@ class DocumentTypeApi{
         let url = CustomUrl.getURL(ROUTE_DOCUMENTTYPE, {}) + `filter=${JSON.stringify(filter)}`;
         return ajax.getJSON(url, HeaderRequest.getPublicRequestHeader());
     }
+
 }
 
 export default DocumentTypeApi;

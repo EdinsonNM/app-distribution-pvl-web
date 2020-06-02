@@ -6,7 +6,6 @@ import {
     CardBody,
     Card,
     ButtonToolbar,
-    ButtonGroup,
     Button
 } from 'reactstrap';
 import Committees from './components/committees';

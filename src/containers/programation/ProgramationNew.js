@@ -105,12 +105,20 @@ class ProgramationNew extends PureComponent {
 		this.setState({programations, rationsTotales})
 	}
 	onSubmit  = (form) => {
+		var yearAct;
+		let perMes=this.props.periods.find(p => p.id === this.props.periodDefault).name.substring(4,6)	
+		console.log(this.props.periods.find(p => p.id === this.props.periodDefault).name.substring(4,6))
+		debugger;
+		if (perMes=="12")
+			yearAct=parseInt(this.props.periods.find(p => p.id === this.props.periodDefault).name.substring(0,4),10)+1;
+		else
+			yearAct=parseInt(this.props.periods.find(p => p.id === this.props.periodDefault).name.substring(0,4),10);
 		const model = {
 			periodId: this.props.periodDefault,
 			month: form.month.value,
 			days: form.days,
-			distributions: this.state.rationsTotales,
-			year: parseInt(this.props.periods.find(p => p.id === this.props.periodDefault).name.substring(0,4), 10)
+			distributions: this.state.rationsTotales,					
+			year:yearAct
 		}
 		this.setState({disableForm: true})
 		this.props.programationSave(model, this.state.programations);

@@ -1,13 +1,26 @@
 import React, {PureComponent} from 'react';
-import { ButtonToolbar, Card, CardBody, Col, Table } from 'reactstrap';
+import {
+  ButtonToolbar,
+  Card,
+  CardBody,
+  Col,
+  Row,
+  Container,
+} from 'reactstrap';
 import EditTable from '../../../components/table/EditableTable';
 import Pagination from '../../../components/Pagination';
 import {Link} from 'react-router-dom';
-
-import MagnifyIcon from 'mdi-react/MagnifyIcon';
 import CustomArray from '../../../lib/custom-array';
+import store from '../../../app/store';
+import { committeesDelete } from '../../../redux/actions/committees';
 
+import {MagnifyIcon,DeleteIcon,EditIcon} from 'mdi-react';
+import { Button } from '@material-ui/core';
 
+const fnRemove = (value) => {
+	const deleteItem = () => store.dispatch(committeesDelete(value.value))
+	return <Button size="small" style={{color: 'gray'}} onClick={deleteItem}><DeleteIcon/></Button>
+}
 export default class ListTable extends PureComponent {
   
   constructor(props) {
@@ -35,7 +48,12 @@ export default class ListTable extends PureComponent {
         name: 'Núcleo urbano',
         sortable: true,
       },
-      
+      {
+        key: 'id',
+        name: 'Quitar',
+        width: 80,
+        formatter: fnRemove
+      },
     ];
     
     this.state = {
@@ -45,10 +63,10 @@ export default class ListTable extends PureComponent {
     };
 
     this.onChangePage = this.onChangePage.bind(this);
+    this.limit = 10;    
   }
   
   onChangePage(pageOfItems) {
-    //debugger;
     this.setState({rows: pageOfItems});
   }
   componentDidUpdate(prevProps, prevState, snapshot){

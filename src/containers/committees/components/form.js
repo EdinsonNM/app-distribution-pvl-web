@@ -29,7 +29,7 @@ class Form extends PureComponent {
 	};
 	
 	render() {
-		const {handleSubmit, reset} = this.props;
+		const {handleSubmit, handleCancel} = this.props;
 
 		return (
 		<Col md={12} lg={12}>
@@ -200,10 +200,10 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Nombres</label>
 					<div className='form__form-group-field'>
 						<Field
-							name='number'
+							name='names'
 							component='input'
 							type='text'
-							placeholder='Nro'
+							placeholder='Nombres'
 						/>
 					</div>
 				</div>
@@ -214,7 +214,7 @@ class Form extends PureComponent {
 							name='firstsurname'
 							component='input'
 							type='text'
-							placeholder='Nro'
+							placeholder='Apellido Paterno'
 						/>
 					</div>
 				</div>
@@ -225,7 +225,7 @@ class Form extends PureComponent {
 							name='lastsurname'
 							component='input'
 							type='text'
-							placeholder='Nro'
+							placeholder='Apellido Materno'
 						/>
 					</div>
 				</div>
@@ -233,9 +233,9 @@ class Form extends PureComponent {
 					<label className='form__form-group-label'>Tipo Documento</label>
 					<div className='form__form-group-field'>
 					<Field
-						name='documentType'
+						name='documenttypeId'
 						component={renderSelectField}
-						options={this.props.urbancore.map(item => ({value:item.id, label: item.name}))}
+						options={this.props.documenttype.map(item => ({value:item.id, label: item.name}))}
 					/>
 					</div>
 				</div>
@@ -246,14 +246,14 @@ class Form extends PureComponent {
 							name='documentId'
 							component='input'
 							type='text'
-							placeholder='Nro'
+							placeholder='Nro dni'
 						/>
 					</div>
 				</div>
 				<ButtonToolbar className='form__button-toolbar'>
-					<Button color='primary' type='submit'>Submit</Button>
-					<Button type='button' onClick={reset}>
-					Cancel
+					<Button color='primary' type='submit'>Grabar</Button>
+					<Button type='button' onClick={handleCancel}>
+					Cancelar
 					</Button>
 				</ButtonToolbar>
 				</form>

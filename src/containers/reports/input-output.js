@@ -40,7 +40,7 @@ class ReportInputOutput extends PureComponent {
             <Col md={12}>
                 <h3 className='page-title'>Reporte <span style={{color: 'orange'}}>Ingresos/Salidas</span></h3>
                 <h3 className='page-subhead subhead'>
-                Seleccione un comite y a continuación en <a href="/socios/dashboard">Ver socios</a> para visualizar el listado de socios vinculados
+                Reporte de Ingresos y salidas de Productos
                 </h3>
             </Col>
             </Row>

@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs-compat';
 import CommitteeApi from '../../api/committee';
-import { switchMap, catchError, map, mergeMap, debounceTime } from 'rxjs/operators';
+import beneficiaryApi from '../../api/beneficiary';
+import { switchMap, catchError, map, mergeMap, debounceTime,tap } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { of, forkJoin, concat, empty } from 'rxjs';
 import {
@@ -11,13 +12,16 @@ import {
     BENEFICIARIES_LOAD,
     committeesBeneficiariesLoadCountOk,
     committeesBeneficiariesLoad,
-    committeesBeneficiariesLoadOk,
+	committeesBeneficiariesLoadOk,	
     beneficiariesLoadOk,
-    beneficiariesLoad,
+	beneficiariesLoad,
+	beneficiariesLoadCountOk,
     committeesBeneficiariesTotalCountOk,
     BENEFICIARIES_LOAD_SEARCH,
     BENEFICIARY_SAVE,
-    BENEFICIARY_SAVE_OK,
+	BENEFICIARY_SAVE_OK,
+	BENEFICIARY_DELETE,
+	beneficiaryDeleteOk,
 	beneficiarySaveOk
 } from '../actions/beneficiaries';
 import store from '../../app/store';
@@ -58,6 +62,7 @@ class BeneficiaryEpic{
 				let obsCount = CommitteeApi.getCount({name: {like: payload.query}, periodId: store.getState().periods.periodDefault}).pipe(
 					map(count => committeesBeneficiariesTotalCountOk(count))
 				)
+				console.log(obsCount);
 				let committees =   CommitteeApi.getAll({filter}).pipe(
 					map(response => {
 						store.dispatch(committeesBeneficiariesLoadOk(response));
@@ -86,13 +91,22 @@ class BeneficiaryEpic{
 		ofType(BENEFICIARIES_LOAD),
 		switchMap(({payload}) => {
 			let skip = payload.page * 10;
+			
 			let filter = { limit:9999, skip, where: {[payload.column]: {like: payload.query}}};
-			return CommitteeApi.getBeneficiaries(payload.id, filter).pipe(
+			let beneficiaries= CommitteeApi.getBeneficiaries(payload.id, filter).pipe(
 				map(response => beneficiariesLoadOk(response)),
 				catchError(error => of(beneficiariesLoadOk(error)))
+			);		
+			let total = CommitteeApi.getBeneficiariesCount(payload.id, {where: {[payload.column]: {like: payload.query}}}).pipe(
+				map(response => beneficiariesLoadCountOk(response)),
+				catchError(error => of(beneficiariesLoadCountOk(error)))
+			);
+			return concat(
+				beneficiaries,
+				total
 			)
 		})
-	);
+	);	
 	static save = (action$) =>  action$.pipe(
 		ofType(BENEFICIARY_SAVE),
 		switchMap(({payload}) => {
@@ -109,6 +123,15 @@ class BeneficiaryEpic{
 			return empty();
 		})
 	);
+	static delete= (action$) =>  action$.pipe(		
+		ofType(BENEFICIARY_DELETE),
+		switchMap(({payload}) => beneficiaryApi.delete(payload).pipe(
+			tap(() => store.dispatch(beneficiariesLoad(store.getState().beneficiaries.committeeSelected))),
+			map(response => beneficiaryDeleteOk(response.response)),
+			catchError(error => of(beneficiaryDeleteOk(error)))
+		))
+	);
+
 }
 export default function BeneficiaryEpics (action$, store, deps){
 	return Observable.merge(
@@ -119,6 +142,7 @@ export default function BeneficiaryEpics (action$, store, deps){
 		BeneficiaryEpic.beneficiariesLoad(action$, store, deps),
 		BeneficiaryEpic.beneficiariesLoadSearch(action$, store, deps),
 		BeneficiaryEpic.save(action$, store, deps),
+		BeneficiaryEpic.delete(action$, store, deps),
 		BeneficiaryEpic.saveOk(action$, store, deps),
 	);
 }

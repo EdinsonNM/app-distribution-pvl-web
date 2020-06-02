@@ -26,7 +26,7 @@ class BeneficiaryNew extends PureComponent {
 	}
 	render() {
 		if(this.state.cancel){
-			return <Redirect to={`/pages/socios/list`} />
+			return <Redirect to={`/pages/beneficiarios/dashboard`} />
 		}
 		return (
 		<Container>

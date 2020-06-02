@@ -10,12 +10,16 @@ export const BENEFICIARIES_LOAD = 'BENEFICIARIES_LOAD';
 export const BENEFICIARIES_LOAD_SEARCH = 'BENEFICIARIES_LOAD_SEARCH';
 
 export const BENEFICIARIES_LOAD_OK = 'BENEFICIARIES_LOAD_OK';
+
 export const COMMITTEES_BENEFICIARIES_LOAD_SEARCH = 'COMMITTEES_BENEFICIARIES_LOAD_SEARCH';
 export const COMMITTEES_BENEFICIARIES_LOAD_PAGEBACK = 'COMMITTEES_BENEFICIARIES_LOAD_PAGEBACK';
 export const COMMITTEES_BENEFICIARIES_LOAD_PAGENEXT = 'COMMITTEES_BENEFICIARIES_LOAD_PAGENEXT';
+export const BENEFICIARIES_LOAD_COUNT_OK = 'BENEFICIARIES_LOAD_COUNT_OK';
 
 export const BENEFICIARY_SAVE = 'BENEFICIARY_SAVE';
 export const BENEFICIARY_SAVE_OK = 'BENEFICIARY_SAVE_OK';
+export const BENEFICIARY_DELETE = 'BENEFICIARY_DELETE';
+export const BENEFICIARY_DELETE_OK = 'BENEFICIARY_DELETE_OK';
 export const COMMITTEE_SELECTED = 'COMMITTEE_SELECTED';
 
 const actionsCreator = createActions(
@@ -32,22 +36,28 @@ const actionsCreator = createActions(
 	COMMITTEES_BENEFICIARIES_LOAD_COUNT_OK,
 	COMMITTEES_BENEFICIARIES_TOTAL_COUNT_OK,
 	BENEFICIARIES_LOAD_OK,
+	BENEFICIARIES_LOAD_COUNT_OK,
 	BENEFICIARY_SAVE,
 	BENEFICIARY_SAVE_OK,
-	COMMITTEE_SELECTED
+	COMMITTEE_SELECTED,
+	BENEFICIARY_DELETE,
+	BENEFICIARY_DELETE_OK
 );
 export const {
 	committeesBeneficiariesLoad,
 	committeesBeneficiariesLoadOk,
 	beneficiariesLoad,
 	beneficiariesLoadOk,
+	beneficiariesLoadCountOk,
 	beneficiariesLoadSearch,
 	committeesBeneficiariesLoadCountOk,
 	committeesBeneficiariesLoadSearch,
 	committeesBeneficiariesTotalCountOk,
 	committeesBeneficiariesLoadPageback,
-	committeesBeneficiariesLoadPagenext,
+	committeesBeneficiariesLoadPagenext,	
 	beneficiarySave,
 	beneficiarySaveOk,
-	committeeSelected
+	committeeSelected,
+	beneficiaryDelete,
+	beneficiaryDeleteOk
 } = actionsCreator;

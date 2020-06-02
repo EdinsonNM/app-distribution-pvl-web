@@ -33,6 +33,7 @@ class Form extends PureComponent {
 	handleChangeProduct = (e) => {
 		console.log(e.value);
 		let product = this.props.products.find(p => p.id === e.value);
+		console.log(product.unitOfMeasure);
 		this.props.handleChangeUnity(product.unitOfMeasure);
 		this.setState({unity:product.unitOfMeasure});
 	}
@@ -84,7 +85,7 @@ class Form extends PureComponent {
 					</div>
 				</div>
 				<div className='form__form-group'>
-					<label className='form__form-group-label'>Código</label>
+					<label className='form__form-group-label'>Nro de Pecosa</label>
 					<div className='form__form-group-field'>
 						<Field
 							name='inputCode'

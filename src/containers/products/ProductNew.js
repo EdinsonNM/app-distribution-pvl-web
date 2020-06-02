@@ -36,7 +36,7 @@ class ProductNew extends PureComponent {
 			</Col>
 			</Row>
 			<Row>
-				<Form onSubmit={this.onSubmit} handleCancel={this.onCancel}/>
+				<Form {...this.props} onSubmit={this.onSubmit} handleCancel={this.onCancel}/>
 			</Row>
 		</Container>
 		)

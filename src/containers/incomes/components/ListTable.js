@@ -3,20 +3,24 @@ import { ButtonToolbar, Card, CardBody, Col, Table } from 'reactstrap';
 import EditTable from '../../../components/table/EditableTable';
 import Pagination from '../../../components/Pagination';
 import {Link} from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import { MagnifyIcon, DeleteIcon } from 'mdi-react';
 
-import MagnifyIcon from 'mdi-react/MagnifyIcon';
-
+const fnRemove = (value) => {
+	//const deleteItem = () => store.dispatch(productDelete(value.value)); onClick={deleteItem}
+	return <Button size="small" style={{color: 'gray'}}><DeleteIcon/></Button>
+}
 
 export default class ListTable extends PureComponent {
-  
+
   constructor(props) {
     super(props);
     this.heads = [
       {
         key: 'id',
-        name: 'ID',
-        width: 80,
-        sortable: true
+		  	name: 'Quitar',
+		  	width: 80,
+			  formatter: fnRemove
       },
       {
         key: 'product',
@@ -40,7 +44,7 @@ export default class ListTable extends PureComponent {
       },
       {
         key: 'inputCode',
-        name: 'Còdigo de ingreso',
+        name: 'Nro de Pecosa',
         sortable: true,
       }
     ];

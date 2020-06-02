@@ -18,4 +18,5 @@ export default function DocumentTypeEpics (action$, store, deps){
 	return Observable.merge(
 		DocumentTypeEpic.load(action$, store, deps),
 	);
+
 }

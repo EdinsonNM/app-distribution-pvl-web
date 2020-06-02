@@ -9,8 +9,7 @@ import { Redirect } from 'react-router-dom';
 
 class Ration extends PureComponent {
 	constructor(props){
-		super(props);
-		this.periodId = this.props.periodDefault;
+		super(props);		
 		this.state = {
 			cancel: false
 		}
@@ -20,7 +19,7 @@ class Ration extends PureComponent {
 	}
 	handleSubmit = (form) => {
 		const model = {
-			periodId: this.periodId,
+			periodId: this.props.periodDefault,
 			productId: form.productId.value,
 			quantity: form.quantity
 		}
